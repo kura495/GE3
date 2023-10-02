@@ -528,12 +528,12 @@ void DirectXCommon::MakeRasterizarState()
 void DirectXCommon::MakeShaderCompile()
 {
 	//TODO　シェーダー追加
-	vertexShaderBlob = CompileShader(L"Object3D.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob = CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob != nullptr);
-	pixelShaderBlob = CompileShader(L"Object3D.PS.hlsl", L"ps_6_0");
-	PostProsessBlob = CompileShader(L"PostProsess.hlsl", L"ps_6_0");
-	SpriteVertexBlob = CompileShader(L"Sprite.VS.hlsl",L"vs_6_0");
-	SpritePixelBlob = CompileShader(L"Sprite.PS.hlsl",L"ps_6_0");
+	pixelShaderBlob = CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
+	PostProsessBlob = CompileShader(L"resources/hlsl/PostProsess.hlsl", L"ps_6_0");
+	SpriteVertexBlob = CompileShader(L"resources/hlsl/Sprite.VS.hlsl",L"vs_6_0");
+	SpritePixelBlob = CompileShader(L"resources/hlsl/Sprite.PS.hlsl",L"ps_6_0");
 }
 
 void DirectXCommon::MakePipelineStateObject()

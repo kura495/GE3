@@ -88,6 +88,9 @@
     <Filter Include="ヘッダー ファイル\Base\Math\Struct">
       <UniqueIdentifier>{a7c182a0-aca0-4d06-8bee-c4f0232b529e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\hlsl">
+      <UniqueIdentifier>{35d39956-fa52-4e51-b1d6-3e70ed846589}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -337,18 +340,30 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Object3d.VS.hlsl" />
-    <FxCompile Include="Object3d.PS.hlsl" />
-    <FxCompile Include="PostProsess.hlsl" />
-    <FxCompile Include="Sprite.PS.hlsl" />
-    <FxCompile Include="Sprite.VS.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
       <Filter>imgui</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Object3d.hlsli" />
+    <None Include="resources\hlsl\Object3d.hlsli">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="resources\hlsl\Object3d.PS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\Object3d.VS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\PostProsess.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\Sprite.PS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="resources\hlsl\Sprite.VS.hlsl">
+      <Filter>リソース ファイル\hlsl</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
