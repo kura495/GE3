@@ -47,7 +47,7 @@ else {
 
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
-	ImGui::SliderFloat3("transform", &viewProjection_.rotation_.x, 10.0f, -10.0f);
+	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
 	ImGui::End();
 
 	viewProjection_.UpdateMatrix();
