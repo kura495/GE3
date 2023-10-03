@@ -61,7 +61,7 @@ void Player::Update()
 		worldTransform_.scale_.z += 0.5f * speed;
 	}
 	
-	//ImGui();
+	ImGui();
 	worldTransform_.UpdateMatrix();
 	ApplyGlobalVariables();
 }
