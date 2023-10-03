@@ -527,7 +527,6 @@ void DirectXCommon::MakeRasterizarState()
 
 void DirectXCommon::MakeShaderCompile()
 {
-	//TODO　シェーダー追加
 	vertexShaderBlob = CompileShader(L"resources/hlsl/Object3D.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob != nullptr);
 	pixelShaderBlob = CompileShader(L"resources/hlsl/Object3D.PS.hlsl", L"ps_6_0");
