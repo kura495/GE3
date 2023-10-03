@@ -1,15 +1,16 @@
-#include "Particle.h"
+Ôªø#include "Particle.h"
 Particle::Particle(){}
 Particle::~Particle(){}
 
 void Particle::Initalize()
 {
-	modelData.vertices.push_back{position = {1.0f,1.0f,0.0f,1.0f},.texcoord = {0.0f,0.0f},.normal = {0.0f,0.0f,1.0f}};//ç∂è„
-	modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//âEè„
-	modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//ç∂â∫
-	modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//ç∂è„
-	modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//âEè„
-	modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//âEâ∫
+	//TODO„ÄÄ„Éë„Éº„ÉÜ„Ç£„ÇØ„É´„Ç∑„Çπ„ÉÜ„É†‰Ωú„Çã
+	//modelData.vertices.push_back{position = {1.0f,1.0f,0.0f,1.0f},.texcoord = {0.0f,0.0f},.normal = {0.0f,0.0f,1.0f}};//Â∑¶‰∏ä
+	//modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//Âè≥‰∏ä
+	//modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//Â∑¶‰∏ã
+	//modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//Â∑¶‰∏ä
+	//modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//Âè≥‰∏ä
+	//modelData.vertices.push_back{.position = {},.texcoord = {},.normal = {}};//Âè≥‰∏ã
 }
 
 void Particle::Update()
