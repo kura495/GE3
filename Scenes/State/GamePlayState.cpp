@@ -52,7 +52,6 @@ else {
 
 	viewProjection_.UpdateMatrix();
 	
-	
 	player->Update();
 }
 
