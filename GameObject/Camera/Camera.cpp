@@ -21,6 +21,7 @@ void Camera::Initialize(int32_t kClientWidth, int32_t kClientHeight)
 }
 void Camera::Update()
 {
+//TODO:カメラをViewProjection,worldTransformに対応させる
 #ifdef _DEBUG
 	if (DebucCameraFlag) {
 		DebugCameraMove();
@@ -29,8 +30,8 @@ void Camera::Update()
 	worldMatrix = MakeAffineMatrix({ 1,1,1 }, { 0,0,0 }, { 0,0,0 });
 	/*Matrix4x4 cameraMatrix = MakeAffineMatrix({ 1,1,1 }, {0,0,0}, translation_);*/
 	Matrix4x4 cameraMatrix = MakeIdentity4x4();
-	cameraMatrix = Multiply(cameraMatrix,matRot_);
-	//rotate後で消す！！
+	//cameraMatrix = Multiply(cameraMatrix,matRot_);
+	//TODO:rotate後で消す！！
 	Matrix4x4 rotate = MakeRotateMatrix(rotation_);
 	cameraMatrix = Multiply(cameraMatrix, rotate);
 	//rotate後で消す！！
@@ -49,7 +50,7 @@ void Camera::ImGui(const char* Title)
 	ImGui::SliderFloat3("Rotate", &rotation_.x, 0, 5, "%.3f");
 	//移動
 	ImGui::SliderFloat3("Translate", &translation_.x, -25, 10, "%.3f");
-	ImGui::SliderFloat(/*"FOV"*/"???", &FOV, 45.0f, 104.0f);
+	ImGui::SliderFloat("FOV", &FOV, 45.0f, 104.0f);
 #ifdef _DEBUG
 	ImGui::Text("DebugCameraOn : 1\n");
 	ImGui::Text("DebugCameraOff : 2\n");

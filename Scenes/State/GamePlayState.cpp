@@ -47,11 +47,12 @@ else {
 
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
-	audio->Play(mokugyo, Volume, Pan);
+	ImGui::SliderFloat3("transform", &viewProjection_.rotation_.x, 10.0f, -10.0f);
 	ImGui::End();
-	light_->ImGui("Light");
+
 	viewProjection_.UpdateMatrix();
-	camera_->Update();
+	
+	
 	player->Update();
 }
 

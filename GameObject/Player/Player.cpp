@@ -3,7 +3,7 @@
 void Player::Initialize()
 {
 	input = Input::GetInstance();
-	model = Model::CreateModelFromObj("resources","plane.obj");
+	model = Model::CreateModelFromObj("resources","fence.obj");
 	
 	worldTransform_.Initialize();
 
@@ -61,7 +61,7 @@ void Player::Update()
 		worldTransform_.scale_.z += 0.5f * speed;
 	}
 	
-	ImGui();
+	//ImGui();
 	worldTransform_.UpdateMatrix();
 	ApplyGlobalVariables();
 }
