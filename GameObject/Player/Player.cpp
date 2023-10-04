@@ -7,7 +7,6 @@ void Player::Initialize()
 	
 	worldTransform_.Initialize();
 
-
 	const char* groupName = "Player";
 
 	//GlobalVariables::GetInstance()->CreateGroup(groupName);
