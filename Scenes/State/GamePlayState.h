@@ -38,14 +38,13 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
-	Model* model = nullptr;
 	//
 	WorldTransform worldTransform_;
 	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
 
 	//3Dオブジェクトたち
-	Player* player = nullptr;
+	std::unique_ptr<Player> player;
 	Sphere* sphere;
 	//2Dオブジェクトたち
 	Sprite* sprite;

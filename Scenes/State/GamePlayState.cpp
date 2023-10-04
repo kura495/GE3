@@ -13,7 +13,7 @@ void GamePlayState::Initialize()
 	DirectX_ = DirectXCommon::GetInstance();
 	//
 	//3Dオブジェクト生成
-	player = new Player();
+	player =std::make_unique<Player>();
 	player->Initialize();
 	//
 	//2Dオブジェクト作成
