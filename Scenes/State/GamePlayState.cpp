@@ -13,10 +13,8 @@ void GamePlayState::Initialize()
 	DirectX_ = DirectXCommon::GetInstance();
 	//
 	//3Dオブジェクト生成
-	player = new Player();
+	player =std::make_unique<Player>();
 	player->Initialize();
-	sphere = new Sphere();
-	sphere->Initialize();
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
