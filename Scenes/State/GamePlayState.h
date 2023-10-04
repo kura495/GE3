@@ -45,7 +45,7 @@ private:
 
 	//3Dオブジェクトたち
 	std::unique_ptr<Player> player;
-	Sphere* sphere;
+	
 	//2Dオブジェクトたち
 	Sprite* sprite;
 	//
