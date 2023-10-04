@@ -13,8 +13,10 @@ void GamePlayState::Initialize()
 	DirectX_ = DirectXCommon::GetInstance();
 	//
 	//3Dオブジェクト生成
-	player =std::make_unique<Player>();
+	player = std::make_unique<Player>();
 	player->Initialize();
+	Skydome_ = std::make_unique<Skydome>();
+	Skydome_->Initalize();
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
@@ -51,12 +53,14 @@ else {
 	viewProjection_.UpdateMatrix();
 	
 	player->Update();
+	Skydome_->Update();
 }
 
 void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
+	Skydome_->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
 	//1. ビット演算を取り回しの良いUtilityクラスにする
