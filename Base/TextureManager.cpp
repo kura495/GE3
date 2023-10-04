@@ -66,6 +66,7 @@ DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertString(filePath);
 	hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
+	//ファイル名やディレクトリ名がちがうかも
 	assert(SUCCEEDED(hr));
 	//ミップマップの作成
 	DirectX::ScratchImage mipImage{};
