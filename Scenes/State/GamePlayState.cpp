@@ -9,6 +9,7 @@ void GamePlayState::Initialize()
 	audio = Audio::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
 	light_ = Light::GetInstance();
+
 	DirectX_ = DirectXCommon::GetInstance();
 	//
 	//3Dオブジェクト生成
@@ -44,24 +45,19 @@ else {
 #endif // _DEBUG
 	GlobalVariables::GetInstance()->Update();
 
-	ImGui::Begin("Sound");
-	ImGui::SliderInt("Pan", &Pan, 1, -1);
-	ImGui::SliderFloat("Volume",&Volume,0.0f,1.0f);
-	audio->Play(mokugyo, Volume, Pan);
-	ImGui::End();
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
-	audio->Play(mokugyo, Volume, Pan);
+	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
 	ImGui::End();
+	light_->ImGui("Light");
 	viewProjection_.UpdateMatrix();
-	camera_->Update();
+	
 	player->Update();
 }
 
 void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
-	sphere->Draw(worldTransform_,viewProjection_, Texture);
 	player->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
@@ -79,7 +75,6 @@ void GamePlayState::Draw()
 	//}
 
 	//Sprite描画ここから
-	sprite->Draw(worldTransform_Sprite, Texture);
 
 
 	//Sprite描画ここまで

@@ -14,8 +14,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
-	materialData->enableLighting = lightFlag;
-	materialData->color = color_;
+	
 	materialData->uvTransform = MakeIdentity4x4();
 }
 
@@ -38,6 +37,8 @@ void Model::Draw(const WorldTransform& transform, const ViewProjection& viewProj
 	directX_->GetcommandList()->SetGraphicsRootConstantBufferView(3, light_->GetDirectionalLight()->GetGPUVirtualAddress());
 
 	directX_->GetcommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
+	materialData->enableLighting = lightFlag;
+	materialData->color = color_;
 }
 
 void Model::ImGui(const char* Title)

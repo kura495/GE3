@@ -3,7 +3,7 @@
 void Player::Initialize()
 {
 	input = Input::GetInstance();
-	model = Model::CreateModelFromObj("resources","bunny.obj");
+	model = Model::CreateModelFromObj("resources","fence.obj");
 	
 	worldTransform_.Initialize();
 
@@ -84,4 +84,5 @@ void Player::ImGui()
 	ImGui::SliderFloat3("rotation", &worldTransform_.rotation_.x,-10, 10);
 	ImGui::SliderFloat3("scale", &worldTransform_.scale_.x,-10, 10);
 	ImGui::End();
+	model->ImGui("Player");
 }
