@@ -1,21 +1,24 @@
-#include "Skydome.h"
+ï»¿#include "Skydome.h"
 
 Skydome::Skydome(){}
 Skydome::~Skydome(){}
 
 void Skydome::Initalize()
 {
-	//TODO ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý‚ª‚¨‚©‚µ‚¢
+	//TODO ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ãŒãŠã‹ã—ã„
 	model_.reset(Model::CreateModelFromObj("resources/skydome","skydome.obj"));
 	worldTransform_.Initialize();
+	model_.get()->SetLightMode(Lighting::NotDo);
 }
 
 void Skydome::Update()
 {
 	worldTransform_.UpdateMatrix();
+	model_.get()->ImGui("Skydome");
 }
 
 void Skydome::Draw(ViewProjection ViewProjection_)
 {
+
 	model_.get()->Draw(worldTransform_, ViewProjection_);
 }
