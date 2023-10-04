@@ -15,8 +15,6 @@ void GamePlayState::Initialize()
 	//3Dオブジェクト生成
 	player = new Player();
 	player->Initialize();
-	sphere = new Sphere();
-	sphere->Initialize();
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
