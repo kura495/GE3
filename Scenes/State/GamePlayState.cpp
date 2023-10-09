@@ -15,6 +15,7 @@ void GamePlayState::Initialize()
 	//3Dオブジェクト生成
 	player = std::make_unique<Player>();
 	player->Initialize();
+	player->SetViewProjection(viewProjection_);
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
 	//

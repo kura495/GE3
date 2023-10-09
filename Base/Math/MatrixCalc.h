@@ -23,3 +23,4 @@ Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, f
 float cot(float top);
 
 Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom,float nearClip,float farCcip);
+Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
