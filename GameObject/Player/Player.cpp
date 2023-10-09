@@ -27,7 +27,7 @@ void Player::Update()
 			move.z = Normalize(move).z * speed;
 			//カメラの正面方向に移動するようにする
 			//回転行列を作る
-			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_.rotation_);
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
 			//移動ベクトルをカメラの角度だけ回転
 			move = TransformNormal(move, rotateMatrix);
 			//移動

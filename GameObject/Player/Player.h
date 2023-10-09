@@ -13,7 +13,7 @@ public:
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 
-	void SetViewProjection(const ViewProjection& viewProjection) {
+	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
 	}
 	const WorldTransform& GetWorldTransform() {
@@ -28,7 +28,7 @@ private:
 	Model* model = nullptr;
 	WorldTransform worldTransform_;
 	//カメラのビュープロジェクション
-	ViewProjection viewProjection_;
+	const ViewProjection* viewProjection_ = nullptr;
 
 	GlobalVariables* globalVariables = nullptr;
 	

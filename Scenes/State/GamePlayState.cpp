@@ -16,7 +16,6 @@ void GamePlayState::Initialize()
 	//3Dオブジェクト生成
 	player = std::make_unique<Player>();
 	player->Initialize();
-	player->SetViewProjection(viewProjection_);
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
 	//
@@ -36,6 +35,7 @@ void GamePlayState::Initialize()
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
+	player->SetViewProjection(&followCamera->GetViewProjection());
 }
 
 void GamePlayState::Update()
