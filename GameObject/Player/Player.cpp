@@ -16,48 +16,27 @@ void Player::Initialize()
 void Player::Update()
 {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		if (joyState.Gamepad.sThumbLX != 0 || joyState.Gamepad.sThumbLY != 0) {
-			// 速さ
-			const float moveSpeed = 0.3f;
-			// 移動量
-			Vector3 move = {
+		if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+			//移動量
+			Vector3 move{
 				(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
 				(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
-			move.x = Normalize(move).x * moveSpeed;
-			move.y = Normalize(move).y * moveSpeed;
-			move.z = Normalize(move).z * moveSpeed;
-			worldTransform_.translation_.x = worldTransform_.translation_.x + move.x;
-			worldTransform_.translation_.y = worldTransform_.translation_.y + move.y;
-			worldTransform_.translation_.z = worldTransform_.translation_.z + move.z;
+			//正規化をして斜めの移動量を正しくする
+			move.x = Normalize(move).x * speed;
+			move.y = Normalize(move).y * speed;
+			move.z = Normalize(move).z * speed;
+			//カメラの正面方向に移動するようにする
+			//回転行列を作る
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			//移動ベクトルをカメラの角度だけ回転
+			move = TransformNormal(move, rotateMatrix);
+			//移動
+			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			//プレイヤーの向きを移動方向に合わせる
+			//playerのY軸周り角度(θy)
+			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+
 		}
-	}
-	if (input->IspushKey(DIK_W)) {
-		worldTransform_.translation_.y += 0.5f * speed;
-	}
-	else if (input->IspushKey(DIK_S)) {
-		worldTransform_.translation_.y -= 0.5f * speed;
-	}
-	if (input->IspushKey(DIK_A)) {
-		worldTransform_.translation_.x -= 0.5f * speed;
-	}
-	else if (input->IspushKey(DIK_D)) {
-		worldTransform_.translation_.x += 0.5f * speed;
-	}
-	if (input->IspushKey(DIK_Q)) {
-		worldTransform_.translation_.z += 0.5f * speed;
-	}
-	else if (input->IspushKey(DIK_E)) {
-		worldTransform_.translation_.z -= 0.5f * speed;
-	}
-	if (input->IspushKey(DIK_1)) {
-		worldTransform_.scale_.x -= 0.5f * speed;
-		worldTransform_.scale_.y -= 0.5f * speed;
-		worldTransform_.scale_.z -= 0.5f * speed;
-	}
-	else if (input->IspushKey(DIK_2)) {
-		worldTransform_.scale_.x += 0.5f * speed;
-		worldTransform_.scale_.y += 0.5f * speed;
-		worldTransform_.scale_.z += 0.5f * speed;
 	}
 	
 	ImGui();

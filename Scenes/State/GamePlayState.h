@@ -16,9 +16,12 @@
 #pragma comment(lib,"dxguid.lib")
 #include "GameObject/Camera/Camera.h"
 #include "GameObject/Player/Player.h"
+#include "GameObject/Skydome/Skydome.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include "Math_Structs.h"
+
+#include "GameObject/FollowCamera/FollowCamera.h"
 
 class GamePlayState :public GameState
 {
@@ -38,6 +41,8 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
+
+	std::unique_ptr<FollowCamera> followCamera;
 	//
 	WorldTransform worldTransform_;
 	WorldTransform worldTransform_Sprite;
@@ -45,7 +50,7 @@ private:
 
 	//3Dオブジェクトたち
 	std::unique_ptr<Player> player;
-	
+	std::unique_ptr<Skydome> Skydome_;
 	//2Dオブジェクトたち
 	Sprite* sprite;
 	//

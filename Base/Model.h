@@ -26,7 +26,7 @@ public:
 	void ImGui(const char* Title);
 	static Model* CreateModelFromObj(const std::string& directoryPath, const std::string& filename);
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
-	
+	void SetLightMode(Lighting number) { lightFlag = number; };
 private:
 
 	DirectXCommon* directX_ = nullptr;

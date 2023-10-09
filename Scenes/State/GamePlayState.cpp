@@ -11,10 +11,13 @@ void GamePlayState::Initialize()
 	light_ = Light::GetInstance();
 
 	DirectX_ = DirectXCommon::GetInstance();
+
 	//
 	//3Dオブジェクト生成
-	player =std::make_unique<Player>();
+	player = std::make_unique<Player>();
 	player->Initialize();
+	Skydome_ = std::make_unique<Skydome>();
+	Skydome_->Initalize();
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
@@ -29,6 +32,10 @@ void GamePlayState::Initialize()
 	//
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
+	followCamera = std::make_unique<FollowCamera>();
+	followCamera->Initalize();
+	followCamera->SetTarget(&player->GetWorldTransform());
+	player->SetViewProjection(&followCamera->GetViewProjection());
 }
 
 void GamePlayState::Update()
@@ -42,7 +49,8 @@ else {
 }
 #endif // _DEBUG
 	GlobalVariables::GetInstance()->Update();
-
+	followCamera->Update();
+	viewProjection_ = followCamera->GetViewProjection();
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
 	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
@@ -51,12 +59,14 @@ else {
 	viewProjection_.UpdateMatrix();
 	
 	player->Update();
+	Skydome_->Update();
 }
 
 void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
+	Skydome_->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
 	//1. ビット演算を取り回しの良いUtilityクラスにする

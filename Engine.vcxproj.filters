@@ -91,6 +91,18 @@
     <Filter Include="リソース ファイル\hlsl">
       <UniqueIdentifier>{35d39956-fa52-4e51-b1d6-3e70ed846589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\SkyDome">
+      <UniqueIdentifier>{04fecf81-81be-44b1-b944-406b20354e3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\SkyDome">
+      <UniqueIdentifier>{3d981d0e-9f2c-4c9f-b877-71608828aef6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\FollowCamera">
+      <UniqueIdentifier>{f9e54783-01d0-40d3-8536-5de2da060474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\FollowCamera">
+      <UniqueIdentifier>{fb35d2b1-76ac-4908-a3fb-1fbf2fdb08b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -197,6 +209,12 @@
     </ClCompile>
     <ClCompile Include="Base\Particle.cpp">
       <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Skydome\Skydome.cpp">
+      <Filter>ソース ファイル\GameObject\SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp">
+      <Filter>ソース ファイル\GameObject\FollowCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +361,12 @@
     </ClInclude>
     <ClInclude Include="Base\Particle.h">
       <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\GameObject\SkyDome</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h">
+      <Filter>ヘッダー ファイル\GameObject\FollowCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,15 +12,27 @@ public:
 	void Initialize();
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
+
+	void SetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
+	}
+	const WorldTransform& GetWorldTransform() {
+		return worldTransform_;
+	}
+
 private:
 	void ApplyGlobalVariables();
 	void ImGui();
-
+	//kamataEngine
 	Input* input = nullptr;
 	Model* model = nullptr;
-	GlobalVariables* globalVariables = nullptr;
 	WorldTransform worldTransform_;
-	float speed = 0.0f;
+	//カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
+
+	GlobalVariables* globalVariables = nullptr;
+	
+	float speed = 0.3f;
 	XINPUT_STATE joyState;
 };
 
