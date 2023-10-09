@@ -21,6 +21,8 @@
 #include "ViewProjection.h"
 #include "Math_Structs.h"
 
+#include "GameObject/FollowCamera/FollowCamera.h"
+
 class GamePlayState :public GameState
 {
 public:
@@ -39,6 +41,8 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
+
+	std::unique_ptr<FollowCamera> followCamera;
 	//
 	WorldTransform worldTransform_;
 	WorldTransform worldTransform_Sprite;

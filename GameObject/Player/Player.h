@@ -16,6 +16,10 @@ public:
 	void SetViewProjection(const ViewProjection& viewProjection) {
 		viewProjection_ = viewProjection;
 	}
+	const WorldTransform& GetWorldTransform() {
+		return worldTransform_;
+	}
+
 private:
 	void ApplyGlobalVariables();
 	void ImGui();

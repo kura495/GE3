@@ -11,6 +11,7 @@ void GamePlayState::Initialize()
 	light_ = Light::GetInstance();
 
 	DirectX_ = DirectXCommon::GetInstance();
+
 	//
 	//3Dオブジェクト生成
 	player = std::make_unique<Player>();
@@ -32,6 +33,9 @@ void GamePlayState::Initialize()
 	//
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
+	followCamera = std::make_unique<FollowCamera>();
+	followCamera->Initalize();
+	followCamera->SetTarget(&player->GetWorldTransform());
 }
 
 void GamePlayState::Update()
@@ -45,7 +49,8 @@ else {
 }
 #endif // _DEBUG
 	GlobalVariables::GetInstance()->Update();
-
+	followCamera->Update();
+	viewProjection_ = followCamera->GetViewProjection();
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
 	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
