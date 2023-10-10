@@ -46,5 +46,12 @@ private:
 	
 	float speed = 0.3f;
 	XINPUT_STATE joyState;
+
+	void InitializeFloatingGimmick();
+	void UpdateFloatingGimmick();
+	//浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
+	int floatcycle_ = 120;
+	float floatingAmplitude_ = 0.2f;
 };
 
