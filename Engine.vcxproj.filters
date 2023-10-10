@@ -231,7 +231,7 @@
     <ClCompile Include="GameObject\BaseCharacter\BaseCharacter.cpp">
       <Filter>ソース ファイル\GameObject\BaseCharacter</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="GameObject\Enemy\Enemy.cpp">
       <Filter>ソース ファイル\GameObject\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -389,7 +389,7 @@
     <ClInclude Include="GameObject\BaseCharacter\BaseCharacter.h">
       <Filter>ヘッダー ファイル\GameObject\BaseCharacter</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="GameObject\Enemy\Enemy.h">
       <Filter>ヘッダー ファイル\GameObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
