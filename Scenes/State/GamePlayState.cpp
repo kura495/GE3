@@ -25,7 +25,11 @@ void GamePlayState::Initialize()
 	player->Initialize(playerModels);
 
 	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize(playerModels);
+	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
+	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
+	std::vector<Model*> EnemyModels = {
+		modelEnemyBody_.get(),modelEnemy_Soul_.get()};
+	enemy_->Initialize(EnemyModels);
 
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();

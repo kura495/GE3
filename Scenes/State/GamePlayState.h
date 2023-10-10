@@ -57,8 +57,8 @@ private:
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 
-	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
-	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
+	std::unique_ptr<Model> modelEnemyBody_ = nullptr;
+	std::unique_ptr<Model> modelEnemy_Soul_ = nullptr;
 
 	std::unique_ptr<Enemy> enemy_;
 

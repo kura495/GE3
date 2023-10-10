@@ -16,7 +16,5 @@ private:
 	void SetParent(const WorldTransform* parent);
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
-	WorldTransform worldTransformHead_;
-	WorldTransform worldTransformL_arm_;
-	WorldTransform worldTransformR_arm_;
+	WorldTransform worldTransformSoul_;
 };
