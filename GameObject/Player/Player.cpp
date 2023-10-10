@@ -3,7 +3,7 @@
 void Player::Initialize()
 {
 	input = Input::GetInstance();
-	model = Model::CreateModelFromObj("resources","cube.obj");
+	model = Model::CreateModelFromObj("resources","fence.obj");
 	
 	worldTransform_.Initialize();
 
