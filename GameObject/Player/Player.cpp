@@ -1,12 +1,17 @@
 ﻿#include "Player.h"
 
-void Player::Initialize()
+void Player::Initialize(std::vector<Model*> models)
 {
 	input = Input::GetInstance();
-	model = Model::CreateModelFromObj("resources","cube.obj");
+	models_ = models;
 	
 	worldTransform_.Initialize();
-
+	worldTransformBody_.Initialize();
+	worldTransformHead_.Initialize();
+	worldTransformL_arm_.Initialize();
+	worldTransformR_arm_.Initialize();
+	SetParent(&worldTransformBody_);
+	worldTransformBody_.parent_ = &worldTransform_;
 	const char* groupName = "Player";
 
 	//GlobalVariables::GetInstance()->CreateGroup(groupName);
@@ -46,7 +51,17 @@ void Player::Update()
 
 void Player::Draw(const ViewProjection& viewProjection)
 {
-	model->Draw(worldTransform_, viewProjection);
+	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
+	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
+	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
+	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
+}
+
+void Player::SetParent(const WorldTransform* parent) {
+	// 親子関係を結ぶ
+	worldTransformHead_.parent_ = parent;
+	worldTransformL_arm_.parent_ = parent;
+	worldTransformR_arm_.parent_ = parent;
 }
 
 void Player::ApplyGlobalVariables()
@@ -62,5 +77,5 @@ void Player::ImGui()
 	ImGui::SliderFloat3("rotation", &worldTransform_.rotation_.x,-10, 10);
 	ImGui::SliderFloat3("scale", &worldTransform_.scale_.x,-10, 10);
 	ImGui::End();
-	model->ImGui("Player");
+	//model->ImGui("Player");
 }

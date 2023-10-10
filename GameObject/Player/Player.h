@@ -6,10 +6,16 @@
 #include "Input.h"
 #include "VectorCalc.h"
 
+enum modelNumber {
+	kModelIndexBody,
+	kModelIndexHead,
+	kModelIndexL_arm,
+	kModelIndexR_arm,
+};
 class Player
 {
 public:
-	void Initialize();
+	void Initialize(std::vector<Model*> models);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 
@@ -21,12 +27,18 @@ public:
 	}
 
 private:
+	void SetParent(const WorldTransform* parent);
 	void ApplyGlobalVariables();
 	void ImGui();
 	//kamataEngine
 	Input* input = nullptr;
-	Model* model = nullptr;
+	std::vector<Model*> models_;
 	WorldTransform worldTransform_;
+	//各パーツのローカル座標
+	WorldTransform worldTransformBody_;
+	WorldTransform worldTransformHead_;
+	WorldTransform worldTransformL_arm_;
+	WorldTransform worldTransformR_arm_;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
