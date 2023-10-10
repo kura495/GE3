@@ -16,6 +16,7 @@
 #pragma comment(lib,"dxguid.lib")
 #include "GameObject/Camera/Camera.h"
 #include "GameObject/Player/Player.h"
+#include "GameObject/Enemy/Enemy.h"
 #include "GameObject/Skydome/Skydome.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
@@ -50,6 +51,14 @@ private:
 
 	//3Dオブジェクトたち
 	std::unique_ptr<Player> player;
+	//プレイヤーモデル
+	std::unique_ptr<Model> modelFighterBody_ = nullptr;
+	std::unique_ptr<Model> modelFighterHead_ = nullptr;
+	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
+
+	std::unique_ptr<Enemy> enemy_;
+
 	std::unique_ptr<Skydome> Skydome_;
 	//2Dオブジェクトたち
 	Sprite* sprite;

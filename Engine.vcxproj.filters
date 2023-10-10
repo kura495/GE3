@@ -103,6 +103,18 @@
     <Filter Include="ヘッダー ファイル\GameObject\FollowCamera">
       <UniqueIdentifier>{fb35d2b1-76ac-4908-a3fb-1fbf2fdb08b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\BaseCharacter">
+      <UniqueIdentifier>{2a2e8b0b-cf70-448e-be47-18a8a0a2548b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\BaseCharacter">
+      <UniqueIdentifier>{ce6fd290-0e24-41fc-b133-d55c0d840272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\Enemy">
+      <UniqueIdentifier>{2bfda8f9-1e4b-4581-9395-566e19a8ed7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Enemy">
+      <UniqueIdentifier>{5045761e-8e3c-47ad-83e9-ba49ff925e0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -215,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp">
       <Filter>ソース ファイル\GameObject\FollowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BaseCharacter\BaseCharacter.cpp">
+      <Filter>ソース ファイル\GameObject\BaseCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\GameObject\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +385,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\FollowCamera\FollowCamera.h">
       <Filter>ヘッダー ファイル\GameObject\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BaseCharacter\BaseCharacter.h">
+      <Filter>ヘッダー ファイル\GameObject\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\GameObject\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

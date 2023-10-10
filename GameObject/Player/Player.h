@@ -5,13 +5,14 @@
 #include "Transform.h"
 #include "Input.h"
 #include "VectorCalc.h"
+#include "GameObject/BaseCharacter/BaseCharacter.h"
 
-class Player
+class Player : public BaseCharacter
 {
 public:
-	void Initialize();
-	void Update();
-	void Draw(const ViewProjection& viewProjection);
+	void Initialize(const std::vector<Model*>& models) override;
+	void Update() override;
+	void Draw(const ViewProjection& viewProjection) override;
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -21,12 +22,16 @@ public:
 	}
 
 private:
+	void SetParent(const WorldTransform* parent);
 	void ApplyGlobalVariables();
 	void ImGui();
 	//kamataEngine
 	Input* input = nullptr;
-	Model* model = nullptr;
-	WorldTransform worldTransform_;
+	//各パーツのローカル座標
+	WorldTransform worldTransformBody_;
+	WorldTransform worldTransformHead_;
+	WorldTransform worldTransformL_arm_;
+	WorldTransform worldTransformR_arm_;
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
@@ -34,5 +39,12 @@ private:
 	
 	float speed = 0.3f;
 	XINPUT_STATE joyState;
+
+	void InitializeFloatingGimmick();
+	void UpdateFloatingGimmick();
+	//浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
+	int floatcycle_ = 120;
+	float floatingAmplitude_ = 0.2f;
 };
 
