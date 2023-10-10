@@ -24,6 +24,9 @@ void GamePlayState::Initialize()
 		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get() };
 	player->Initialize(playerModels);
 
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize(playerModels);
+
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
 	//
@@ -67,6 +70,7 @@ else {
 	viewProjection_.UpdateMatrix();
 	
 	player->Update();
+	enemy_->Update();
 	Skydome_->Update();
 }
 
@@ -74,6 +78,7 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 

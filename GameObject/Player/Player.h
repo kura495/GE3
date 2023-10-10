@@ -7,12 +7,6 @@
 #include "VectorCalc.h"
 #include "GameObject/BaseCharacter/BaseCharacter.h"
 
-enum modelNumber {
-	kModelIndexBody,
-	kModelIndexHead,
-	kModelIndexL_arm,
-	kModelIndexR_arm,
-};
 class Player : public BaseCharacter
 {
 public:

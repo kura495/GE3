@@ -4,6 +4,12 @@
 #include "ViewProjection.h"
 #include "Model.h"
 
+enum modelNumber {
+	kModelIndexBody,
+	kModelIndexHead,
+	kModelIndexL_arm,
+	kModelIndexR_arm,
+};
 class BaseCharacter
 {
 public:
