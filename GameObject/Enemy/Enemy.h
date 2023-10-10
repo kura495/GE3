@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GameObject/BaseCharacter/BaseCharacter.h"
 class Enemy : public BaseCharacter
 {

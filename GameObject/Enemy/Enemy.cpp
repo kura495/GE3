@@ -18,6 +18,6 @@ void Enemy::Update()
 
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
-	
+	viewProjection;
 
 }
