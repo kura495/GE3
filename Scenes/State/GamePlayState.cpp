@@ -15,8 +15,6 @@ void GamePlayState::Initialize()
 	//3Dオブジェクト生成
 	player = new Player();
 	player->Initialize();
-	sphere = new Sphere();
-	sphere->Initialize();
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
@@ -49,7 +47,7 @@ else {
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
 	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
 	ImGui::End();
-
+	light_->ImGui("Light");
 	viewProjection_.UpdateMatrix();
 	
 	player->Update();

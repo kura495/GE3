@@ -195,6 +195,9 @@
     <ClCompile Include="Base\Audio\Audio.cpp">
       <Filter>ソース ファイル\Base\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Base\Particle.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -337,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="Base\Math\Struct\Vector4.h">
       <Filter>ヘッダー ファイル\Base\Math\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Particle.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
