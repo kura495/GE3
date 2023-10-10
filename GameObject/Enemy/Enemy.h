@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "GameObject/BaseCharacter/BaseCharacter.h"
+#include "VectorCalc.h"
 
 class Enemy : public BaseCharacter
 {
