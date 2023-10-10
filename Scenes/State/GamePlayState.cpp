@@ -68,7 +68,6 @@ else {
 	ImGui::End();
 	light_->ImGui("Light");
 	
-	
 	player->Update();
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
