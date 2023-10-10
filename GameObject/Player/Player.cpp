@@ -22,7 +22,7 @@ void Player::Update()
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
-		if(joyState.Gamepad.sThumbLX < 0 && joyState.Gamepad.sThumbLX > 0 && joyState.Gamepad.sThumbLY < 0 && joyState.Gamepad.sThumbLY > 0){
+		if(joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 ){
 			return;
 		}
 		Vector3 move{

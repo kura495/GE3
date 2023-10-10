@@ -60,18 +60,22 @@ else {
 }
 #endif // _DEBUG
 	GlobalVariables::GetInstance()->Update();
-	followCamera->Update();
-	viewProjection_ = followCamera->GetViewProjection();
+	
+	
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
 	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
 	ImGui::End();
 	light_->ImGui("Light");
-	viewProjection_.UpdateMatrix();
+	
 	
 	player->Update();
+	followCamera->Update();
+	viewProjection_ = followCamera->GetViewProjection();
 	enemy_->Update();
 	Skydome_->Update();
+
+	viewProjection_.UpdateMatrix();
 }
 
 void GamePlayState::Draw()
