@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Input.h"
 #include "VectorCalc.h"
+#include "GameObject/BaseCharacter/BaseCharacter.h"
 
 enum modelNumber {
 	kModelIndexBody,
@@ -12,12 +13,12 @@ enum modelNumber {
 	kModelIndexL_arm,
 	kModelIndexR_arm,
 };
-class Player
+class Player : public BaseCharacter
 {
 public:
-	void Initialize(std::vector<Model*> models);
-	void Update();
-	void Draw(const ViewProjection& viewProjection);
+	void Initialize(const std::vector<Model*>& models) override;
+	void Update() override;
+	void Draw(const ViewProjection& viewProjection) override;
 
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -32,8 +33,6 @@ private:
 	void ImGui();
 	//kamataEngine
 	Input* input = nullptr;
-	std::vector<Model*> models_;
-	WorldTransform worldTransform_;
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformHead_;
