@@ -57,6 +57,9 @@ private:
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 
+	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
+
 	std::unique_ptr<Enemy> enemy_;
 
 	std::unique_ptr<Skydome> Skydome_;
