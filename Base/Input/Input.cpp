@@ -84,6 +84,17 @@ bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& out)
 			out.Gamepad.sThumbLY = 0;
 		}
 	}
+	if (out.Gamepad.sThumbRX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
+		if (-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE < out.Gamepad.sThumbRX) {
+			out.Gamepad.sThumbRX = 0;
+		}
+
+	}
+	if (out.Gamepad.sThumbRY < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
+		if (-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE < out.Gamepad.sThumbRY) {
+			out.Gamepad.sThumbRY = 0;
+		}
+	}
 	return dwResult == ERROR_SUCCESS;
 
 }
