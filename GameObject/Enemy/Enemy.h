@@ -14,6 +14,7 @@ public:
 
 private:
 	void SetParent(const WorldTransform* parent);
+	void SoulRotationGimmick();
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformSoul_;

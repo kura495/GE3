@@ -16,7 +16,7 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 void Enemy::Update()
 {
 	// 速さ
-	const float kSpeed = 0.3f;
+	const float kSpeed = 0.1f;
 	Vector3 velocity{ 0.0f, 0.0f, kSpeed };
 
 	// 移動ベクトルをカメラの角度だけ回転
@@ -26,6 +26,8 @@ void Enemy::Update()
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 	// 自機のY軸周り角度(θy)
 	worldTransform_.rotation_.y -= 0.03f;
+	
+	SoulRotationGimmick();
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -42,4 +44,16 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 void Enemy::SetParent(const WorldTransform* parent) {
 	// 親子関係を結ぶ
 	worldTransformSoul_.parent_ = parent;
+}
+
+void Enemy::SoulRotationGimmick()
+{
+	// 速さ
+	const float kSpeed = 1.5f;
+	Vector3 velocity{ 0.0f, 0.0f, kSpeed };
+
+	// 移動ベクトルをカメラの角度だけ回転
+	velocity = TransformNormal(velocity, worldTransformBody_.matWorld_);
+	worldTransformSoul_.translation_ = Add(worldTransformBody_.translation_, velocity);
+	worldTransformSoul_.rotation_.y += 0.03f;
 }
