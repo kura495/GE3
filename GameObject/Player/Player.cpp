@@ -64,11 +64,14 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
 }
 
-void Player::BoxOnCollision()
+void Player::BoxOnCollision(uint32_t collisionAttribute)
 {
-	ImGui::Begin("Player");
-	ImGui::Text("Hit!!!!!");
-	ImGui::End();
+	if (collisionAttribute == kCollitionAttributeEnemy) {
+		ImGui::Begin("Player");
+		ImGui::Text("Hit!!!!!");
+		ImGui::End();
+	}
+	
 }
 
 void Player::SetParent(const WorldTransform* parent) {

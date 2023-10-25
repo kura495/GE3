@@ -17,7 +17,7 @@ public:
 	void Update();
 	//void Draw();
 	
-	virtual void BoxOnCollision() = 0;
+	virtual void BoxOnCollision(uint32_t collisionAttribute) = 0;
 
 	///worldの親を設定
 	void SetParent(const WorldTransform* Parent) { world_.parent_ = Parent; }

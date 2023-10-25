@@ -23,7 +23,7 @@ public:
 		return worldTransform_;
 	}
 
-	void BoxOnCollision()override;
+	void BoxOnCollision(uint32_t collisionAttribute)override;
 
 private:
 	void SetParent(const WorldTransform* parent);

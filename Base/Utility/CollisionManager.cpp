@@ -50,3 +50,41 @@ void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colli
 		}
 	}
 }
+
+void CollisionManager::CheckCollisionBox(BoxCollider* colliderA, BoxCollider* colliderB)
+{
+	// 判定対象AとBの座標
+	AABB posA, posB;
+	posA = colliderA->GetSize();
+	posB = colliderB->GetSize();
+	if ((posA.min.x <= posB.max.x && posA.max.x >= posB.min.x) && //x軸
+		(posA.min.y <= posB.max.y && posA.max.y >= posB.min.y) && //y軸
+		(posA.min.z <= posB.max.z && posA.max.z >= posB.min.z)    //z軸
+		) {
+
+	}
+	
+	// コライダーのフィルターの値でビット演算
+	if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0 && (colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
+		return;
+	}
+	else if ((posA.min.x <= posB.max.x && posA.max.x >= posB.min.x) && //x軸
+			 (posA.min.y <= posB.max.y && posA.max.y >= posB.min.y) && //y軸
+			 (posA.min.z <= posB.max.z && posA.max.z >= posB.min.z)    //z軸
+	){
+		if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0) {
+			// コライダーAの衝突時コールバック
+			colliderA->BoxOnCollision(colliderB->GetcollisionMask());
+		}
+		else if ((colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
+			// コライダーBの衝突時コールバック
+			colliderB->BoxOnCollision(colliderA->GetcollisionMask());
+		}
+		else {
+			// コライダーAの衝突時コールバック
+			colliderA->BoxOnCollision(colliderB->GetcollisionMask());
+			// コライダーBの衝突時コールバック
+			colliderB->BoxOnCollision(colliderA->GetcollisionMask());
+		}
+	}
+}
