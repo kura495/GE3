@@ -14,7 +14,7 @@ void FollowCamera::Update() {
 		// オフセットをカメラの回転に合わせて回転
 		offset = TransformNormal(offset, rotateMatrix);
 		// 座標をコピーしてオフセット分ずらす
-		viewProjection_.translation_ = Add(target_->translation_, offset);
+		viewProjection_.translation_ = Add(target_->GetTranslateFromMatWorld(), offset);
 	}
 	//スティックでのカメラ回転
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {

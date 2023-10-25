@@ -31,9 +31,10 @@ public:
 
 private:
 	Player* player_;
-	float T = 0.0f;
+	float T = 1.0f;
 	float kspeedOfT = 0.05f;
 	bool linearMoveFlag = true;
+	bool IsHit = false;
 	float AnimeFlame = 0.0f;
 	Vector3 StartPoint = {
 		0.0f,0.0f,10.0f

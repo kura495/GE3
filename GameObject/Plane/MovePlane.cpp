@@ -16,9 +16,18 @@ void MovePlane::Initalize(const std::vector<Model*>& models)
 
 void MovePlane::Update()
 {
-	BaseCharacter::Update();
-	BoxCollider::Update(worldTransform_);
 	LinearMoveGimmick();
+	BoxCollider::Update(&worldTransform_);
+	BaseCharacter::Update();
+	if (IsHit == true) {
+		player_->SetParent(&worldTransform_);
+		IsHit = false;
+	}
+	else if (IsHit == false) {
+		player_->DeleteParent();
+	}
+	
+	
 }
 
 void MovePlane::Draw(const ViewProjection& viewProjection)
@@ -29,10 +38,7 @@ void MovePlane::Draw(const ViewProjection& viewProjection)
 void MovePlane::BoxOnCollision(uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributePlayer) {
-		player_->SetParent(&worldTransform_);
-	}
-	else{
-		player_->SetParent(nullptr);
+		IsHit = true;
 	}
 	return;
 }

@@ -25,10 +25,13 @@ public:
 
 	void BoxOnCollision(uint32_t collisionAttribute)override;
 	
-	void SetParent(const WorldTransform* parent) {
-		// 親子関係を結ぶ
-		worldTransform_.parent_ = parent;
-	}
+	void SetParent(const WorldTransform* parent);
+	void DeleteParent() {
+		if (!worldTransform_.parent_) {
+			return;
+		}
+		worldTransform_.translation_ = Add(worldTransform_.GetTranslateFromMatWorld(),{0.0f,0.0f,0.0f});
+		worldTransform_.parent_ = nullptr; }
 private:
 	
 	void ApplyGlobalVariables();

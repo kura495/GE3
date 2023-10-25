@@ -38,7 +38,7 @@ void Enemy::Update()
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformSoul_.UpdateMatrix();
-	BoxCollider::Update(worldTransform_);
+	BoxCollider::Update(&worldTransform_);
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection)

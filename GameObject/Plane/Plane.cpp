@@ -16,7 +16,7 @@ void Plane::Initalize(const std::vector<Model*>& models)
 void Plane::Update()
 {
 	BaseCharacter::Update();
-	BoxCollider::Update(worldTransform_);
+	BoxCollider::Update(&worldTransform_);
 }
 
 void Plane::Draw(const ViewProjection& viewProjection)

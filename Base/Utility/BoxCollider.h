@@ -14,7 +14,7 @@ class BoxCollider
 public:
 	
 	void Initalize();
-	void Update(const WorldTransform& Parent);
+	void Update(const WorldTransform* Parent);
 	//void Draw();
 	
 	virtual void BoxOnCollision(uint32_t collisionAttribute) = 0;

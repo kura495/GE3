@@ -33,8 +33,7 @@ void Player::Update()
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
-	BoxCollider::Update(worldTransform_);
-
+	BoxCollider::Update(&worldTransform_);
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
 		if(joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0){
@@ -58,7 +57,7 @@ void Player::Update()
 		//playerのY軸周り角度(θy)
 		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 	}
-	
+
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -93,6 +92,17 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		return;
 	}
 	
+}
+
+void Player::SetParent(const WorldTransform* parent)
+{
+	// 親子関係を結ぶ
+	if (!worldTransform_.parent_) {
+		worldTransform_.parent_ = parent;
+		Vector3 Pos = Subtract(worldTransform_.GetTranslateFromMatWorld(), parent->GetTranslateFromMatWorld());
+		worldTransform_.translation_ = Pos;
+		worldTransform_.UpdateMatrix();
+	}
 }
 
 void Player::ApplyGlobalVariables()
