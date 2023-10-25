@@ -18,6 +18,7 @@
 #include "GameObject/Player/Player.h"
 #include "GameObject/Enemy/Enemy.h"
 #include "GameObject/Skydome/Skydome.h"
+#include "GameObject/Plane/Plane.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include "Base/Utility/CollisionManager.h"
@@ -65,6 +66,10 @@ private:
 	std::unique_ptr<Enemy> enemy_;
 
 	std::unique_ptr<Skydome> Skydome_;
+
+	std::unique_ptr<Model> model_plane_ = nullptr;
+	std::unique_ptr<Plane> plane_;
+	
 	//2Dオブジェクトたち
 	Sprite* sprite;
 	//

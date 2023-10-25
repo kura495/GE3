@@ -24,9 +24,13 @@ public:
 	}
 
 	void BoxOnCollision(uint32_t collisionAttribute)override;
-
+	
+	void SetParent(const WorldTransform* parent) {
+		// 親子関係を結ぶ
+		worldTransform_.parent_ = parent;
+	}
 private:
-	void SetParent(const WorldTransform* parent);
+	
 	void ApplyGlobalVariables();
 	void ImGui();
 	//kamataEngine

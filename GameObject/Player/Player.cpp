@@ -10,7 +10,9 @@ void Player::Initialize(const std::vector<Model*>& models)
 	worldTransformHead_.Initialize();
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
-	SetParent(&worldTransformBody_);
+	worldTransformHead_.parent_ = &worldTransformBody_;
+	worldTransformL_arm_.parent_ = &worldTransformBody_;
+	worldTransformR_arm_.parent_ = &worldTransformBody_;
 	worldTransformBody_.parent_ = &worldTransform_;
 	const char* groupName = "Player";
 	BoxCollider::SetcollisionMask(~kCollitionAttributePlayer);
@@ -23,15 +25,10 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::Update()
 {	
-	UpdateFloatingGimmick();
 	ImGui();
-	BaseCharacter::Update();
-	worldTransformBody_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
-	BoxCollider::Update(worldTransform_);
 	ApplyGlobalVariables();
+	UpdateFloatingGimmick();
+
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
 		if(joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0){
@@ -55,7 +52,14 @@ void Player::Update()
 		//playerのY軸周り角度(θy)
 		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 	}
-
+	
+	
+	BaseCharacter::Update();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
+	BoxCollider::Update(worldTransform_);
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -72,18 +76,22 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		ImGui::Begin("Player");
 		ImGui::Text("Hit!!!!!");
 		ImGui::End();
+		//TODO : 敵に当たったらリスタートする
+		//worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		//worldTransform_.UpdateMatrix();
+	}
+	else if (collisionAttribute == kCollitionAttributeFloor) {
+		ImGui::Begin("Player");
+		ImGui::Text("PlaneHit!!!!!");
+		ImGui::End();
+	}
+	else if (collisionAttribute == kCollitionAttributeMoveFloor) {
+
 	}
 	else {
 		return;
 	}
 	
-}
-
-void Player::SetParent(const WorldTransform* parent) {
-	// 親子関係を結ぶ
-	worldTransformHead_.parent_ = parent;
-	worldTransformL_arm_.parent_ = parent;
-	worldTransformR_arm_.parent_ = parent;
 }
 
 void Player::ApplyGlobalVariables()

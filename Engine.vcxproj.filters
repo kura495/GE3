@@ -249,6 +249,9 @@
     <ClCompile Include="GameObject\Plane\Plane.cpp">
       <Filter>ソース ファイル\GameObject\Plane</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Plane\MovePlane.cpp">
+      <Filter>ソース ファイル\GameObject\Plane</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -414,6 +417,9 @@
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Plane\Plane.h">
+      <Filter>ヘッダー ファイル\GameObject\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Plane\MovePlane.h">
       <Filter>ヘッダー ファイル\GameObject\Plane</Filter>
     </ClInclude>
   </ItemGroup>

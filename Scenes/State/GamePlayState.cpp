@@ -34,6 +34,14 @@ void GamePlayState::Initialize()
 
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
+	
+
+	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
+	std::vector<Model*> PlaneModels = {
+		model_plane_.get() };
+	plane_ = std::make_unique<Plane>();
+	plane_->Initalize(PlaneModels);
+
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
@@ -68,6 +76,7 @@ else {
 	player->Update();
 	enemy_->Update();
 	Skydome_->Update();
+	plane_->Update();
 
 	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
@@ -83,6 +92,7 @@ else {
 	
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(enemy_.get());
+	collisionManager_->AddBoxCollider(plane_.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
@@ -94,6 +104,7 @@ void GamePlayState::Draw()
 	player->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
+	plane_->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
 	//1. ビット演算を取り回しの良いUtilityクラスにする
