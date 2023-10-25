@@ -3,6 +3,7 @@
 void Player::Initialize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
+	BoxCollider::Initalize();
 	input = Input::GetInstance();
 
 	worldTransformBody_.Initialize();
@@ -14,7 +15,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	const char* groupName = "Player";
 	BoxCollider::SetcollisionMask(~kCollitionAttributePlayer);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributePlayer);
-	BoxCollider::SetParent(&worldTransform_);
+	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({1.0f,1.0f,1.0f});
 	//GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"speed",speed);
@@ -22,7 +23,15 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::Update()
 {	
-
+	UpdateFloatingGimmick();
+	ImGui();
+	BaseCharacter::Update();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
+	BoxCollider::Update(worldTransform_);
+	ApplyGlobalVariables();
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
 		if(joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0){
@@ -46,14 +55,7 @@ void Player::Update()
 		//playerのY軸周り角度(θy)
 		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 	}
-	UpdateFloatingGimmick();
-	ImGui();
-	BaseCharacter::Update();
-	worldTransformBody_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
-	ApplyGlobalVariables();
+
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -70,6 +72,9 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		ImGui::Begin("Player");
 		ImGui::Text("Hit!!!!!");
 		ImGui::End();
+	}
+	else {
+		return;
 	}
 	
 }

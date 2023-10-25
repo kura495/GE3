@@ -12,6 +12,7 @@ void GamePlayState::Initialize()
 
 	DirectX_ = DirectXCommon::GetInstance();
 
+	collisionManager_ = std::make_unique<CollisionManager>();
 	//
 	//3Dオブジェクト生成
 
@@ -63,6 +64,11 @@ else {
 	camera_->DebugCamera(false);
 }
 #endif // _DEBUG
+
+	player->Update();
+	enemy_->Update();
+	Skydome_->Update();
+
 	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
@@ -73,9 +79,13 @@ else {
 	light_->ImGui("Light");
 	viewProjection_.UpdateMatrix();
 	
-	player->Update();
-	enemy_->Update();
-	Skydome_->Update();
+	
+	
+	collisionManager_->AddBoxCollider(player.get());
+	collisionManager_->AddBoxCollider(enemy_.get());
+	collisionManager_->CheckAllCollisions();
+	collisionManager_->ClearCollider();
+
 }
 
 void GamePlayState::Draw()

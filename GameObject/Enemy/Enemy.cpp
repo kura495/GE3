@@ -6,10 +6,16 @@ Enemy::~Enemy(){}
 void Enemy::Initialize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
+	BoxCollider::Initalize();
 	worldTransformBody_.Initialize();
 	worldTransformSoul_.Initialize();
 	SetParent(&worldTransformBody_);
 	worldTransformBody_.parent_ = &worldTransform_;
+
+	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
+	BoxCollider::SetParent(worldTransform_);
+	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 
 }
 
@@ -32,13 +38,21 @@ void Enemy::Update()
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformSoul_.UpdateMatrix();
-
+	BoxCollider::Update(worldTransform_);
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
 	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
 	models_[kModelIndexHead]->Draw(worldTransformSoul_, viewProjection);
+}
+
+void Enemy::BoxOnCollision(uint32_t collisionAttribute)
+{
+	//プレイヤーと当たった時は何もしない
+	if (collisionAttribute == kCollitionAttributePlayer) {
+		return;
+	}
 }
 
 void Enemy::SetParent(const WorldTransform* parent) {

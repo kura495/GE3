@@ -9,7 +9,7 @@
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
 
-class Player : public BaseCharacter , BoxCollider
+class Player : public BaseCharacter , public BoxCollider
 {
 public:
 	void Initialize(const std::vector<Model*>& models) override;

@@ -13,14 +13,14 @@ class BoxCollider
 {
 public:
 	
-	//void Initalize();
-	void Update();
+	void Initalize();
+	void Update(const WorldTransform& Parent);
 	//void Draw();
 	
 	virtual void BoxOnCollision(uint32_t collisionAttribute) = 0;
 
 	///worldの親を設定
-	void SetParent(const WorldTransform* Parent) { world_.parent_ = Parent; }
+	void SetParent(const WorldTransform& Parent) { world_ = Parent; }
 	
 	void SetSize(Vector3 range) { range_ = range; }
 	AABB GetSize() { return aabb_; }

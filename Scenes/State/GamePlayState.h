@@ -20,6 +20,7 @@
 #include "GameObject/Skydome/Skydome.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "Base/Utility/CollisionManager.h"
 #include "Math_Structs.h"
 
 #include "GameObject/FollowCamera/FollowCamera.h"
@@ -42,6 +43,7 @@ private:
 	Light* light_ = nullptr;
 	DirectXCommon* DirectX_ = nullptr;
 	GlobalVariables* globalVariables = nullptr;
+	std::unique_ptr<CollisionManager> collisionManager_;
 
 	std::unique_ptr<FollowCamera> followCamera;
 	//
