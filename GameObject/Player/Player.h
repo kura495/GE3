@@ -6,9 +6,9 @@
 #include "Input.h"
 #include "VectorCalc.h"
 #include "GameObject/BaseCharacter/BaseCharacter.h"
-#include "Base/Utility/Collider.h"
+#include "Base/Utility/BoxCollider.h"
 
-class Player : public BaseCharacter
+class Player : public BaseCharacter 
 {
 public:
 	void Initialize(const std::vector<Model*>& models) override;

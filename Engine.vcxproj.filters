@@ -234,10 +234,10 @@
     <ClCompile Include="GameObject\Enemy\Enemy.cpp">
       <Filter>ソース ファイル\GameObject\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="CircleCollider.cpp">
+    <ClCompile Include="Base\Utility\BoxCollider.cpp">
       <Filter>ソース ファイル\Base\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
+    <ClCompile Include="Base\Utility\CircleCollider.cpp">
       <Filter>ソース ファイル\Base\Utility</Filter>
     </ClCompile>
   </ItemGroup>
@@ -398,10 +398,10 @@
     <ClInclude Include="GameObject\Enemy\Enemy.h">
       <Filter>ヘッダー ファイル\GameObject\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="CircleCollider.h">
+    <ClInclude Include="Base\Utility\BoxCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
+    <ClInclude Include="Base\Utility\CircleCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
   </ItemGroup>

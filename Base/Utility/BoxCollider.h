@@ -17,7 +17,7 @@ public:
 	//void Initalize();
 	void Update();
 	//void Draw();
-	virtual void OnCollision();
+
 	///worldの親を設定
 	void SetParent(const WorldTransform* Parent) { world_.parent_ = Parent; }
 	
