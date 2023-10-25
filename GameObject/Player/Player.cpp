@@ -12,7 +12,10 @@ void Player::Initialize(const std::vector<Model*>& models)
 	SetParent(&worldTransformBody_);
 	worldTransformBody_.parent_ = &worldTransform_;
 	const char* groupName = "Player";
-
+	BoxCollider::SetcollisionMask(~kCollitionAttributePlayer);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributePlayer);
+	BoxCollider::SetParent(&worldTransform_);
+	BoxCollider::SetSize({1.0f,1.0f,1.0f});
 	//GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"speed",speed);
 }
@@ -59,6 +62,13 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
 	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
+}
+
+void Player::BoxOnCollision()
+{
+	ImGui::Begin("Player");
+	ImGui::Text("Hit!!!!!");
+	ImGui::End();
 }
 
 void Player::SetParent(const WorldTransform* parent) {

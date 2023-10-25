@@ -8,15 +8,16 @@ struct AABB {
 	Vector3 min;//一番小さいポイント
 	Vector3 max;//一番大きいポイント
 };
+
 class BoxCollider
 {
 public:
-	BoxCollider();
-	~BoxCollider();
 	
 	//void Initalize();
 	void Update();
 	//void Draw();
+	
+	virtual void BoxOnCollision() = 0;
 
 	///worldの親を設定
 	void SetParent(const WorldTransform* Parent) { world_.parent_ = Parent; }

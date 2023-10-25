@@ -398,10 +398,10 @@
     <ClInclude Include="GameObject\Enemy\Enemy.h">
       <Filter>ヘッダー ファイル\GameObject\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Utility\BoxCollider.h">
+    <ClInclude Include="Base\Utility\CircleCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Utility\CircleCollider.h">
+    <ClInclude Include="Base\Utility\BoxCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
   </ItemGroup>

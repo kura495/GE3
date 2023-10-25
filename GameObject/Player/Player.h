@@ -7,8 +7,9 @@
 #include "VectorCalc.h"
 #include "GameObject/BaseCharacter/BaseCharacter.h"
 #include "Base/Utility/BoxCollider.h"
+#include "Base/Utility/CollisionConfig.h"
 
-class Player : public BaseCharacter 
+class Player : public BaseCharacter , BoxCollider
 {
 public:
 	void Initialize(const std::vector<Model*>& models) override;
@@ -21,6 +22,8 @@ public:
 	const WorldTransform& GetWorldTransform() {
 		return worldTransform_;
 	}
+
+	void BoxOnCollision()override;
 
 private:
 	void SetParent(const WorldTransform* parent);

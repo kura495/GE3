@@ -1,8 +1,5 @@
 ﻿#include "BoxCollider.h"
 
-BoxCollider::BoxCollider(){}
-BoxCollider::~BoxCollider(){}
-
 void BoxCollider::Update()
 {
 	world_.UpdateMatrix();
