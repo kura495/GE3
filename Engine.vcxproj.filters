@@ -115,6 +115,12 @@
     <Filter Include="ヘッダー ファイル\GameObject\Enemy">
       <UniqueIdentifier>{5045761e-8e3c-47ad-83e9-ba49ff925e0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Plane">
+      <UniqueIdentifier>{2e74351b-b2c4-42a3-aaf1-5ac359ea1d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\Plane">
+      <UniqueIdentifier>{814c319e-e679-452e-bf57-08ee55196e52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="Base\Utility\CircleCollider.cpp">
       <Filter>ソース ファイル\Base\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Plane\Plane.cpp">
+      <Filter>ソース ファイル\GameObject\Plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="Base\Utility\BoxCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Plane\Plane.h">
+      <Filter>ヘッダー ファイル\GameObject\Plane</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
