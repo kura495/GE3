@@ -42,6 +42,13 @@ void GamePlayState::Initialize()
 	plane_ = std::make_unique<Plane>();
 	plane_->Initalize(PlaneModels);
 
+	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
+	std::vector<Model*> Plane_Move_Models = {
+		model_plane_Move_.get() };
+	plane_Move_ = std::make_unique<MovePlane>();
+	plane_Move_->Initalize(Plane_Move_Models);
+	plane_Move_->SetPlayer(player.get());
+
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
@@ -77,6 +84,7 @@ else {
 	enemy_->Update();
 	Skydome_->Update();
 	plane_->Update();
+	plane_Move_->Update();
 
 	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
@@ -93,6 +101,7 @@ else {
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(enemy_.get());
 	collisionManager_->AddBoxCollider(plane_.get());
+	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
@@ -105,6 +114,7 @@ void GamePlayState::Draw()
 	enemy_->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
 	plane_->Draw(viewProjection_);
+	plane_Move_->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
 	//1. ビット演算を取り回しの良いUtilityクラスにする

@@ -25,14 +25,14 @@ public:
 
 	void LinearMoveGimmick();
 
-	void SetPlayer(const Player& player) {
+	void SetPlayer(Player* player) {
 		player_ = player;
 	}
 
 private:
-	Player player_;
+	Player* player_;
 	float T = 0.0f;
-	float kspeedOfT = 0.1f;
+	float kspeedOfT = 0.05f;
 	bool linearMoveFlag = true;
 	float AnimeFlame = 0.0f;
 	Vector3 StartPoint = {

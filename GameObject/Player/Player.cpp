@@ -28,6 +28,12 @@ void Player::Update()
 	ImGui();
 	ApplyGlobalVariables();
 	UpdateFloatingGimmick();
+	BaseCharacter::Update();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
+	BoxCollider::Update(worldTransform_);
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
@@ -53,13 +59,6 @@ void Player::Update()
 		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 	}
 	
-	
-	BaseCharacter::Update();
-	worldTransformBody_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
-	BoxCollider::Update(worldTransform_);
 }
 
 void Player::Draw(const ViewProjection& viewProjection)
@@ -86,7 +85,9 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		ImGui::End();
 	}
 	else if (collisionAttribute == kCollitionAttributeMoveFloor) {
-
+		ImGui::Begin("Player");
+		ImGui::Text("MovePlaneHit!!!!!");
+		ImGui::End();
 	}
 	else {
 		return;
