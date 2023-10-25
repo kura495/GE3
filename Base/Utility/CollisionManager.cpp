@@ -12,12 +12,12 @@ void CollisionManager::CheckAllCollisions() {
 		itrB++;
 		for (; itrB != colliders_.end(); ++itrB) {
 			Collider* colliderB = *itrB;
-			CheckCollisionPair(colliderA, colliderB);
+			CheckCollisionCircle(colliderA, colliderB);
 		}
 	}
 }
 
-void CollisionManager::CheckCollisionPair(Collider* colliderA, Collider* colliderB) {
+void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colliderB) {
 	// 判定対象AとBの座標
 	Vector3 posA, posB;
 	posA = colliderA->GetWorldPosition();

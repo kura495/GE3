@@ -15,5 +15,5 @@ private:
 	/// </summary>
 	std::list<Collider*> colliders_;
 	
-	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
+	void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
 };
