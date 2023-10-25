@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 
 #include "Base/Math/Struct/Vector3.h"
 #include "Base/WorldTransform.h"
 
 
 struct AABB {
-	Vector3 min;//ˆê”Ô¬‚³‚¢ƒ|ƒCƒ“ƒg
-	Vector3 max;//ˆê”Ô‘å‚«‚¢ƒ|ƒCƒ“ƒg
+	Vector3 min;//ä¸€ç•ªå°ã•ã„ãƒã‚¤ãƒ³ãƒˆ
+	Vector3 max;//ä¸€ç•ªå¤§ãã„ãƒã‚¤ãƒ³ãƒˆ
 };
 class BoxCollider
 {
@@ -17,7 +17,7 @@ public:
 	//void Initalize();
 	void Update();
 	//void Draw();
-	
+	void SetParent(const WorldTransform* Parent) { world_.parent_ = Parent; }
 	void SetSize(Vector3 range) { range_ = range; }
 	AABB GetSize() { return aabb_; }
 

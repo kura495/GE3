@@ -1,15 +1,16 @@
-#include "BoxCollider.h"
+ï»¿#include "BoxCollider.h"
 
 BoxCollider::BoxCollider(){}
 BoxCollider::~BoxCollider(){}
 
 void BoxCollider::Update()
 {
-	//¬‚³‚¢ƒ|ƒCƒ“ƒg‚Ìİ’è
+	world_.UpdateMatrix();
+	//å°ã•ã„ãƒã‚¤ãƒ³ãƒˆã®è¨­å®š
 	aabb_.min.x = world_.translation_.x - range_.x / 2;
 	aabb_.min.y = world_.translation_.y - range_.y / 2;
 	aabb_.min.z = world_.translation_.z - range_.z / 2;
-	//‘å‚«‚¢ƒ|ƒCƒ“ƒg‚Ìİ’è
+	//å¤§ãã„ãƒã‚¤ãƒ³ãƒˆã®è¨­å®š
 	aabb_.min.x = world_.translation_.x + range_.x / 2;
 	aabb_.min.y = world_.translation_.y + range_.y / 2;
 	aabb_.min.z = world_.translation_.z + range_.z / 2;
