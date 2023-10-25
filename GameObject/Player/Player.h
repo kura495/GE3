@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "VectorCalc.h"
 #include "GameObject/BaseCharacter/BaseCharacter.h"
+#include "Base/Utility/Collider.h"
 
 class Player : public BaseCharacter
 {

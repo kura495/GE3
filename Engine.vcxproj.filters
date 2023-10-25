@@ -237,6 +237,9 @@
     <ClCompile Include="CircleCollider.cpp">
       <Filter>ソース ファイル\Base\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>ソース ファイル\Base\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -396,6 +399,9 @@
       <Filter>ヘッダー ファイル\GameObject\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CircleCollider.h">
+      <Filter>ヘッダー ファイル\Base\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
   </ItemGroup>
