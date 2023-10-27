@@ -121,6 +121,12 @@
     <Filter Include="ソース ファイル\GameObject\Plane">
       <UniqueIdentifier>{814c319e-e679-452e-bf57-08ee55196e52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\Goal">
+      <UniqueIdentifier>{b47fc20f-045c-4b9b-815d-e039ba24f1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Goal">
+      <UniqueIdentifier>{a1b1ecce-259f-4c32-a5e6-701ff8a10c83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -251,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Plane\MovePlane.cpp">
       <Filter>ソース ファイル\GameObject\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Goal\Goal.cpp">
+      <Filter>ソース ファイル\GameObject\Goal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Plane\MovePlane.h">
       <Filter>ヘッダー ファイル\GameObject\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Goal\Goal.h">
+      <Filter>ヘッダー ファイル\GameObject\Goal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

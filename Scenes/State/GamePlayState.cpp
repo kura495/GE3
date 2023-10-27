@@ -17,7 +17,7 @@ void GamePlayState::Initialize()
 	//3Dオブジェクト生成
 
 	player = std::make_unique<Player>();
-	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body","float_Body.obj"));
+	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body", "float_Body.obj"));
 	modelFighterHead_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
 	modelFighterL_arm_.reset(Model::CreateModelFromObj("resources/float_L_arm", "float_L_arm.obj"));
 	modelFighterR_arm_.reset(Model::CreateModelFromObj("resources/float_R_arm", "float_R_arm.obj"));
@@ -29,18 +29,25 @@ void GamePlayState::Initialize()
 	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
 	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
 	std::vector<Model*> EnemyModels = {
-		modelEnemyBody_.get(),modelEnemy_Soul_.get()};
+		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
 	enemy_->Initialize(EnemyModels);
 
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
-	
+
 
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
 		model_plane_.get() };
 	plane_ = std::make_unique<Plane>();
-	plane_->Initalize(PlaneModels);
+	plane_->Initalize(PlaneModels, { 0.0f,0.0f,0.0f });
+
+	plane_2 = std::make_unique<Plane>();
+	plane_2->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f
+});
+	plane_3 = std::make_unique<Plane>();
+	plane_3->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f
+});
 
 	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
 	std::vector<Model*> Plane_Move_Models = {
@@ -84,6 +91,8 @@ else {
 	enemy_->Update();
 	Skydome_->Update();
 	plane_->Update();
+	plane_2->Update();
+	plane_3->Update();
 	plane_Move_->Update();
 
 	GlobalVariables::GetInstance()->Update();
@@ -101,6 +110,8 @@ else {
 	collisionManager_->AddBoxCollider(player.get());
 	collisionManager_->AddBoxCollider(enemy_.get());
 	collisionManager_->AddBoxCollider(plane_.get());
+	collisionManager_->AddBoxCollider(plane_2.get());
+	collisionManager_->AddBoxCollider(plane_3.get());
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
@@ -114,6 +125,8 @@ void GamePlayState::Draw()
 	enemy_->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
 	plane_->Draw(viewProjection_);
+	plane_2->Draw(viewProjection_);
+	plane_3->Draw(viewProjection_);
 	plane_Move_->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 

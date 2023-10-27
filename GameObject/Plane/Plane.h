@@ -15,7 +15,7 @@ public:
 	Plane();
 	~Plane();
 
-	void Initalize(const std::vector<Model*>& models);
+	void Initalize(const std::vector<Model*>& models, Vector3 position);
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 

@@ -33,6 +33,8 @@ public:
 		worldTransform_.translation_ = Add(worldTransform_.GetTranslateFromMatWorld(),{0.0f,0.0f,0.0f});
 		worldTransform_.parent_ = nullptr; }
 private:
+
+	void Move();
 	
 	void ApplyGlobalVariables();
 	void ImGui();
@@ -57,5 +59,10 @@ private:
 	float floatingParameter_ = 0.0f;
 	int floatcycle_ = 120;
 	float floatingAmplitude_ = 0.2f;
+
+	//プレイヤーを下に引っ張る
+	bool IsOnGraund = true;
+	float DownForce = 0.98f;
+	void PullDown();
 };
 

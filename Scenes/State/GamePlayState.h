@@ -70,6 +70,9 @@ private:
 
 	std::unique_ptr<Model> model_plane_ = nullptr;
 	std::unique_ptr<Plane> plane_;
+	std::unique_ptr<Plane> plane_2;
+	std::unique_ptr<Plane> plane_3;
+
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
 	

@@ -3,10 +3,11 @@
 Plane::Plane(){}
 Plane::~Plane(){}
 
-void Plane::Initalize(const std::vector<Model*>& models)
+void Plane::Initalize(const std::vector<Model*>& models,Vector3 position)
 {
 	BaseCharacter::Initialize(models);
-
+	worldTransform_.translation_ = position;
+	worldTransform_.UpdateMatrix();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeFloor);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeFloor);
 	BoxCollider::SetParent(worldTransform_);

@@ -11,7 +11,9 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 	worldTransformSoul_.Initialize();
 	SetParent(&worldTransformBody_);
 	worldTransformBody_.parent_ = &worldTransform_;
-
+	worldTransform_.translation_ = { 10.0f, 0.0f, 20.0f
+	};
+	worldTransform_.UpdateMatrix();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
 	BoxCollider::SetParent(worldTransform_);
@@ -22,7 +24,7 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 void Enemy::Update()
 {
 	// 速さ
-	const float kSpeed = 0.1f;
+	const float kSpeed = 0.01f;
 	Vector3 velocity{ 0.0f, 0.0f, kSpeed };
 
 	// 移動ベクトルをカメラの角度だけ回転

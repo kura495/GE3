@@ -28,15 +28,79 @@ void Player::Update()
 	ImGui();
 	ApplyGlobalVariables();
 	UpdateFloatingGimmick();
+
+	Move();
+
+	PullDown();
+
+	if (worldTransform_.translation_.y <= -10.0f) {
+		//地面から落ちたらリスタートする
+		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		worldTransform_.UpdateMatrix();
+	}
+
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 	BoxCollider::Update(&worldTransform_);
+	
+	
+}
+
+void Player::Draw(const ViewProjection& viewProjection)
+{
+	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
+	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
+	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
+	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
+}
+
+void Player::BoxOnCollision(uint32_t collisionAttribute)
+{
+	if (collisionAttribute == kCollitionAttributeEnemy) {
+		ImGui::Begin("Player");
+		ImGui::Text("Hit!!!!!");
+		ImGui::End();
+		//敵に当たったらリスタートする
+		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		worldTransform_.UpdateMatrix();
+	}
+	else if (collisionAttribute == kCollitionAttributeFloor) {
+		ImGui::Begin("Player");
+		ImGui::Text("PlaneHit!!!!!");
+		ImGui::End();
+		IsOnGraund = true;
+	}
+	else if (collisionAttribute == kCollitionAttributeMoveFloor) {
+		ImGui::Begin("Player");
+		ImGui::Text("MovePlaneHit!!!!!");
+		ImGui::End();
+		IsOnGraund = true;
+	}
+	else {
+		return;
+	}
+	
+}
+
+void Player::SetParent(const WorldTransform* parent)
+{
+	// 親子関係を結ぶ
+	if (!worldTransform_.parent_) {
+		worldTransform_.parent_ = parent;
+		Vector3 Pos = Subtract(worldTransform_.GetTranslateFromMatWorld(), parent->GetTranslateFromMatWorld());
+		worldTransform_.translation_ = Pos;
+		worldTransform_.UpdateMatrix();
+	}
+}
+
+void Player::Move()
+{
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
-		if(joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0){
+		if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0) {
 			return;
 		}
 		Vector3 move{
@@ -56,52 +120,6 @@ void Player::Update()
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
 		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-	}
-
-}
-
-void Player::Draw(const ViewProjection& viewProjection)
-{
-	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
-	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
-	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
-	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
-}
-
-void Player::BoxOnCollision(uint32_t collisionAttribute)
-{
-	if (collisionAttribute == kCollitionAttributeEnemy) {
-		ImGui::Begin("Player");
-		ImGui::Text("Hit!!!!!");
-		ImGui::End();
-		//TODO : 敵に当たったらリスタートする
-		//worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
-		//worldTransform_.UpdateMatrix();
-	}
-	else if (collisionAttribute == kCollitionAttributeFloor) {
-		ImGui::Begin("Player");
-		ImGui::Text("PlaneHit!!!!!");
-		ImGui::End();
-	}
-	else if (collisionAttribute == kCollitionAttributeMoveFloor) {
-		ImGui::Begin("Player");
-		ImGui::Text("MovePlaneHit!!!!!");
-		ImGui::End();
-	}
-	else {
-		return;
-	}
-	
-}
-
-void Player::SetParent(const WorldTransform* parent)
-{
-	// 親子関係を結ぶ
-	if (!worldTransform_.parent_) {
-		worldTransform_.parent_ = parent;
-		Vector3 Pos = Subtract(worldTransform_.GetTranslateFromMatWorld(), parent->GetTranslateFromMatWorld());
-		worldTransform_.translation_ = Pos;
-		worldTransform_.UpdateMatrix();
 	}
 }
 
@@ -146,4 +164,15 @@ void Player::UpdateFloatingGimmick() {
 	// 浮遊を座標に反映
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
 
+}
+
+void Player::PullDown()
+{
+	if (IsOnGraund) {
+		IsOnGraund = false;
+		return;
+	}
+	else {
+		worldTransform_.translation_.y -= DownForce;
+	}
 }
