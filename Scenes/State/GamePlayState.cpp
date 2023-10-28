@@ -11,10 +11,55 @@ void GamePlayState::Initialize()
 	light_ = Light::GetInstance();
 
 	DirectX_ = DirectXCommon::GetInstance();
+
+	collisionManager_ = std::make_unique<CollisionManager>();
 	//
 	//3Dオブジェクト生成
-	player = new Player();
-	player->Initialize();
+
+	player = std::make_unique<Player>();
+	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body", "float_Body.obj"));
+	modelFighterHead_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
+	modelFighterL_arm_.reset(Model::CreateModelFromObj("resources/float_L_arm", "float_L_arm.obj"));
+	modelFighterR_arm_.reset(Model::CreateModelFromObj("resources/float_R_arm", "float_R_arm.obj"));
+	std::vector<Model*> playerModels = {
+		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get() };
+	player->Initialize(playerModels);
+
+	enemy_ = std::make_unique<Enemy>();
+	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
+	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
+	std::vector<Model*> EnemyModels = {
+		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
+	enemy_->Initialize(EnemyModels);
+
+	Skydome_ = std::make_unique<Skydome>();
+	Skydome_->Initalize();
+
+
+	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
+	std::vector<Model*> PlaneModels = {
+		model_plane_.get() };
+	plane_ = std::make_unique<Plane>();
+	plane_->Initalize(PlaneModels, { 0.0f,0.0f,0.0f });
+
+	plane_2 = std::make_unique<Plane>();
+	plane_2->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f});
+	plane_3 = std::make_unique<Plane>();
+	plane_3->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
+
+	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
+	std::vector<Model*> Plane_Move_Models = {
+		model_plane_Move_.get() };
+	plane_Move_ = std::make_unique<MovePlane>();
+	plane_Move_->Initalize(Plane_Move_Models);
+	plane_Move_->SetPlayer(player.get());
+
+	model_goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	std::vector<Model*> model_goal_Models = {
+		model_goal_.get() };
+	goal = std::make_unique<Goal>();
+	goal->Initalize(model_goal_Models);
+
 	//
 	//2Dオブジェクト作成
 	sprite = new Sprite();
@@ -29,6 +74,10 @@ void GamePlayState::Initialize()
 	//
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
+	followCamera = std::make_unique<FollowCamera>();
+	followCamera->Initalize();
+	followCamera->SetTarget(&player->GetWorldTransform());
+	player->SetViewProjection(&followCamera->GetViewProjection());
 }
 
 void GamePlayState::Update()
@@ -41,8 +90,19 @@ else {
 	camera_->DebugCamera(false);
 }
 #endif // _DEBUG
-	GlobalVariables::GetInstance()->Update();
 
+	player->Update();
+	enemy_->Update();
+	Skydome_->Update();
+	plane_->Update();
+	plane_2->Update();
+	plane_3->Update();
+	plane_Move_->Update();
+	goal->Update();
+
+	GlobalVariables::GetInstance()->Update();
+	followCamera->Update();
+	viewProjection_ = followCamera->GetViewProjection();
 	ImGui::Begin("Camera");
 	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
 	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
@@ -50,13 +110,31 @@ else {
 	light_->ImGui("Light");
 	viewProjection_.UpdateMatrix();
 	
-	player->Update();
+	
+	
+	collisionManager_->AddBoxCollider(player.get());
+	collisionManager_->AddBoxCollider(enemy_.get());
+	collisionManager_->AddBoxCollider(plane_.get());
+	collisionManager_->AddBoxCollider(plane_2.get());
+	collisionManager_->AddBoxCollider(plane_3.get());
+	collisionManager_->AddBoxCollider(plane_Move_.get());
+	collisionManager_->AddBoxCollider(goal.get());
+	collisionManager_->CheckAllCollisions();
+	collisionManager_->ClearCollider();
+
 }
 
 void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
+	Skydome_->Draw(viewProjection_);
+	plane_->Draw(viewProjection_);
+	plane_2->Draw(viewProjection_);
+	plane_3->Draw(viewProjection_);
+	plane_Move_->Draw(viewProjection_);
+	goal->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
 	//1. ビット演算を取り回しの良いUtilityクラスにする

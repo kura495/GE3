@@ -2,6 +2,7 @@
 #include "Math_Structs.h"
 #include "MatrixCalc.h"
 #include "DirectXCommon.h"
+#include "Base/Math/VectorCalc.h"
 
 struct ConstBufferDataWorldTransform {
 	Matrix4x4 matWorld; // ローカル → ワールド変換行列
@@ -40,4 +41,10 @@ struct WorldTransform {
 	void TransferMatrix();
 
 	void UpdateMatrix();
+	/// <summary>
+	/// matWorldから移動量を抜き取る関数
+	/// </summary>
+	Vector3 GetTranslateFromMatWorld()const;
+
+	void SetParent(const WorldTransform* parent);
 };

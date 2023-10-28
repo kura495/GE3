@@ -91,6 +91,42 @@
     <Filter Include="リソース ファイル\hlsl">
       <UniqueIdentifier>{35d39956-fa52-4e51-b1d6-3e70ed846589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\GameObject\SkyDome">
+      <UniqueIdentifier>{04fecf81-81be-44b1-b944-406b20354e3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\SkyDome">
+      <UniqueIdentifier>{3d981d0e-9f2c-4c9f-b877-71608828aef6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\FollowCamera">
+      <UniqueIdentifier>{f9e54783-01d0-40d3-8536-5de2da060474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\FollowCamera">
+      <UniqueIdentifier>{fb35d2b1-76ac-4908-a3fb-1fbf2fdb08b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\BaseCharacter">
+      <UniqueIdentifier>{2a2e8b0b-cf70-448e-be47-18a8a0a2548b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\BaseCharacter">
+      <UniqueIdentifier>{ce6fd290-0e24-41fc-b133-d55c0d840272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\Enemy">
+      <UniqueIdentifier>{2bfda8f9-1e4b-4581-9395-566e19a8ed7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Enemy">
+      <UniqueIdentifier>{5045761e-8e3c-47ad-83e9-ba49ff925e0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Plane">
+      <UniqueIdentifier>{2e74351b-b2c4-42a3-aaf1-5ac359ea1d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\Plane">
+      <UniqueIdentifier>{814c319e-e679-452e-bf57-08ee55196e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\Goal">
+      <UniqueIdentifier>{b47fc20f-045c-4b9b-815d-e039ba24f1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Goal">
+      <UniqueIdentifier>{a1b1ecce-259f-4c32-a5e6-701ff8a10c83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -197,6 +233,33 @@
     </ClCompile>
     <ClCompile Include="Base\Particle.cpp">
       <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Skydome\Skydome.cpp">
+      <Filter>ソース ファイル\GameObject\SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\FollowCamera\FollowCamera.cpp">
+      <Filter>ソース ファイル\GameObject\FollowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\BaseCharacter\BaseCharacter.cpp">
+      <Filter>ソース ファイル\GameObject\BaseCharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Utility\BoxCollider.cpp">
+      <Filter>ソース ファイル\Base\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Utility\CircleCollider.cpp">
+      <Filter>ソース ファイル\Base\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Plane\Plane.cpp">
+      <Filter>ソース ファイル\GameObject\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Plane\MovePlane.cpp">
+      <Filter>ソース ファイル\GameObject\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Goal\Goal.cpp">
+      <Filter>ソース ファイル\GameObject\Goal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +406,33 @@
     </ClInclude>
     <ClInclude Include="Base\Particle.h">
       <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\GameObject\SkyDome</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\FollowCamera\FollowCamera.h">
+      <Filter>ヘッダー ファイル\GameObject\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BaseCharacter\BaseCharacter.h">
+      <Filter>ヘッダー ファイル\GameObject\BaseCharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Utility\CircleCollider.h">
+      <Filter>ヘッダー ファイル\Base\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Utility\BoxCollider.h">
+      <Filter>ヘッダー ファイル\Base\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Plane\Plane.h">
+      <Filter>ヘッダー ファイル\GameObject\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Plane\MovePlane.h">
+      <Filter>ヘッダー ファイル\GameObject\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Goal\Goal.h">
+      <Filter>ヘッダー ファイル\GameObject\Goal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

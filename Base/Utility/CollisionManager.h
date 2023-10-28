@@ -1,12 +1,16 @@
 ﻿#pragma once
 #include "Utility/Collider.h"
+#include "Utility/BoxCollider.h"
 #include "Utility/CollisionConfig.h"
 #include <list>
 
 class CollisionManager {
 public:
 	void AddCollider(Collider* collider) { colliders_.push_back(collider); }
-	void ClearCollider() { colliders_.clear(); }
+	void AddBoxCollider(BoxCollider* collider) { BoxColliders_.push_back(collider); }
+	void ClearCollider() {
+		colliders_.clear(); BoxColliders_.clear();
+	}
 	void CheckAllCollisions();
 
 private:
@@ -14,6 +18,12 @@ private:
 	/// コライダー登録用
 	/// </summary>
 	std::list<Collider*> colliders_;
+	/// <summary>
+	///　Boxコライダー登録用
+	/// </summary>
+	std::list<BoxCollider*> BoxColliders_;
 	
-	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
+	void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
+
+	void CheckCollisionBox(BoxCollider* colliderA, BoxCollider* colliderB);
 };
