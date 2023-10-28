@@ -43,11 +43,9 @@ void GamePlayState::Initialize()
 	plane_->Initalize(PlaneModels, { 0.0f,0.0f,0.0f });
 
 	plane_2 = std::make_unique<Plane>();
-	plane_2->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f
-});
+	plane_2->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f});
 	plane_3 = std::make_unique<Plane>();
-	plane_3->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f
-});
+	plane_3->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
 
 	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
 	std::vector<Model*> Plane_Move_Models = {
@@ -55,6 +53,12 @@ void GamePlayState::Initialize()
 	plane_Move_ = std::make_unique<MovePlane>();
 	plane_Move_->Initalize(Plane_Move_Models);
 	plane_Move_->SetPlayer(player.get());
+
+	model_goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	std::vector<Model*> model_goal_Models = {
+		model_goal_.get() };
+	goal = std::make_unique<Goal>();
+	goal->Initalize(model_goal_Models);
 
 	//
 	//2Dオブジェクト作成
@@ -94,6 +98,7 @@ else {
 	plane_2->Update();
 	plane_3->Update();
 	plane_Move_->Update();
+	goal->Update();
 
 	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
@@ -113,6 +118,7 @@ else {
 	collisionManager_->AddBoxCollider(plane_2.get());
 	collisionManager_->AddBoxCollider(plane_3.get());
 	collisionManager_->AddBoxCollider(plane_Move_.get());
+	collisionManager_->AddBoxCollider(goal.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
@@ -128,6 +134,7 @@ void GamePlayState::Draw()
 	plane_2->Draw(viewProjection_);
 	plane_3->Draw(viewProjection_);
 	plane_Move_->Draw(viewProjection_);
+	goal->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
 
 	//1. ビット演算を取り回しの良いUtilityクラスにする

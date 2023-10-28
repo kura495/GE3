@@ -1,8 +1,13 @@
 ﻿#pragma once
 
+#include "Model.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
-#include "Model.h"
+#include "Transform.h"
+#include "Input.h"
+#include "VectorCalc.h"
+#include "Base/Utility/BoxCollider.h"
+#include "Base/Utility/CollisionConfig.h"
 
 
 enum modelNumber {

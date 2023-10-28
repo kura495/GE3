@@ -1,13 +1,7 @@
 ﻿#pragma once
-#include "Model.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "Transform.h"
-#include "Input.h"
-#include "VectorCalc.h"
+
 #include "GameObject/BaseCharacter/BaseCharacter.h"
-#include "Base/Utility/BoxCollider.h"
-#include "Base/Utility/CollisionConfig.h"
+
 
 class Player : public BaseCharacter , public BoxCollider
 {

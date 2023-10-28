@@ -1,8 +1,5 @@
 ﻿#pragma once
 #include "GameObject/BaseCharacter/BaseCharacter.h"
-#include "Base/Utility/BoxCollider.h"
-#include "Base/Utility/CollisionConfig.h"
-#include "VectorCalc.h"
 
 class Enemy : public BaseCharacter,public BoxCollider
 {

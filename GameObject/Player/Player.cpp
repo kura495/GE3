@@ -18,7 +18,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetcollisionMask(~kCollitionAttributePlayer);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributePlayer);
 	BoxCollider::SetParent(worldTransform_);
-	BoxCollider::SetSize({1.0f,1.0f,1.0f});
+	BoxCollider::SetSize({3.0f,3.0f,1.0f});
 	//GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"speed",speed);
 }
@@ -78,6 +78,11 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		ImGui::Text("MovePlaneHit!!!!!");
 		ImGui::End();
 		IsOnGraund = true;
+	}
+	else if (collisionAttribute == kCollitionAttributeGoal) {
+		//ゴールしたらリスタートする
+		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		worldTransform_.UpdateMatrix();
 	}
 	else {
 		return;
