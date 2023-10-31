@@ -51,6 +51,7 @@ else {
 	viewProjection_.UpdateMatrix();
 	
 	player->Update();
+	particle->Update();
 }
 
 void GamePlayState::Draw()

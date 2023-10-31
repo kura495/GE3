@@ -40,4 +40,9 @@ struct WorldTransform {
 	void TransferMatrix();
 
 	void UpdateMatrix();
+	/// <summary>
+	/// matWorldからtransformを抜き取る
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetTranslateFromMatWorld()const;
 };
