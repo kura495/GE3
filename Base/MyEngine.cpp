@@ -16,7 +16,7 @@ void MyEngine::Initialize()
 	directX_->Initialize(winApp_);
 	//TextureManager
 	textureManager_ = TextureManager::GetInstance();
-	textureManager_->Initialize(directX_);
+	textureManager_->Initialize();
 }
 
 

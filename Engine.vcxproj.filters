@@ -230,9 +230,6 @@
     <ClInclude Include="Base\MyEngine.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\WinApp.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
@@ -342,6 +339,9 @@
       <Filter>ヘッダー ファイル\Base\Math\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Base\Particle.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>

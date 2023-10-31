@@ -25,7 +25,7 @@ public:
 	};
 
 	static TextureManager* GetInstance();
-	void Initialize(DirectXCommon* directX);
+	void Initialize();
 	uint32_t LoadTexture(const std::string& filePath);
 	/// <summary>
 	/// GPUHandle情報取得

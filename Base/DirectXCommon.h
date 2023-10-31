@@ -49,27 +49,6 @@ private:
 	DirectXCommon(const DirectXCommon& obj) = delete;
 	DirectXCommon& operator=(const DirectXCommon& obj) = delete;
 
-	//ポストプロセス
-	IDxcBlob* PostProsessBlob=nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>PostProsessgraphicsPipelineState = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12RootSignature>PostProsessrootSignature = nullptr;
-	ID3DBlob* PostProsesssignatureBlob = nullptr;
-	ID3DBlob* PostProsesserrorBlob = nullptr;
-	D3D12_INPUT_ELEMENT_DESC PostProsessinputElementDescs[3] = {};
-	D3D12_INPUT_LAYOUT_DESC PostProsessinputLayoutDesc{};
-	//
-	//スプライト
-	IDxcBlob* SpriteVertexBlob = nullptr;
-	IDxcBlob* SpritePixelBlob = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState>SpriteGraphicsPipelineState = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12RootSignature>SpriterootSignature = nullptr;
-	ID3DBlob* SpriteSignatureBlob = nullptr;
-	ID3DBlob* SpriteerrorBlob = nullptr;
-	D3D12_INPUT_ELEMENT_DESC SpriteinputElementDescs[3] = {};
-	D3D12_INPUT_LAYOUT_DESC SpriteinputLayoutDesc{};
-	//
-
-
 	WinApp* winApp_;
 	HRESULT hr;
 
