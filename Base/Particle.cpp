@@ -33,9 +33,9 @@ void Particle::Initalize(int particleVolume)
 
 void Particle::Update()
 {
-	ImGui::Begin("Particle");
-	ImGui::SliderFloat3("rotate",transform_[0].);
-	ImGui::End();
+	/*ImGui::Begin("Particle");
+	ImGui::SliderFloat3("rotate");
+	ImGui::End();*/
 }
 
 void Particle::Draw(const ViewProjection& viewProjection)
