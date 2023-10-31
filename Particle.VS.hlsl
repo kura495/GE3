@@ -1,4 +1,4 @@
-#include"Object3d.hlsli"
+#include"Particle.hlsli"
 struct TransformationMatrix
 {
     float32_t4x4 matWorld;
@@ -9,7 +9,7 @@ struct ViewProjectionMatrix
     float32_t4x4 projection;
     float32_t3 cameraPos;
 };
-ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
+StructuredBuffer<TransformationMatrix> gTransformationMatrix : register(t0);
 ConstantBuffer<ViewProjectionMatrix> gViewProjectionMatrix : register(b1);
 struct VertexShaderInput
 {
@@ -18,11 +18,11 @@ struct VertexShaderInput
     float32_t3 normal : NORMAL0;
 };
 
-VertexShaderOutput main(VertexShaderInput input)
+VertexShaderOutput main(VertexShaderInput input, uint32_t instanceId : SV_InctanceID)
 {
     VertexShaderOutput output;
     float32_t4x4 WorldViewProjectionMatrix = mul(gViewProjectionMatrix.view, gViewProjectionMatrix.projection);
-    output.position = mul(input.position, mul(gTransformationMatrix.matWorld, WorldViewProjectionMatrix));
+    output.position = mul(input.position, mul(gTransformationMatrix[instanceId].matWorld, WorldViewProjectionMatrix));
     output.texcoord = input.texcoord;
     output.normal = normalize(mul(input.normal, (float32_t3x3) WorldViewProjectionMatrix));
     return output;

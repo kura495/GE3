@@ -4,17 +4,20 @@ Particle::~Particle(){}
 
 void Particle::Initalize(int particleVolume)
 {
+
+	directX_ = DirectXCommon::GetInstance();
+	textureManager_ = TextureManager::GetInstance();
+
 	//TODO　パーティクルシステム作る
 	modelData.vertices.push_back({ .position = { 1.0f,1.0f,0.0f,1.0f },.texcoord = {0.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//左上
 	modelData.vertices.push_back({ .position = {-1.0f,1.0f,0.0f,1.0f}, .texcoord = {1.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//右上
 	modelData.vertices.push_back({ .position = {1.0f,-1.0f,0.0f,1.0f}, .texcoord = {0.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//左下
-	modelData.vertices.push_back({ .position = {1.0f,1.0f,0.0f,1.0f},  .texcoord = {0.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//左上
+	modelData.vertices.push_back({ .position = {1.0f,-1.0f,0.0f,1.0f},  .texcoord = {0.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//左上
 	modelData.vertices.push_back({ .position = {-1.0f,1.0f,0.0f,1.0f}, .texcoord = {1.0f,0.0f},.normal = {0.0f,0.0f,1.0f} });//右上
 	modelData.vertices.push_back({ .position = {-1.0f,-1.0f,0.0f,1.0f},.texcoord = {1.0f,1.0f},.normal = {0.0f,0.0f,1.0f} });//右下
-	modelData.material.textureFilePath = ".resources/uvChecker.png";
-
-	directX_ = DirectXCommon::GetInstance();
-	textureManager_ = TextureManager::GetInstance();
+	modelData.material.textureFilePath = "resources/uvChecker.png";
+	int Texture = textureManager_->LoadTexture(modelData.material.textureFilePath);
+	modelData.TextureIndex = Texture;
 
 	particleVolume_ = particleVolume;
 
@@ -27,14 +30,15 @@ void Particle::Initalize(int particleVolume)
 	}
 	CreateResources();
 	materialData->enableLighting = false;
-	materialData->color = {1.0f,1.0f,1.0f,0.0f};
+	materialData->color = {1.0f,1.0f,1.0f,1.0f};
 	materialData->uvTransform = CreateIdentity4x4();
 }
 
 void Particle::Update()
 {
 	ImGui::Begin("Particle");
-	ImGui::SliderFloat3("rotate",&transform_[0].rotation_.x, -1, 1);
+	ImGui::SliderFloat3("rotate1",&transform_[0].rotation_.x, -20, 20);
+	ImGui::SliderFloat3("transform",&transform_[0].translation_.x, -20, 20);
 	transform_[0].UpdateMatrix();
 	ImGui::End();
 }
@@ -56,8 +60,7 @@ void Particle::Draw(const ViewProjection& viewProjection)
 	for (int Volume_i = 0; Volume_i < particleVolume_; Volume_i++) {
 		//WorldTransform
 		directX_->GetcommandList()->SetGraphicsRootConstantBufferView(1, transform_[Volume_i].constBuff_->GetGPUVirtualAddress());
-
-		directX_->GetcommandList()->DrawInstanced(UINT(modelData.vertices.size()), 1, 0, 0);
+		directX_->GetcommandList()->DrawInstanced(UINT(modelData.vertices.size()),Volume_i+1 , 0, 0);
 	}
 	
 }

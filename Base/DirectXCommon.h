@@ -42,18 +42,6 @@ public:
 		CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 	Microsoft::WRL::ComPtr<ID3D12Resource>
 		CreateDepthStencilTextureResource(int32_t width, int32_t height);
-	void PostProsessRootSignature();
-	void PostProsessPipelineStateObject();
-	void PostProsessInPutLayout();
-	void PostProsessDraw();
-	//
-	//スプライト
-	///スプライト用パイプライン
-	void SetSpritePipeLine();
-	void SpriteRootSignature();
-	void SpritePipelineStateObject();
-	void SpriteInPutLayout();
-	//
 
 private:
 	DirectXCommon() = default;
