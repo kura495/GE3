@@ -6,14 +6,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::Initalize();
 	input = Input::GetInstance();
 
-	worldTransformBody_.Initialize();
-	worldTransformHead_.Initialize();
-	worldTransformL_arm_.Initialize();
-	worldTransformR_arm_.Initialize();
-	worldTransformHead_.parent_ = &worldTransformBody_;
-	worldTransformL_arm_.parent_ = &worldTransformBody_;
-	worldTransformR_arm_.parent_ = &worldTransformBody_;
-	worldTransformBody_.parent_ = &worldTransform_;
+	WorldTransformInitalize();
+
 	const char* groupName = "Player";
 	BoxCollider::SetcollisionMask(~kCollitionAttributePlayer);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributePlayer);
@@ -27,9 +21,33 @@ void Player::Update()
 {	
 	ImGui();
 	ApplyGlobalVariables();
-	UpdateFloatingGimmick();
 
-	Move();
+	if (behaviorRequest_) {
+		//ふるまいの変更
+		behavior_ = behaviorRequest_.value();
+		//各ふるまいごとに初期化
+		switch (behavior_)
+		{
+		case Behavior::kRoot:
+		default:
+			BehaviorRootInit();
+			break;
+		case Behavior::kAttack:
+			BehaviorAttackInit();
+			break;
+		}
+		behaviorRequest_ = std::nullopt;
+	}
+	switch (behavior_)
+	{
+	case Behavior::kRoot:
+	default:
+		BehaviorRootUpdate();
+		break;
+	case Behavior::kAttack:
+		BehaviorAttackUpdate();
+		break;
+	}
 
 	PullDown();
 
@@ -55,6 +73,10 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
 	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
+
+	if(behavior_ == Behavior::kAttack){
+		models_[kModelIndexWeapon]->Draw(worldTransform_Weapon_, viewProjection);
+	}
 }
 
 void Player::BoxOnCollision(uint32_t collisionAttribute)
@@ -101,6 +123,20 @@ void Player::SetParent(const WorldTransform* parent)
 	}
 }
 
+void Player::WorldTransformInitalize()
+{
+	worldTransformBody_.Initialize();
+	worldTransformHead_.Initialize();
+	worldTransformL_arm_.Initialize();
+	worldTransformR_arm_.Initialize();
+	worldTransform_Weapon_.Initialize();
+	worldTransformHead_.parent_ = &worldTransformBody_;
+	worldTransformL_arm_.parent_ = &worldTransformBody_;
+	worldTransformR_arm_.parent_ = &worldTransformBody_;
+	worldTransform_Weapon_.parent_ = &worldTransformBody_;
+	worldTransformBody_.parent_ = &worldTransform_;
+}
+
 void Player::Move()
 {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -143,6 +179,53 @@ void Player::ImGui()
 	ImGui::End();
 	//model->ImGui("Player");
 }
+
+void Player::BehaviorRootInit()
+{
+	InitializeFloatingGimmick();
+}
+
+void Player::BehaviorRootUpdate()
+{
+	UpdateFloatingGimmick();
+	Move();
+	//RTで攻撃
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+		behaviorRequest_ = Behavior::kAttack;
+	}
+}
+
+void Player::BehaviorAttackInit()
+{
+	worldTransformL_arm_.rotation_.x = (float)std::numbers::pi;
+	worldTransformR_arm_.rotation_.x = (float)std::numbers::pi;
+	worldTransform_Weapon_.rotation_.x = 0.0f;
+	attackAnimationFrame = 0;
+}
+
+void Player::BehaviorAttackUpdate()
+{
+	if (attackAnimationFrame < 10) {
+		// 腕の挙動
+		worldTransformL_arm_.rotation_.x -= 0.05f;
+		worldTransformR_arm_.rotation_.x -= 0.05f;
+
+		// 武器の挙動
+		worldTransform_Weapon_.rotation_.x -= 0.05f;
+	}
+	else if (worldTransform_Weapon_.rotation_.x <= 2.0f * (float)std::numbers::pi / 4) {
+		// 腕の挙動
+		worldTransformL_arm_.rotation_.x += 0.1f;
+		worldTransformR_arm_.rotation_.x += 0.1f;
+		// 武器の挙動
+		worldTransform_Weapon_.rotation_.x += 0.1f;
+	}
+	else {
+		behaviorRequest_ = Behavior::kRoot;
+	}
+	attackAnimationFrame++;
+}
+
 
 void Player::InitializeFloatingGimmick() {
 	floatingParameter_ = 0.0f;
