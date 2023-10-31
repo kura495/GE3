@@ -6,7 +6,7 @@ class Enemy : public BaseCharacter,public BoxCollider
 public:
 	Enemy();
 	~Enemy();
-
+ 
 	void Initialize(const std::vector<Model*>& models)override;
 	void Update()override;
 	void Draw(const ViewProjection& viewProjection)override;

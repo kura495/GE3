@@ -130,6 +130,9 @@ void Player::WorldTransformInitalize()
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
 	worldTransform_Weapon_.Initialize();
+	worldTransformL_arm_.translation_.y += 1.4f;
+	worldTransformR_arm_.translation_.y += 1.4f;
+
 	worldTransformHead_.parent_ = &worldTransformBody_;
 	worldTransformL_arm_.parent_ = &worldTransformBody_;
 	worldTransformR_arm_.parent_ = &worldTransformBody_;
@@ -183,6 +186,8 @@ void Player::ImGui()
 void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
+	worldTransformL_arm_.rotation_.x = 0.0f;
+	worldTransformR_arm_.rotation_.x = 0.0f;
 }
 
 void Player::BehaviorRootUpdate()
@@ -207,8 +212,8 @@ void Player::BehaviorAttackUpdate()
 {
 	if (attackAnimationFrame < 10) {
 		// 腕の挙動
-		worldTransformL_arm_.rotation_.x -= 0.05f;
-		worldTransformR_arm_.rotation_.x -= 0.05f;
+		worldTransformL_arm_.rotation_.x += 0.05f;
+		worldTransformR_arm_.rotation_.x += 0.05f;
 
 		// 武器の挙動
 		worldTransform_Weapon_.rotation_.x -= 0.05f;
