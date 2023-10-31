@@ -87,7 +87,7 @@ void Sphere::Draw(const WorldTransform& transform, const ViewProjection& viewPro
 	//ライティングをする
 	materialData->color = color_;
 	materialData->enableLighting = lightFlag;
-	materialData->uvTransform = MakeIdentity4x4();
+	materialData->uvTransform = CreateIdentity4x4();
 
 	directX_->GetcommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

@@ -21,7 +21,7 @@ void Mesh::Initialize()
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 	materialData->color = color_;
 	materialData->enableLighting = false;
-	materialData->uvTransform = MakeIdentity4x4();
+	materialData->uvTransform = CreateIdentity4x4();
 }
 
 void Mesh::Draw(const WorldTransform& transform, const ViewProjection& viewProjection, const uint32_t textureHandle)
