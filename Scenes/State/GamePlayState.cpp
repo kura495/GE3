@@ -15,17 +15,17 @@ void GamePlayState::Initialize()
 	//3Dオブジェクト生成
 	player = new Player();
 	player->Initialize();
+
+	particle = new Particle();
+	particle->Initalize(2);
 	//
-	//2Dオブジェクト作成
-	sprite = new Sprite();
-	sprite->Initialize(LeftTop[0], LeftBottom[0], RightTop[1], RightBottom[1]);
-	worldTransform_Sprite.Initialize();
+
 	//
 	//リソースを作る
 	//テクスチャ
 	Texture = textureManager_->LoadTexture("resources/uvChecker.png");
 	//サウンド
-	mokugyo = audio->LoadAudio("resources/mokugyo.wav");
+
 	//
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
@@ -57,25 +57,11 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
+	particle->Draw(viewProjection_);
+
+
+
+
 	//3Dモデル描画ここまで	
-
-	//1. ビット演算を取り回しの良いUtilityクラスにする
-	//2. 三項演算子をつかって、構造がわかりやすいようにする
-	//piplineStatus->GetIsMesh2() ? mesh2->Draw() : ;
-	//piplineStatus->GetIsSprite() ? sprite->Draw() : ;
-	//piplineStatus->SetAllFlags();
-	//void PipelineStatu::SetAllFlags() {
-	//	bit = 0x111111111111.....;
-	//}
-	//void PipelineStatus::ResetAllFlags() {
-		//Ethna
-	//	bit = 0;
-	//}
-
-	//Sprite描画ここから
-
-
-	//Sprite描画ここまで
-	
 	//描画ここまで
 }

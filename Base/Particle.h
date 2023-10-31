@@ -1,10 +1,13 @@
-#pragma once
+﻿#pragma once
 
 #include "DirectXCommon.h"
 #include "TextureManager.h"
-#include "Transform.h"
+#include "WorldTransform.h"
+#include "ViewProjection.h"
 #include "Math/MatrixCalc.h"
 #include "ModelData.h"
+
+#include "Utility/ImGuiManager.h"
 
 class Particle
 {
@@ -16,12 +19,13 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(const ViewProjection& viewProjection);
 
 private:
 	ModelData modelData;
 
 	DirectXCommon* directX_ = nullptr;
+	TextureManager* textureManager_ = nullptr;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource>vertexResource = nullptr;
 	VertexData* vertexData = nullptr;
@@ -31,9 +35,13 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> materialResource = nullptr;
 	Material* materialData = nullptr;
 
-	//Transform transform_[];
+	//パーティクルの数
+	int particleVolume_;
+	//パーティクルの数分のtransform
+	std::vector<WorldTransform> transform_;
 
 	void CreateResources();
-	void MakeVertexBufferView();
+
+
 };
 

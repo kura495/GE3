@@ -19,6 +19,7 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include "Math_Structs.h"
+#include "Base/Particle.h"
 
 class GamePlayState :public GameState
 {
@@ -41,39 +42,17 @@ private:
 	Model* model = nullptr;
 	//
 	WorldTransform worldTransform_;
-	WorldTransform worldTransform_Sprite;
 	ViewProjection viewProjection_;
 
 	//3Dオブジェクトたち
 	Player* player = nullptr;
-	Sphere* sphere;
+	Particle* particle = nullptr;
 	//2Dオブジェクトたち
 	Sprite* sprite;
 	//
 	//テクスチャハンドルたち
 	int Texture;
 	//
-	//サウンドハンドルたち
-	uint32_t mokugyo;
-	//
-	int Pan = 0;
-	float Volume = 0.0f;
-	//Sprite用の位置
-	Vector4 LeftTop[2] = {
-		{ 0.0f,0.0f,0.0f,1.0f },
-		{ 360.0f,0.0f,0.0f,1.0f }
-	};
-	Vector4 LeftBottom[2] = {
-		{ 0.0f,360.0f,0.0f,1.0f },
-		{ 360.0f,360.0f,0.0f,1.0f }
-	};
-	Vector4 RightTop[2] = {
-		{ 360.0f,0.0f,0.0f,1.0f },
-		{ 640.0f,0.0f,0.0f,1.0f }
-	};
-	Vector4 RightBottom[2] = {
-		{ 360.0f,180.0f,0.0f,1.0f },
-		{ 640.0f,360.0f,0.0f,1.0f }
-	};
-	//
+
+	
 };
