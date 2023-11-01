@@ -7,6 +7,11 @@
 enum class Behavior {
 	kRoot,//通常
 	kAttack,//攻撃中
+	kDash,//ダッシュ中
+};
+//ダッシュ用ワーク
+struct WorkDash {
+	//ダッシュ用の媒介変数
 };
 
 class Player : public BaseCharacter , public BoxCollider
@@ -47,6 +52,10 @@ private:
 	void BehaviorAttackInit();
 	void BehaviorAttackUpdate();
 	int attackAnimationFrame;
+	//ダッシュ
+	void BehaviorDashInit();
+	void BehaviorDashUpdate();
+
 	//ふるまい
 	Behavior behavior_ = Behavior::kRoot;
 	//次のふるまいリクエスト
@@ -64,7 +73,7 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 
 	GlobalVariables* globalVariables = nullptr;
-	
+	//プレイヤーの移動
 	float speed = 0.3f;
 	
 

@@ -20,7 +20,10 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::Update()
 {	
+	//jsonファイルの内容を適応
 	ApplyGlobalVariables();
+	//パッドの状態をゲット
+	input->GetJoystickState(0,joyState);
 
 	if (behaviorRequest_) {
 		//ふるまいの変更
@@ -35,6 +38,9 @@ void Player::Update()
 		case Behavior::kAttack:
 			BehaviorAttackInit();
 			break;
+		case Behavior::kDash:
+			BehaviorDashInit();
+			break;
 		}
 		behaviorRequest_ = std::nullopt;
 	}
@@ -46,6 +52,9 @@ void Player::Update()
 		break;
 	case Behavior::kAttack:
 		BehaviorAttackUpdate();
+		break;
+	case Behavior::kDash:
+		BehaviorDashUpdate();
 		break;
 	}
 
@@ -135,7 +144,6 @@ void Player::WorldTransformInitalize()
 
 void Player::Move()
 {
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		//移動量
 		if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0) {
 			return;
@@ -157,7 +165,6 @@ void Player::Move()
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
 		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
-	}
 }
 
 void Player::ApplyGlobalVariables()
@@ -182,6 +189,11 @@ void Player::BehaviorRootUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		behaviorRequest_ = Behavior::kAttack;
 	}
+	//Aでダッシュ
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		behaviorRequest_ = Behavior::kDash;
+	}
+	
 }
 
 void Player::BehaviorAttackInit()
@@ -214,6 +226,16 @@ void Player::BehaviorAttackUpdate()
 	}
 	worldTransform_Weapon_.UpdateMatrix();
 	attackAnimationFrame++;
+}
+
+void Player::BehaviorDashInit()
+{
+
+}
+
+void Player::BehaviorDashUpdate()
+{
+
 }
 
 
