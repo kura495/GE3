@@ -261,7 +261,7 @@
     <ClCompile Include="GameObject\Goal\Goal.cpp">
       <Filter>ソース ファイル\GameObject\Goal</Filter>
     </ClCompile>
-    <ClCompile Include="Calc.cpp">
+    <ClCompile Include="Base\Math\Calc.cpp">
       <Filter>ソース ファイル\Base\Math</Filter>
     </ClCompile>
   </ItemGroup>
@@ -437,7 +437,7 @@
     <ClInclude Include="GameObject\Goal\Goal.h">
       <Filter>ヘッダー ファイル\GameObject\Goal</Filter>
     </ClInclude>
-    <ClInclude Include="Calc.h">
+    <ClInclude Include="Base\Math\Calc.h">
       <Filter>ヘッダー ファイル\Base\Math</Filter>
     </ClInclude>
   </ItemGroup>

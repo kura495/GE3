@@ -2,7 +2,7 @@
 
 #include <optional>
 #include "GameObject/BaseCharacter/BaseCharacter.h"
-
+#include "Base/Math/Calc.h"
 
 enum class Behavior {
 	kRoot,//通常
