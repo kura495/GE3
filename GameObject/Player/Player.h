@@ -40,7 +40,6 @@ private:
 	void Move();
 	
 	void ApplyGlobalVariables();
-	void ImGui();
 	//通常
 	void BehaviorRootInit();
 	void BehaviorRootUpdate();

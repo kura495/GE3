@@ -19,8 +19,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::Update()
 {	
-	ImGui();
-	ApplyGlobalVariables();
+	//ApplyGlobalVariables();
 
 	if (behaviorRequest_) {
 		//ふるまいの変更
@@ -75,30 +74,21 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
 
 	if(behavior_ == Behavior::kAttack){
-		models_[kModelIndexWeapon]->Draw(worldTransform_Weapon_, viewProjection);
+		//models_[kModelIndexWeapon]->Draw(worldTransform_Weapon_, viewProjection);
 	}
 }
 
 void Player::BoxOnCollision(uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
-		ImGui::Begin("Player");
-		ImGui::Text("Hit!!!!!");
-		ImGui::End();
 		//敵に当たったらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
 	else if (collisionAttribute == kCollitionAttributeFloor) {
-		ImGui::Begin("Player");
-		ImGui::Text("PlaneHit!!!!!");
-		ImGui::End();
 		IsOnGraund = true;
 	}
 	else if (collisionAttribute == kCollitionAttributeMoveFloor) {
-		ImGui::Begin("Player");
-		ImGui::Text("MovePlaneHit!!!!!");
-		ImGui::End();
 		IsOnGraund = true;
 	}
 	else if (collisionAttribute == kCollitionAttributeGoal) {
@@ -173,16 +163,6 @@ void Player::ApplyGlobalVariables()
 	speed = GlobalVariables::GetInstance()->GetfloatValue(groupName, "speed");
 }
 
-void Player::ImGui()
-{
-	ImGui::Begin("Player");
-	ImGui::SliderFloat3("translation", &worldTransform_.translation_.x,-10, 10);
-	ImGui::SliderFloat3("rotation", &worldTransform_.rotation_.x,-10, 10);
-	ImGui::SliderFloat3("scale", &worldTransform_.scale_.x,-10, 10);
-	ImGui::End();
-	//model->ImGui("Player");
-}
-
 void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
@@ -237,13 +217,6 @@ void Player::InitializeFloatingGimmick() {
 }
 
 void Player::UpdateFloatingGimmick() {
-	ImGui::Begin("Player");
-	ImGui::SliderFloat3("Head", &worldTransformHead_.translation_.x, 0.0f, 10.0f);
-	ImGui::SliderFloat3("ArmL", &worldTransformL_arm_.translation_.x, 0.0f, 10.0f);
-	ImGui::SliderFloat3("ArmR", &worldTransformR_arm_.translation_.x, 0.0f, 10.0f);
-	ImGui::SliderInt("cycle", &floatcycle_, 1, 120);
-	ImGui::SliderFloat("Amplitude", &floatingAmplitude_, 0.0f, 10.0f);
-	ImGui::End();
 	// 浮遊移動のサイクル<frame>
 	const uint16_t T = (uint16_t)floatcycle_;
 	// 1フレームでのパラメータ加算値
