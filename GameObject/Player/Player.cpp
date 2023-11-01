@@ -74,7 +74,7 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
 
 	if(behavior_ == Behavior::kAttack){
-		//models_[kModelIndexWeapon]->Draw(worldTransform_Weapon_, viewProjection);
+		models_[kModelIndexWeapon]->Draw(worldTransform_Weapon_, viewProjection);
 	}
 }
 

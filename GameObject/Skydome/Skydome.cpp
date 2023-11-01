@@ -14,7 +14,6 @@ void Skydome::Initalize()
 void Skydome::Update()
 {
 	worldTransform_.UpdateMatrix();
-	model_.get()->ImGui("Skydome");
 }
 
 void Skydome::Draw(ViewProjection ViewProjection_)
