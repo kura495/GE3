@@ -164,7 +164,8 @@ void Player::Move()
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
-		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+		targetAngle = std::atan2(move.x, move.z);
+		worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y,targetAngle,0.2f);
 }
 
 void Player::ApplyGlobalVariables()

@@ -43,6 +43,7 @@ private:
 	void WorldTransformInitalize();
 	
 	void Move();
+	float targetAngle;
 	
 	void ApplyGlobalVariables();
 	//通常
