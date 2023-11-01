@@ -100,6 +100,15 @@ void GlobalVariables::AddItem(const std::string& groupName, const std::string& k
 		SetValue(groupName, key, value);
 	}
 }
+//void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, const bool& value)
+//{
+//	//グループの参照を取得
+//	Group& group = datas_[groupName];
+//	//アイテムが未登録なら
+//	if (!group.items.contains(key)) {
+//		SetValue(groupName, key, value);
+//	}
+//}
 #pragma endregion AddItem
 //実際に値を入れる関数たち
 #pragma region SetValue
@@ -133,6 +142,17 @@ void GlobalVariables::SetValue(const std::string& groupName, const std::string& 
 	//設定した項目をstd::mapに追加
 	group.items[key] = newItem;
 }
+//void GlobalVariables::SetValue(const std::string& groupName, const std::string& key,const bool& value)
+//{
+//	//グループの参照を取得
+//	Group& group = datas_[groupName];
+//	//新しい項目のデータを設定
+//	Item newItem{};
+//	newItem.value = value;
+//	//設定した項目をstd::mapに追加
+//	group.items[key] = newItem;
+//}
+
 #pragma endregion  SetValue
 
 #pragma region Getter
@@ -169,6 +189,17 @@ Vector3 GlobalVariables::GetVector3Value(const std::string& groupName, const std
 
 	return std::get<Vector3>(group.items.at(key).value);
 }
+//bool GlobalVariables::GetboolValue(const std::string& groupName, const std::string& key) const
+//{
+//	//グループがあるか見てみる　なければアサ―ト
+//	assert(datas_.contains(groupName));
+//	//グループの参照を取得
+//	const Group& group = datas_.at(groupName);
+//	//指定したグループに指定したキーが存在する
+//	assert(group.items.contains(key));
+//
+//	return std::get<bool>(group.items.at(key).value);
+//}
 #pragma endregion Getter
 
 void GlobalVariables::SaveFile(const std::string& groupName)
