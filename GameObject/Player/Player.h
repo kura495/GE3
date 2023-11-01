@@ -13,6 +13,8 @@ enum class Behavior {
 struct WorkDash {
 	//ダッシュ用の媒介変数
 	uint32_t dashParameter_ = 0;
+	//ダッシュ用スピード
+	float dashSpeed_ = 5.0f;
 };
 
 class Player : public BaseCharacter , public BoxCollider
@@ -79,7 +81,7 @@ private:
 
 	GlobalVariables* globalVariables = nullptr;
 	//プレイヤーの移動
-	float speed = 0.3f;
+	float speed = 0.5f;
 	
 
 	//浮遊ギミック

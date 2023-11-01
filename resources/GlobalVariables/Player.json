@@ -1,10 +1,5 @@
 {
     "Player": {
-        "Weapon": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "speed": 0.5
+        "DashSpeed": 1.5
     }
 }

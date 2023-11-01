@@ -13,9 +13,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetcollitionAttribute(kCollitionAttributePlayer);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
-	//GlobalVariables::GetInstance()->CreateGroup(groupName);
-	GlobalVariables::GetInstance()->AddItem(groupName,"speed",speed);
-	GlobalVariables::GetInstance()->AddItem(groupName,"Weapon",worldTransform_Weapon_.translation_);
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	GlobalVariables::GetInstance()->AddItem(groupName,"DashSpeed",workDash_.dashSpeed_);
 }
 
 void Player::Update()
@@ -171,8 +170,7 @@ void Player::Move()
 void Player::ApplyGlobalVariables()
 {
 	const char* groupName = "Player";
-	speed = GlobalVariables::GetInstance()->GetfloatValue(groupName, "speed");
-	worldTransform_Weapon_.translation_ = GlobalVariables::GetInstance()->GetVector3Value(groupName, "Weapon");
+	workDash_.dashSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "DashSpeed");
 }
 
 void Player::BehaviorRootInit()
@@ -238,7 +236,16 @@ void Player::BehaviorDashInit()
 
 void Player::BehaviorDashUpdate()
 {
-
+	Vector3 move = { 0.0f,0.0f,1.0f };
+	//正規化をして斜めの移動量を正しくする
+	move.z = Normalize(move).z * workDash_.dashSpeed_;
+	//プレイヤーの正面方向に移動するようにする
+	//回転行列を作る
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_.rotation_);
+	//移動ベクトルをカメラの角度だけ回転
+	move = TransformNormal(move, rotateMatrix);
+	//移動
+	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	if (++workDash_.dashParameter_ >= behaviorDashTime) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
