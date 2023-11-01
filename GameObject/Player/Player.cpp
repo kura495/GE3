@@ -239,6 +239,8 @@ void Player::UpdateFloatingGimmick() {
 
 void Player::PullDown()
 {
+	//TODO : デバッグ用に落ちないよう固定
+	IsOnGraund = true;
 	if (IsOnGraund) {
 		IsOnGraund = false;
 		return;
