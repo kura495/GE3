@@ -93,6 +93,7 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		//敵に当たったらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
+		behaviorRequest_ = Behavior::kRoot;
 	}
 	else if (collisionAttribute == kCollitionAttributeFloor) {
 		IsOnGraund = true;
@@ -104,6 +105,7 @@ void Player::BoxOnCollision(uint32_t collisionAttribute)
 		//ゴールしたらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
+		behaviorRequest_ = Behavior::kRoot;
 	}
 	else {
 		return;

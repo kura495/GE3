@@ -11,7 +11,6 @@ class Camera
 public:
 	void Initialize(int32_t kClientWidth, int32_t kClientHeight);
 	void Update();
-	void ImGui(const char* Title);
 	const Matrix4x4& GetWorldMatrix() const { return transformationMatrixData; }
 #ifdef _DEBUG
 	void DebugCamera(bool Flag) {
