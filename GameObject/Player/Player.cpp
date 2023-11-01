@@ -231,12 +231,17 @@ void Player::BehaviorAttackUpdate()
 
 void Player::BehaviorDashInit()
 {
-
+	workDash_.dashParameter_ = 0;
+	//プレイヤーの旋回の補間を切って一瞬で目標角度をに付くようにしている	
+	worldTransform_.rotation_.y = targetAngle;
 }
 
 void Player::BehaviorDashUpdate()
 {
 
+	if (++workDash_.dashParameter_ >= behaviorDashTime) {
+		behaviorRequest_ = Behavior::kRoot;
+	}
 }
 
 

@@ -12,6 +12,7 @@ enum class Behavior {
 //ダッシュ用ワーク
 struct WorkDash {
 	//ダッシュ用の媒介変数
+	uint32_t dashParameter_ = 0;
 };
 
 class Player : public BaseCharacter , public BoxCollider
@@ -56,6 +57,9 @@ private:
 	//ダッシュ
 	void BehaviorDashInit();
 	void BehaviorDashUpdate();
+	WorkDash workDash_;
+	//ダッシュの時間
+	const uint32_t behaviorDashTime = 20;
 
 	//ふるまい
 	Behavior behavior_ = Behavior::kRoot;
