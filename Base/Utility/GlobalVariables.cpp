@@ -44,7 +44,7 @@ void GlobalVariables::Update()
 			//float型の値を所持していたら
 			else if (std::holds_alternative<float>(item.value)) {
 					float* ptr = std::get_if<float>(&item.value);
-					ImGui::SliderFloat(itemName.c_str(), ptr, 0, 100);
+					ImGui::InputFloat(itemName.c_str(), ptr, 0, 100);
 				}
 			//Vector3型の値を所持していたら
 			else if (std::holds_alternative<Vector3>(item.value)) {

@@ -15,11 +15,12 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
 	//GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"speed",speed);
+	GlobalVariables::GetInstance()->AddItem(groupName,"Weapon",worldTransform_Weapon_.translation_);
 }
 
 void Player::Update()
 {	
-	//ApplyGlobalVariables();
+	ApplyGlobalVariables();
 
 	if (behaviorRequest_) {
 		//ふるまいの変更
@@ -120,8 +121,10 @@ void Player::WorldTransformInitalize()
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
 	worldTransform_Weapon_.Initialize();
-	worldTransformL_arm_.translation_.y += 1.4f;
-	worldTransformR_arm_.translation_.y += 1.4f;
+	//腕の位置調整
+	worldTransformL_arm_.translation_.y = 1.4f;
+	worldTransformR_arm_.translation_.y = 1.4f;
+	//武器の位置調整
 
 	worldTransformHead_.parent_ = &worldTransformBody_;
 	worldTransformL_arm_.parent_ = &worldTransformBody_;
@@ -161,6 +164,7 @@ void Player::ApplyGlobalVariables()
 {
 	const char* groupName = "Player";
 	speed = GlobalVariables::GetInstance()->GetfloatValue(groupName, "speed");
+	worldTransform_Weapon_.translation_ = GlobalVariables::GetInstance()->GetVector3Value(groupName, "Weapon");
 }
 
 void Player::BehaviorRootInit()
