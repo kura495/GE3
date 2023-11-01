@@ -208,6 +208,7 @@ void Player::BehaviorAttackUpdate()
 	else {
 		behaviorRequest_ = Behavior::kRoot;
 	}
+	worldTransform_Weapon_.UpdateMatrix();
 	attackAnimationFrame++;
 }
 
