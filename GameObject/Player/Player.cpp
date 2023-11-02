@@ -87,7 +87,7 @@ void Player::Draw(const ViewProjection& viewProjection)
 	}
 }
 
-void Player::BoxOnCollision(uint32_t collisionAttribute)
+void Player::OnCollision(uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする

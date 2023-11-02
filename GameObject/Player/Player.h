@@ -20,6 +20,8 @@ struct WorkDash {
 class Player : public BaseCharacter , public BoxCollider
 {
 public:
+	~Player() {};
+
 	void Initialize(const std::vector<Model*>& models) override;
 	void Update() override;
 	void Draw(const ViewProjection& viewProjection) override;
@@ -31,7 +33,7 @@ public:
 		return worldTransform_;
 	}
 
-	void BoxOnCollision(uint32_t collisionAttribute)override;
+	void OnCollision(uint32_t collisionAttribute)override;
 	
 	void SetParent(const WorldTransform* parent);
 	void DeleteParent() {

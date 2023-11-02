@@ -25,7 +25,7 @@ void Plane::Draw(const ViewProjection& viewProjection)
 	BaseCharacter::Draw(viewProjection);
 }
 
-void Plane::BoxOnCollision(uint32_t collisionAttribute)
+void Plane::OnCollision(uint32_t collisionAttribute)
 {
 	return;
 	collisionAttribute;
