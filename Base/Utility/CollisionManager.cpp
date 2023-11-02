@@ -15,16 +15,16 @@ void CollisionManager::CheckAllCollisions() {
 			CheckCollisionCircle(colliderA, colliderB);
 		}
 	}
-	std::list<BoxCollider*>::iterator BoxitrA = BoxColliders_.begin();
+	std::list<Collider*>::iterator BoxitrA = BoxColliders_.begin();
 	for (; BoxitrA != BoxColliders_.end(); ++BoxitrA) {
 		// イテレータAからコライダーを取得
-		BoxCollider* colliderA = *BoxitrA;
+		Collider* colliderA = *BoxitrA;
 		// イテレータBはイテレータAの次の要素から回す(重複を避ける)
-		std::list<BoxCollider*>::iterator BoxitrB = BoxitrA;
+		std::list<Collider*>::iterator BoxitrB = BoxitrA;
 		BoxitrB++;
 		for (; BoxitrB != BoxColliders_.end(); ++BoxitrB) {
-			BoxCollider* colliderB = *BoxitrB;
-			CheckCollisionBox(colliderA, colliderB);
+			Collider* colliderB = *BoxitrB;
+			CheckCollisionBox(dynamic_cast<BoxCollider*>(colliderA), dynamic_cast<BoxCollider*>(colliderB));
 		}
 	}
 }
@@ -35,7 +35,8 @@ void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colli
 	//posA = colliderA->GetWorldPosition();
 	//posB = colliderB->GetWorldPosition();
 	float Length =(float)sqrt(
-	    (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+	    (posB.x - posA.x) * (posB.x - posA.x) +
+		(posB.y - posA.y) * (posB.y - posA.y) +
 	    (posB.z - posA.z) * (posB.z - posA.z));
 	// コライダーのフィルターの値でビット演算
 	if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0 && (colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {

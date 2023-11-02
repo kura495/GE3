@@ -21,7 +21,7 @@ private:
 	/// <summary>
 	///　Boxコライダー登録用
 	/// </summary>
-	std::list<BoxCollider*> BoxColliders_;
+	std::list<Collider*> BoxColliders_;
 	
 	void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
 
