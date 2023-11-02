@@ -49,7 +49,7 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexHead]->Draw(worldTransformSoul_, viewProjection);
 }
 
-void Enemy::BoxOnCollision(uint32_t collisionAttribute)
+void Enemy::OnCollision(uint32_t collisionAttribute)
 {
 	//プレイヤーと当たった時は何もしない
 	if (collisionAttribute == kCollitionAttributePlayer) {

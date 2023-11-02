@@ -31,9 +31,9 @@ void CollisionManager::CheckAllCollisions() {
 
 void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colliderB) {
 	// 判定対象AとBの座標
-	Vector3 posA, posB;
-	posA = colliderA->GetWorldPosition();
-	posB = colliderB->GetWorldPosition();
+	Vector3 posA = { 1.0f,1.0f,1.0f }, posB = {1.0f, 1.0f,1.0f};
+	//posA = colliderA->GetWorldPosition();
+	//posB = colliderB->GetWorldPosition();
 	float Length =(float)sqrt(
 	    (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
 	    (posB.z - posA.z) * (posB.z - posA.z));
@@ -44,21 +44,21 @@ void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colli
 	else if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0) {
 		if (Length <= colliderA->GetRadius() + colliderB->GetRadius()) {
 			// コライダーAの衝突時コールバック
-			colliderA->OnCollision();
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 		}
 	}
 	else if ((colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
 		if (Length <= colliderA->GetRadius() + colliderB->GetRadius()) {
 			// コライダーBの衝突時コールバック
-			colliderB->OnCollision();
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 	}
 	else {
 		if (Length <= colliderA->GetRadius() + colliderB->GetRadius()) {
 			// コライダーAの衝突時コールバック
-			colliderA->OnCollision();
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 			// コライダーBの衝突時コールバック
-			colliderB->OnCollision();
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 	}
 }
@@ -80,17 +80,17 @@ void CollisionManager::CheckCollisionBox(BoxCollider* colliderA, BoxCollider* co
 	){
 		if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0) {
 			// コライダーAの衝突時コールバック
-			colliderA->BoxOnCollision(colliderB->GetcollitionAttribute());
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 		}
 		else if ((colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
 			// コライダーBの衝突時コールバック
-			colliderB->BoxOnCollision(colliderA->GetcollitionAttribute());
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 		else {
 			// コライダーAの衝突時コールバック
-			colliderA->BoxOnCollision(colliderB->GetcollitionAttribute());
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 			// コライダーBの衝突時コールバック
-			colliderB->BoxOnCollision(colliderA->GetcollitionAttribute());
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 	}
 }

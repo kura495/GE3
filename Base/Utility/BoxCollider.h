@@ -12,12 +12,12 @@ struct AABB {
 class BoxCollider : public Collider
 {
 public:
-	
+	~BoxCollider() {};
 	void Initalize();
 	void Update(const WorldTransform* Parent);
 	//void Draw();
 	
-	virtual void OnCollision(uint32_t collisionAttribute) = 0;
+	//virtual void OnCollision(uint32_t collisionAttribute) = 0;
 
 	///worldの親を設定
 	void SetParent(const WorldTransform& Parent) { world_ = Parent; }

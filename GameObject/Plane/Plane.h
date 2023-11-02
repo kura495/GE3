@@ -19,7 +19,7 @@ public:
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 
-	void BoxOnCollision(uint32_t collisionAttribute)override;
+	void OnCollision(uint32_t collisionAttribute)override;
 
 private:
 

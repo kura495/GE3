@@ -1,13 +1,16 @@
 ﻿#pragma once
 #include "Math_Structs.h"
 #include "CollisionConfig.h"
+#include "Base/WorldTransform.h"
 #include <cstdint>
 
 class Collider {
 public:
+	virtual ~Collider(){};
 	//衝突時に呼ばれる関数
 	virtual void OnCollision(uint32_t collisionAttribute) = 0;
-	virtual Vector3 GetWorldPosition()=0;
+	float GetRadius() { return Radius_; }
+
 	uint32_t GetcollitionAttribute() const { return collisionAttribute_; }
 	/// <summary>
 	/// 衝突属性
@@ -26,6 +29,8 @@ public:
 		collisionMask_ = collisionMask;
 	}
 
+
+
 private:
 	/// <summary>
 	/// 衝突属性(自分)
@@ -36,4 +41,5 @@ private:
 	/// </summary>
 	uint32_t collisionMask_ = 0xffffffff;
 
+	float Radius_;
 };
