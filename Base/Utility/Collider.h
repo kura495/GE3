@@ -35,7 +35,7 @@ public:
 	
 private:
 
-	int Id_;
+	uint32_t Id_ = 0xffffffff;
 
 
 	/// <summary>
