@@ -6,6 +6,7 @@
 
 class Collider {
 public:
+
 	virtual ~Collider(){};
 	//衝突時に呼ばれる関数
 	virtual void OnCollision(uint32_t collisionAttribute) = 0;
@@ -29,9 +30,14 @@ public:
 		collisionMask_ = collisionMask;
 	}
 
-
-
+	int GetId() { return Id_; }
+	void SetId(int Type) { Id_ = Type; }
+	
 private:
+
+	int Id_;
+
+
 	/// <summary>
 	/// 衝突属性(自分)
 	/// </summary>
@@ -42,4 +48,6 @@ private:
 	uint32_t collisionMask_ = 0xffffffff;
 
 	float Radius_;
+
+
 };

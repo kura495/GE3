@@ -12,6 +12,7 @@ struct AABB {
 class BoxCollider : public Collider
 {
 public:
+
 	~BoxCollider() {};
 	void Initalize();
 	void Update(const WorldTransform* Parent);

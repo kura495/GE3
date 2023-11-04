@@ -3,6 +3,8 @@
 void BoxCollider::Initalize()
 {
 	world_.Initialize();
+	Collider::SetId(ColliderType::Box);
+	
 }
 
 void BoxCollider::Update(const WorldTransform* world)

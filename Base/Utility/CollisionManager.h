@@ -7,6 +7,7 @@
 class CollisionManager {
 public:
 	void AddCollider(Collider* collider) { colliders_.push_back(collider); }
+	void AddBoxCollider(Collider* collider) { BoxColliders_.push_back(collider); }
 	void ClearCollider() {
 		colliders_.clear(); BoxColliders_.clear();
 	}

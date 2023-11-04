@@ -12,21 +12,24 @@ void CollisionManager::CheckAllCollisions() {
 		itrB++;
 		for (; itrB != colliders_.end(); ++itrB) {
 			Collider* colliderB = *itrB;
-			CheckCollisionCircle(colliderA, colliderB);
+			//CheckCollisionCircle(colliderA, colliderB);
+			if (colliderA->GetId() == ColliderType::Box && colliderB->GetId() == ColliderType::Box) {
+				CheckCollisionBox(dynamic_cast<BoxCollider*>(colliderA), dynamic_cast<BoxCollider*>(colliderB));
+			}
 		}
 	}
-	std::list<Collider*>::iterator BoxitrA = BoxColliders_.begin();
-	for (; BoxitrA != BoxColliders_.end(); ++BoxitrA) {
-		// イテレータAからコライダーを取得
-		Collider* colliderA = *BoxitrA;
-		// イテレータBはイテレータAの次の要素から回す(重複を避ける)
-		std::list<Collider*>::iterator BoxitrB = BoxitrA;
-		BoxitrB++;
-		for (; BoxitrB != BoxColliders_.end(); ++BoxitrB) {
-			Collider* colliderB = *BoxitrB;
-			CheckCollisionBox(dynamic_cast<BoxCollider*>(colliderA), dynamic_cast<BoxCollider*>(colliderB));
-		}
-	}
+	//std::list<Collider*>::iterator BoxitrA = colliders_.begin();
+	//for (; BoxitrA != colliders_.end(); ++BoxitrA) {
+	//	// イテレータAからコライダーを取得
+	//	Collider* colliderA = *BoxitrA;
+	//	// イテレータBはイテレータAの次の要素から回す(重複を避ける)
+	//	std::list<Collider*>::iterator BoxitrB = BoxitrA;
+	//	BoxitrB++;
+	//	for (; BoxitrB != colliders_.end(); ++BoxitrB) {
+	//		Collider* colliderB = *BoxitrB;
+	//		
+	//	}
+	//}
 }
 
 void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colliderB) {
