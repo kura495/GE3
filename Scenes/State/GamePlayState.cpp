@@ -111,13 +111,13 @@ else {
 	
 	
 	
-	collisionManager_->AddBoxCollider(player.get());
-	collisionManager_->AddBoxCollider(enemy_.get());
-	collisionManager_->AddBoxCollider(plane_.get());
-	collisionManager_->AddBoxCollider(plane_2.get());
-	collisionManager_->AddBoxCollider(plane_3.get());
-	collisionManager_->AddBoxCollider(plane_Move_.get());
-	collisionManager_->AddBoxCollider(goal.get());
+	collisionManager_->AddCollider(player.get());
+	collisionManager_->AddCollider(enemy_.get());
+	collisionManager_->AddCollider(plane_.get());
+	collisionManager_->AddCollider(plane_2.get());
+	collisionManager_->AddCollider(plane_3.get());
+	collisionManager_->AddCollider(plane_Move_.get());
+	collisionManager_->AddCollider(goal.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
