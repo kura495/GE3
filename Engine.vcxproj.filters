@@ -127,6 +127,12 @@
     <Filter Include="Scenesヘッダー\Manager">
       <UniqueIdentifier>{a12342b7-6a3c-4011-a2ee-bc9da68c4b95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjectヘッダー\Weapon">
+      <UniqueIdentifier>{79a0e5bc-c5df-411b-a54d-b745aba3dfe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectソース\Weapon">
+      <UniqueIdentifier>{380dc543-3613-4c6d-8476-47cc413540b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -266,6 +272,9 @@
     </ClCompile>
     <ClCompile Include="Base\Utility\OBBoxCollider.cpp">
       <Filter>ソース ファイル\Base\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Weapon\Weapon.cpp">
+      <Filter>GameObjectソース\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +454,9 @@
     </ClInclude>
     <ClInclude Include="Base\Utility\OBBoxCollider.h">
       <Filter>ヘッダー ファイル\Base\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Weapon\Weapon.h">
+      <Filter>GameObjectヘッダー\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
