@@ -54,7 +54,7 @@ bool Input::IspushKey(uint8_t keyNumber)
 return false;
 }
 
-bool Input::TreggerKey(uint8_t keyNumber)
+bool Input::TriggerKey(uint8_t keyNumber)
 {
 	if (preKey[keyNumber] == 0) {
 		return true;
@@ -62,7 +62,7 @@ bool Input::TreggerKey(uint8_t keyNumber)
 	return false;
 }
 
-bool Input::IsTreggerKey(uint8_t keyNumber)
+bool Input::IsTriggerKey(uint8_t keyNumber)
 {
 	if (key[keyNumber] == 0 && preKey[keyNumber] != 0) {
 		return true;

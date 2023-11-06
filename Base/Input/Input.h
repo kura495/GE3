@@ -33,13 +33,13 @@ public:
 	/// </summary>
 	/// <param name="keyNumber"></param>
 	/// <returns></returns>
-	bool TreggerKey(uint8_t keyNumber);
+	bool TriggerKey(uint8_t keyNumber);
 	/// <summary>
 	/// 離した瞬間
 	/// </summary>
 	/// <param name="keyNumber"></param>
 	/// <returns></returns>
-	bool IsTreggerKey(uint8_t keyNumber);
+	bool IsTriggerKey(uint8_t keyNumber);
 
 	bool GetJoystickState(int32_t stickNo, XINPUT_STATE& out);
 
