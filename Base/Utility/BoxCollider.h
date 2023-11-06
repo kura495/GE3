@@ -12,10 +12,7 @@ struct AABB {
 class BoxCollider : public Collider
 {
 public:
-	BoxCollider() {
-		Collider::SetId(ColliderType::Box);
-	}
-	~BoxCollider() {};
+
 	void Initalize();
 	void Update(const WorldTransform* Parent);
 	//void Draw();

@@ -14,4 +14,5 @@ const uint32_t kCollitionAttributeGoal = 0b1 <<4;
 enum ColliderType {
 	Circle,
 	Box,
+	OBBox,
 };

@@ -264,6 +264,9 @@
     <ClCompile Include="Base\Math\Calc.cpp">
       <Filter>ソース ファイル\Base\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Base\Utility\OBBoxCollider.cpp">
+      <Filter>ソース ファイル\Base\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -439,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="Base\Math\Calc.h">
       <Filter>ヘッダー ファイル\Base\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Utility\OBBoxCollider.h">
+      <Filter>ヘッダー ファイル\Base\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

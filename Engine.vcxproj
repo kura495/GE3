@@ -124,6 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Base\Utility\ImGuiManager.cpp" />
     <ClCompile Include="Base\Utility\LoadCSV.cpp" />
     <ClCompile Include="Base\Utility\Log.cpp" />
+    <ClCompile Include="Base\Utility\OBBoxCollider.cpp" />
     <ClCompile Include="Base\ViewProjection.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="Base\WorldTransform.cpp" />
@@ -183,6 +184,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\Utility\ImGuiManager.h" />
     <ClInclude Include="Base\Utility\LoadCSV.h" />
     <ClInclude Include="Base\Utility\Log.h" />
+    <ClInclude Include="Base\Utility\OBBoxCollider.h" />
     <ClInclude Include="Base\ViewProjection.h" />
     <ClInclude Include="Base\WinApp.h" />
     <ClInclude Include="Base\WorldTransform.h" />
