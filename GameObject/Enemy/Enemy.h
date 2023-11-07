@@ -18,4 +18,8 @@ private:
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformSoul_;
+
+	bool IsAlive = true;
+	const int kRespownTime = 120;
+	int RespownTimeCount = 0;
 };

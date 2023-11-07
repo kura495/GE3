@@ -13,7 +13,7 @@ class BoxCollider : public Collider
 {
 public:
 
-	void Initalize();
+	void Initialize();
 	void Update(const WorldTransform* Parent);
 	//void Draw();
 	
@@ -31,11 +31,15 @@ private:
 	/// </summary>
 	Vector3 range_;
 	/// <summary>
-	/// 箱の中心
+	/// 原点
 	/// </summary>
 	WorldTransform world_;
 	/// <summary>
 	/// 箱の大きさ
 	/// </summary>
 	AABB aabb_ = {};
+	/// <summary>
+	/// 箱の中心
+	/// </summary>
+	Vector3 center = {0.0f,0.0f,0.0f};
 };

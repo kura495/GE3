@@ -3,9 +3,9 @@
 #include "Collider.h"
 
 struct OBB {
-	Vector3 center;//’†S“_‚ÌÀ•W
-	Vector3 orientations[3];//XYZ‚ÌŠeÀ•W²‚ÌŒX‚«‚ğ•\‚·•ûŒüƒxƒNƒgƒ‹
-	Vector3 size;//’†S‚©‚ç–Ê‚Ü‚Å‚Ì‹——£
+	Vector3 center;//ä¸­å¿ƒç‚¹ã®åº§æ¨™
+	Vector3 orientations[3];//XYZã®å„åº§æ¨™è»¸ã®å‚¾ãã‚’è¡¨ã™æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
+	Vector3 size;//ä¸­å¿ƒã‹ã‚‰é¢ã¾ã§ã®è·é›¢
 };
 
 class OBBoxCollider : public Collider

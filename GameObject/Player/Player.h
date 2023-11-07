@@ -2,6 +2,7 @@
 
 #include <optional>
 #include "GameObject/BaseCharacter/BaseCharacter.h"
+#include "GameObject/Weapon/Weapon.h"
 #include "Base/Math/Calc.h"
 
 enum class Behavior {
@@ -42,6 +43,9 @@ public:
 		}
 		worldTransform_.translation_ = Add(worldTransform_.GetTranslateFromMatWorld(),{0.0f,0.0f,0.0f});
 		worldTransform_.parent_ = nullptr; }
+
+	Weapon* GetWeapon() { return weapon_.get(); }
+
 private:
 
 
@@ -72,12 +76,15 @@ private:
 	//キー入力とパッド
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
+	//Weapon
+	std::unique_ptr<Weapon>weapon_;
+	WorldTransform worldTransform_Weapon_;
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
-	WorldTransform worldTransform_Weapon_;
+
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 

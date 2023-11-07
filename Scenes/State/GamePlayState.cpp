@@ -118,6 +118,7 @@ else {
 	collisionManager_->AddCollider(plane_3.get());
 	collisionManager_->AddCollider(plane_Move_.get());
 	collisionManager_->AddCollider(goal.get());
+	collisionManager_->AddCollider(player->GetWeapon());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 

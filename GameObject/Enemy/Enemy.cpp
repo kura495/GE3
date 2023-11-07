@@ -6,7 +6,7 @@ Enemy::~Enemy(){}
 void Enemy::Initialize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
-	BoxCollider::Initalize();
+	BoxCollider::Initialize();
 	worldTransformBody_.Initialize();
 	worldTransformSoul_.Initialize();
 	SetParent(&worldTransformBody_);
@@ -16,13 +16,23 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 	worldTransform_.UpdateMatrix();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
-	BoxCollider::SetParent(worldTransform_);
-	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
+
+	BoxCollider::SetSize({ 2.0f,2.0f,2.0f });
 
 }
 
 void Enemy::Update()
 {
+	if (IsAlive == false) {
+		BoxCollider::SetSize({ 0.0f,0.0f,0.0f });
+		RespownTimeCount++;
+		if (RespownTimeCount == kRespownTime) {
+			RespownTimeCount = 0;
+			BoxCollider::SetSize({ 2.0f,2.0f,2.0f });
+			IsAlive = true;
+		}
+	}
+	//IsAlive = true;
 	// 速さ
 	const float kSpeed = 0.01f;
 	Vector3 velocity{ 0.0f, 0.0f, kSpeed };
@@ -45,16 +55,19 @@ void Enemy::Update()
 
 void Enemy::Draw(const ViewProjection& viewProjection)
 {
-	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
-	models_[kModelIndexHead]->Draw(worldTransformSoul_, viewProjection);
+	if (IsAlive) {
+		models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
+		models_[kModelIndexHead]->Draw(worldTransformSoul_, viewProjection);
+	}
 }
 
 void Enemy::OnCollision(uint32_t collisionAttribute)
 {
 	//プレイヤーと当たった時は何もしない
-	if (collisionAttribute == kCollitionAttributePlayer) {
-		return;
+	if (collisionAttribute == kCollitionAttributeWeapon) {
+		IsAlive = false;
 	}
+	return;
 }
 
 void Enemy::SetParent(const WorldTransform* parent) {

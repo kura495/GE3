@@ -2,9 +2,18 @@
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
-	BaseCharacter::Initialize(models);
-	BoxCollider::Initalize();
+	std::vector<Model*> PlayerModel = { models[kModelIndexBody],models[kModelIndexHead],models[kModelIndexL_arm],models[kModelIndexR_arm]
+	};
+	BaseCharacter::Initialize(PlayerModel);
+	std::vector<Model*> WeaponModel = { models[kModelIndexWeapon]
+	};
+	weapon_ = std::make_unique<Weapon>();
+	weapon_->Initialize(WeaponModel);
+
+
+	BoxCollider::Initialize();
 	input = Input::GetInstance();
+
 
 	WorldTransformInitalize();
 
@@ -83,7 +92,7 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
 
 	if(behavior_ == Behavior::kAttack){
-		models_[kModelIndexWeapon]->Draw(worldTransform_Weapon_, viewProjection);
+		weapon_->Draw(viewProjection);
 	}
 }
 
@@ -91,7 +100,7 @@ void Player::OnCollision(uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		//worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -141,6 +150,8 @@ void Player::WorldTransformInitalize()
 	worldTransformR_arm_.parent_ = &worldTransformBody_;
 	worldTransform_Weapon_.parent_ = &worldTransformBody_;
 	worldTransformBody_.parent_ = &worldTransform_;
+
+	weapon_->SetParent(worldTransform_Weapon_);
 }
 
 void Player::Move()
@@ -180,6 +191,7 @@ void Player::BehaviorRootInit()
 	InitializeFloatingGimmick();
 	worldTransformL_arm_.rotation_.x = 0.0f;
 	worldTransformR_arm_.rotation_.x = 0.0f;
+	weapon_->RootInit();
 }
 
 void Player::BehaviorRootUpdate()
@@ -203,6 +215,7 @@ void Player::BehaviorAttackInit()
 	worldTransformR_arm_.rotation_.x = (float)std::numbers::pi;
 	worldTransform_Weapon_.rotation_.x = 0.0f;
 	attackAnimationFrame = 0;
+	weapon_->AttackInit();
 }
 
 void Player::BehaviorAttackUpdate()
@@ -226,6 +239,7 @@ void Player::BehaviorAttackUpdate()
 		behaviorRequest_ = Behavior::kRoot;
 	}
 	worldTransform_Weapon_.UpdateMatrix();
+	weapon_->Update();
 	attackAnimationFrame++;
 }
 

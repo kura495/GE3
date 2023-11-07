@@ -8,7 +8,7 @@ void MovePlane::Initalize(const std::vector<Model*>& models)
 	BaseCharacter::Initialize(models);
 	worldTransform_.translation_.z = 10.0f;
 	worldTransform_.UpdateMatrix();
-	BoxCollider::Initalize();
+	BoxCollider::Initialize();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeMoveFloor);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeMoveFloor);
 	BoxCollider::SetParent(worldTransform_);
