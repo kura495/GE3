@@ -12,9 +12,15 @@ class OBBoxCollider : public Collider
 {
 public:
 	void Initalize();
-	void Update();
+
+	void SetSize(Vector3 size) {obb_.size = size;}
+	void SetCenter(Vector3 CenterPoint) { obb_.center = CenterPoint; }
+	void SetOrientations(Matrix4x4 Matrix);
 
 private:
+
+	OBB obb_;
+
 
 
 };

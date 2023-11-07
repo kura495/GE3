@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Utility/Collider.h"
 #include "Utility/BoxCollider.h"
+#include "Utility/OBBoxCollider.h"
 #include "Utility/CollisionConfig.h"
 #include <list>
 
@@ -26,4 +27,6 @@ private:
 	void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
 
 	void CheckCollisionBox(BoxCollider* colliderA, BoxCollider* colliderB);
+
+	void CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB);
 };

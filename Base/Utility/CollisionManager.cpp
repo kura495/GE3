@@ -98,3 +98,8 @@ void CollisionManager::CheckCollisionBox(BoxCollider* colliderA, BoxCollider* co
 		}
 	}
 }
+
+void CollisionManager::CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB)
+{
+
+}
