@@ -273,21 +273,28 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 	Matrix4x4 result;
 	Vector3 cross = Cross(from, to);
 	Vector3 n = Normalize(cross);
-	float cos = Dot(n,to);
-	float sin = Length(cross);
-	result.m[0][0] = (n.x * n.x) * (1 - cos) + cos;
-	result.m[0][1] = (n.x * n.y) * (1 - cos) + n.z * cos;
-	result.m[0][2] = (n.x * n.z) * (1 - cos) - n.y * sin;
+	float costhata = Dot(from,to);
+	if (cross.x <0) {
+		cross.x *= -1;
+	}if (cross.y <0) {
+		cross.y *= -1;
+	}if (cross.y <0) {
+		cross.y *= -1;
+	}
+	float sinthata = Length(cross);
+	result.m[0][0] = (n.x * n.x) * (1 - cos(costhata)) + cos(costhata);
+	result.m[0][1] = (n.x * n.y) * (1 - cos(costhata)) + n.z * sin(sinthata);
+	result.m[0][2] = (n.x * n.z) * (1 - cos(costhata)) - n.y * sin(sinthata);
 	result.m[0][3] = 0;
 
-	result.m[1][0] = (n.x * n.y) * (1 - cos) - n.z * sin;
-	result.m[1][1] = (n.y * n.y) * (1 - cos) + cos;
-	result.m[1][2] = (n.y * n.z) * (1 - cos) + n.x * sin;
+	result.m[1][0] = (n.x * n.y) * (1 - cos(costhata)) - n.z * sin(sinthata);
+	result.m[1][1] = (n.y * n.y) * (1 - cos(costhata)) + cos(costhata);
+	result.m[1][2] = (n.y * n.z) * (1 - cos(costhata)) + n.x * sin(sinthata);
 	result.m[1][3] = 0;
 
-	result.m[2][0] = (n.x * n.z) * (1 - cos) + n.y * sin;
-	result.m[2][1] = (n.y * n.z) * (1 - cos) + n.x * sin;
-	result.m[2][2] = (n.z * n.z) * (1 - cos) + cos;
+	result.m[2][0] = (n.x * n.z) * (1 - cos(costhata)) + n.y * sin(sinthata);
+	result.m[2][1] = (n.y * n.z) * (1 - cos(costhata)) + n.x * sin(sinthata);
+	result.m[2][2] = (n.z * n.z) * (1 - cos(costhata)) + cos(costhata);
 	result.m[2][3] = 0;
 
 	result.m[3][0] = 0;

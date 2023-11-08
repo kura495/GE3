@@ -78,10 +78,13 @@ void GamePlayState::Initialize()
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
 	//MT
-	Vector3 axis = Normalize({1.0f,1.0f,1.0f});
-	float angle = 0.44f;
-	rotateMatrix = MakeRotateAxisAngle(axis,angle);
-
+	Vector3 from0 = Normalize({1.0f,0.7f,0.5f});
+	Vector3 to0 = { -from0.x,-from0.y,-from0.z };
+	Vector3 from1 = Normalize({-0.6f,0.9f,0.2f});
+	Vector3 to1 = Normalize({0.4f,0.7f,-0.5f});
+	rotateMatrix0 = DirectionToDirection(Normalize({1.0f,0.0f,0.0f}), Normalize({ -1.0f,0.0f,0.0f }));
+	rotateMatrix1 = DirectionToDirection(from0,to0);
+	rotateMatrix2 = DirectionToDirection(from1,to1);
 }
 
 void GamePlayState::Update()
@@ -129,10 +132,23 @@ else {
 	//MT
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_01");
-	ImGui::InputFloat4("Matrix0",&rotateMatrix.m[0][0]);
-	ImGui::InputFloat4("Matrix1",&rotateMatrix.m[1][0]);
-	ImGui::InputFloat4("Matrix2",&rotateMatrix.m[2][0]);
-	ImGui::InputFloat4("Matrix3",&rotateMatrix.m[3][0]);
+	ImGui::Text("rotateMatrix0");
+	ImGui::InputFloat4("Matrix0",&rotateMatrix0.m[0][0]);
+	ImGui::InputFloat4("Matrix1",&rotateMatrix0.m[1][0]);
+	ImGui::InputFloat4("Matrix2",&rotateMatrix0.m[2][0]);
+	ImGui::InputFloat4("Matrix3",&rotateMatrix0.m[3][0]);
+
+	ImGui::Text("rotateMatrix1");
+	ImGui::InputFloat4("Matrix0",&rotateMatrix1.m[0][0]);
+	ImGui::InputFloat4("Matrix1",&rotateMatrix1.m[1][0]);
+	ImGui::InputFloat4("Matrix2",&rotateMatrix1.m[2][0]);
+	ImGui::InputFloat4("Matrix3",&rotateMatrix1.m[3][0]);
+	
+	ImGui::Text("rotateMatrix2");
+	ImGui::InputFloat4("Matrix0",&rotateMatrix2.m[0][0]);
+	ImGui::InputFloat4("Matrix1",&rotateMatrix2.m[1][0]);
+	ImGui::InputFloat4("Matrix2",&rotateMatrix2.m[2][0]);
+	ImGui::InputFloat4("Matrix3",&rotateMatrix2.m[3][0]);
 	ImGui::End();
 #endif // _DEBUG
 }
