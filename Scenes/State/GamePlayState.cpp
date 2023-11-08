@@ -131,7 +131,7 @@ else {
 
 	//MT
 #ifdef _DEBUG
-	ImGui::Begin("MT4_01_01");
+	ImGui::Begin("MT4_01_02");
 	ImGui::Text("rotateMatrix0");
 	ImGui::InputFloat4("Matrix0_0",&rotateMatrix0.m[0][0]);
 	ImGui::InputFloat4("Matrix0_1",&rotateMatrix0.m[1][0]);
