@@ -12,7 +12,11 @@ void CollisionManager::CheckAllCollisions() {
 		itrB++;
 		for (; itrB != colliders_.end(); ++itrB) {
 			Collider* colliderB = *itrB;
-			//CheckCollisionCircle(colliderA, colliderB);
+			//円と円
+			/*if (colliderA->GetId() == ColliderType::Circle && colliderB->GetId() == ColliderType::Circle) {
+				CheckCollisionCircle(colliderA, colliderB);
+			}*/
+			//AABBとAABB
 			if (colliderA->GetId() == ColliderType::Box && colliderB->GetId() == ColliderType::Box) {
 				CheckCollisionBox(dynamic_cast<BoxCollider*>(colliderA), dynamic_cast<BoxCollider*>(colliderB));
 			}
