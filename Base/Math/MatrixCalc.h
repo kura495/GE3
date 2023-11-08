@@ -1,5 +1,6 @@
 #pragma once
 #include "Math_Structs.h"
+#include "VectorCalc.h"
 #include <numbers>
 #include <cmath>
 
@@ -27,3 +28,5 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 Vector3 GetXAxis(Matrix4x4 matrix);
 Vector3 GetYAxis(Matrix4x4 matrix);
 Vector3 GetZAxis(Matrix4x4 matrix);
+Matrix4x4 DirectionToDirection(const Vector3& from,const Vector3& to);
+float GetEuler(Vector3 v);
