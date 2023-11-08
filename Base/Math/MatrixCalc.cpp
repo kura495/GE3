@@ -298,10 +298,4 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 	return result;
 }
 
-//float GetEuler(Vector3 v)
-//{
-//	v;
-//	return 0.0f;
-//}
-
 

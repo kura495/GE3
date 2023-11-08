@@ -16,6 +16,7 @@ void GamePlayState::Initialize()
 	//
 	//3Dオブジェクト生成
 
+#pragma region player
 	player = std::make_unique<Player>();
 	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body", "float_Body.obj"));
 	modelFighterHead_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
@@ -26,17 +27,21 @@ void GamePlayState::Initialize()
 		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get(),modelFighterWeapon.get()
 	};
 	player->Initialize(playerModels);
+#pragma endregion
 
+#pragma region enemy
 	enemy_ = std::make_unique<Enemy>();
 	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
 	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
 	std::vector<Model*> EnemyModels = {
 		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
 	enemy_->Initialize(EnemyModels);
+#pragma endregion
 
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
 
+#pragma region Planes
 
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
@@ -56,24 +61,15 @@ void GamePlayState::Initialize()
 	plane_Move_->Initalize(Plane_Move_Models);
 	plane_Move_->SetPlayer(player.get());
 
+#pragma endregion
+
 	model_goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
 	std::vector<Model*> model_goal_Models = {
 		model_goal_.get() };
 	goal = std::make_unique<Goal>();
 	goal->Initalize(model_goal_Models);
 
-	//
-	//2Dオブジェクト作成
-	sprite = new Sprite();
-	sprite->Initialize(LeftTop[0], LeftBottom[0], RightTop[1], RightBottom[1]);
-	worldTransform_Sprite.Initialize();
-	//
-	//リソースを作る
-	//テクスチャ
-	Texture = textureManager_->LoadTexture("resources/uvChecker.png");
-	//サウンド
-	mokugyo = audio->LoadAudio("resources/mokugyo.wav");
-	//
+
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 	followCamera = std::make_unique<FollowCamera>();
