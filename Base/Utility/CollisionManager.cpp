@@ -1,4 +1,4 @@
-﻿#include "Utility/CollisionManager.h"
+#include "Utility/CollisionManager.h"
 
 
 void CollisionManager::CheckAllCollisions() {
@@ -103,7 +103,7 @@ void CollisionManager::CheckCollisionBox(BoxCollider* colliderA, BoxCollider* co
 	}
 }
 
-void CollisionManager::CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB)
-{
-
-}
+//void CollisionManager::CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB)
+//{
+//	
+//}

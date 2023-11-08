@@ -31,6 +31,9 @@ public:
 	}
 
 	int GetId() { return Id_; }
+
+protected:
+
 	void SetId(int Type) { Id_ = Type; }
 	
 private:

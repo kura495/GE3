@@ -7,7 +7,7 @@ void OBBoxCollider::Initalize()
 
 void OBBoxCollider::SetOrientations(Matrix4x4 Matrix)
 {
-	//X¬•ª
+	//Xæˆåˆ†
 	obb_.orientations[0] = GetXAxis(Matrix);
 	obb_.orientations[1] = GetYAxis(Matrix);
 	obb_.orientations[2] = GetZAxis(Matrix);
