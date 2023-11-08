@@ -272,29 +272,34 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 {
 	Matrix4x4 result;
 	Vector3 cross = Cross(from, to);
-	Vector3 n = Normalize(cross);
-	float costhata = Dot(from,to);
-	if (cross.x <0) {
-		cross.x *= -1;
-	}if (cross.y <0) {
-		cross.y *= -1;
-	}if (cross.y <0) {
-		cross.y *= -1;
+	Vector3 n = Normalize(Cross(from, to));
+	if (from.x == -to.x && from.y == -to.y && from.z == -to.z) {
+		if (from.x != 0.0f || from.y != 0.0f) {
+			n = { from.y,-from.x,0.0f };
+		}
+		else if (from.x != 0.0f || from.z != 0.0f) {
+			n = { from.z,0.0f,-from.x };
+		}
 	}
+	else {
+		n = Normalize(Cross(from, to));
+	}
+
+	float costhata = Dot(from,to);
 	float sinthata = Length(cross);
-	result.m[0][0] = (n.x * n.x) * (1 - cos(costhata)) + cos(costhata);
-	result.m[0][1] = (n.x * n.y) * (1 - cos(costhata)) + n.z * sin(sinthata);
-	result.m[0][2] = (n.x * n.z) * (1 - cos(costhata)) - n.y * sin(sinthata);
+	result.m[0][0] = (n.x * n.x) * (1 - costhata) + costhata;
+	result.m[0][1] = (n.x * n.y) * (1 - costhata) + n.z * sinthata;
+	result.m[0][2] = (n.x * n.z) * (1 - costhata) - n.y * sinthata;
 	result.m[0][3] = 0;
 
-	result.m[1][0] = (n.x * n.y) * (1 - cos(costhata)) - n.z * sin(sinthata);
-	result.m[1][1] = (n.y * n.y) * (1 - cos(costhata)) + cos(costhata);
-	result.m[1][2] = (n.y * n.z) * (1 - cos(costhata)) + n.x * sin(sinthata);
+	result.m[1][0] = (n.x * n.y) * (1 - costhata) - n.z * sinthata;
+	result.m[1][1] = (n.y * n.y) * (1 - costhata) + costhata;
+	result.m[1][2] = (n.y * n.z) * (1 - costhata) + n.x * sinthata;
 	result.m[1][3] = 0;
 
-	result.m[2][0] = (n.x * n.z) * (1 - cos(costhata)) + n.y * sin(sinthata);
-	result.m[2][1] = (n.y * n.z) * (1 - cos(costhata)) + n.x * sin(sinthata);
-	result.m[2][2] = (n.z * n.z) * (1 - cos(costhata)) + cos(costhata);
+	result.m[2][0] = (n.x * n.z) * (1 - costhata) + n.y * sinthata;
+	result.m[2][1] = (n.y * n.z) * (1 - costhata) - n.x * sinthata;
+	result.m[2][2] = (n.z * n.z) * (1 - costhata) + costhata;
 	result.m[2][3] = 0;
 
 	result.m[3][0] = 0;

@@ -133,22 +133,22 @@ else {
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_01");
 	ImGui::Text("rotateMatrix0");
-	ImGui::InputFloat4("Matrix0",&rotateMatrix0.m[0][0]);
-	ImGui::InputFloat4("Matrix1",&rotateMatrix0.m[1][0]);
-	ImGui::InputFloat4("Matrix2",&rotateMatrix0.m[2][0]);
-	ImGui::InputFloat4("Matrix3",&rotateMatrix0.m[3][0]);
+	ImGui::InputFloat4("Matrix0_0",&rotateMatrix0.m[0][0]);
+	ImGui::InputFloat4("Matrix0_1",&rotateMatrix0.m[1][0]);
+	ImGui::InputFloat4("Matrix0_2",&rotateMatrix0.m[2][0]);
+	ImGui::InputFloat4("Matrix0_3",&rotateMatrix0.m[3][0]);
 
 	ImGui::Text("rotateMatrix1");
-	ImGui::InputFloat4("Matrix0",&rotateMatrix1.m[0][0]);
-	ImGui::InputFloat4("Matrix1",&rotateMatrix1.m[1][0]);
-	ImGui::InputFloat4("Matrix2",&rotateMatrix1.m[2][0]);
-	ImGui::InputFloat4("Matrix3",&rotateMatrix1.m[3][0]);
+	ImGui::InputFloat4("Matrix1_0",&rotateMatrix1.m[0][0]);
+	ImGui::InputFloat4("Matrix1_1",&rotateMatrix1.m[1][0]);
+	ImGui::InputFloat4("Matrix1_2",&rotateMatrix1.m[2][0]);
+	ImGui::InputFloat4("Matrix1_3",&rotateMatrix1.m[3][0]);
 	
 	ImGui::Text("rotateMatrix2");
-	ImGui::InputFloat4("Matrix0",&rotateMatrix2.m[0][0]);
-	ImGui::InputFloat4("Matrix1",&rotateMatrix2.m[1][0]);
-	ImGui::InputFloat4("Matrix2",&rotateMatrix2.m[2][0]);
-	ImGui::InputFloat4("Matrix3",&rotateMatrix2.m[3][0]);
+	ImGui::InputFloat4("Matrix2_0",&rotateMatrix2.m[0][0]);
+	ImGui::InputFloat4("Matrix2_1",&rotateMatrix2.m[1][0]);
+	ImGui::InputFloat4("Matrix2_2",&rotateMatrix2.m[2][0]);
+	ImGui::InputFloat4("Matrix2_3",&rotateMatrix2.m[3][0]);
 	ImGui::End();
 #endif // _DEBUG
 }
