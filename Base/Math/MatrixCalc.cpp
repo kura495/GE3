@@ -273,6 +273,7 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 	Matrix4x4 result;
 	Vector3 cross = Cross(from, to);
 	Vector3 n = Normalize(Cross(from, to));
+	// u = -v のとき　つまり反転してしまった時
 	if (from.x == -to.x && from.y == -to.y && from.z == -to.z) {
 		if (from.x != 0.0f || from.y != 0.0f) {
 			n = { from.y,-from.x,0.0f };
@@ -280,9 +281,6 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 		else if (from.x != 0.0f || from.z != 0.0f) {
 			n = { from.z,0.0f,-from.x };
 		}
-	}
-	else {
-		n = Normalize(Cross(from, to));
 	}
 
 	float costhata = Dot(from,to);
