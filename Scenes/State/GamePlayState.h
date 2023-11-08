@@ -81,34 +81,7 @@ private:
 
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
-	
-	//2Dオブジェクトたち
-	Sprite* sprite;
-	//
-	//テクスチャハンドルたち
-	int Texture;
-	//
-	//サウンドハンドルたち
-	uint32_t mokugyo;
-	//
-	int Pan = 0;
-	float Volume = 0.0f;
-	//Sprite用の位置
-	Vector4 LeftTop[2] = {
-		{ 0.0f,0.0f,0.0f,1.0f },
-		{ 360.0f,0.0f,0.0f,1.0f }
-	};
-	Vector4 LeftBottom[2] = {
-		{ 0.0f,360.0f,0.0f,1.0f },
-		{ 360.0f,360.0f,0.0f,1.0f }
-	};
-	Vector4 RightTop[2] = {
-		{ 360.0f,0.0f,0.0f,1.0f },
-		{ 640.0f,0.0f,0.0f,1.0f }
-	};
-	Vector4 RightBottom[2] = {
-		{ 360.0f,180.0f,0.0f,1.0f },
-		{ 640.0f,360.0f,0.0f,1.0f }
-	};
-	//
+
+	//MT
+	Matrix4x4 rotateMatrix;
 };

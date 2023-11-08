@@ -76,6 +76,12 @@ void GamePlayState::Initialize()
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	//MT
+	Vector3 axis = Normalize({1.0f,1.0f,1.0f});
+	float angle = 0.44f;
+	rotateMatrix = MakeRotateAxisAngle(axis,angle);
+
 }
 
 void GamePlayState::Update()
@@ -88,6 +94,7 @@ else {
 	camera_->DebugCamera(false);
 }
 #endif // _DEBUG
+
 
 	player->Update();
 	enemy_->Update();
@@ -118,6 +125,16 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
+
+	//MT
+#ifdef _DEBUG
+	ImGui::Begin("MT4_01_01");
+	ImGui::InputFloat4("Matrix0",&rotateMatrix.m[0][0]);
+	ImGui::InputFloat4("Matrix1",&rotateMatrix.m[1][0]);
+	ImGui::InputFloat4("Matrix2",&rotateMatrix.m[2][0]);
+	ImGui::InputFloat4("Matrix3",&rotateMatrix.m[3][0]);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 void GamePlayState::Draw()
