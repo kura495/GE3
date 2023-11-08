@@ -273,7 +273,7 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 	Matrix4x4 result;
 	Vector3 cross = Cross(from, to);
 	Vector3 n = Normalize(cross);
-	float cos = Dot(from,to);
+	float cos = Dot(n,to);
 	float sin = Length(cross);
 	result.m[0][0] = (n.x * n.x) * (1 - cos) + cos;
 	result.m[0][1] = (n.x * n.y) * (1 - cos) + n.z * cos;

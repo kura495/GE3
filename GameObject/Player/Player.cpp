@@ -176,15 +176,11 @@ void Player::Move()
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
-		//targetAngle = std::atan2(move.x, move.z);
-		//Vector3 cross = Cross(worldTransform_.translation_, move);
-		// cos = Dot(worldTransform_.translation_, move);
-		//float length = Length(worldTransform_.translation_);
-		//float lengthMove = Length(move);
-		//float sin = Length(cross);
-		worldTransform_.matWorld_ = Multiply(worldTransform_.matWorld_, DirectionToDirection(worldTransform_.translation_,move));
-		//targetAngle = acos(cos)/(length * lengthMove);
-		//worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y,targetAngle,0.2f);
+
+		//TODO : クウォータ二オンを使いましょう
+		targetAngle = std::atan2(move.x, move.z);
+
+		worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y,targetAngle,0.2f);
 }
 
 void Player::ApplyGlobalVariables()
