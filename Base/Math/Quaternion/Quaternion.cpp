@@ -55,3 +55,13 @@ Quaternion Inverse(const Quaternion& quaternion)
 	}
 	return result;
 }
+
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
+{
+	Quaternion result;
+	result.x = axis.x * sin(angle/2);
+	result.y = axis.y * sin(angle/2);
+	result.z = axis.z * sin(angle/2);
+	result.w = cos(angle/2);
+	return result;
+}

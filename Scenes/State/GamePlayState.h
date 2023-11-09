@@ -84,11 +84,6 @@ private:
 	std::unique_ptr<MovePlane> plane_Move_;
 
 	//MT
-	Quaternion identity;
-	Quaternion conj;
-	Quaternion inv;
-	Quaternion normal;
-	Quaternion mul1;
-	Quaternion mul2;
-	float norm;
+	Quaternion rotation;
+
 };

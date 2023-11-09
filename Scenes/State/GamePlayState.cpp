@@ -78,15 +78,7 @@ void GamePlayState::Initialize()
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
 	//MT
-	Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
-	Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
-	identity = IdentityQuaternion();
-	conj = Conjugate(q1);
-	inv = Inverse(q1);
-	normal = Normalize(q1);
-	mul1 = Multiply(q1,q2);
-	mul2 = Multiply(q2,q1);
-	norm = Norm(q1);
+	rotation = MakeRotateAxisAngleQuaternion(Normalize(Vector3{1.0f,0.4f,-0.2f}),0.45f);
 }
 
 void GamePlayState::Update()
@@ -135,20 +127,7 @@ else {
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_03");
 	ImGui::Text("identity");
-	ImGui::InputFloat4("identity", &identity.x);
-	ImGui::Text("conjugate");
-	ImGui::InputFloat4("conj", &conj.x);
-	ImGui::Text("Inverse");
-	ImGui::InputFloat4("Inverse", &inv.x);
-	ImGui::Text("normalize");
-	ImGui::InputFloat4("Normalize", &normal.x);
-	ImGui::Text("mul1");
-	ImGui::InputFloat4("mul1", &mul1.x);
-	ImGui::Text("mul2");
-	ImGui::InputFloat4("mul2", &mul2.x);
-	ImGui::Text("norm");
-	ImGui::InputFloat("norm", &norm);
-
+	ImGui::InputFloat4("identity", &rotation.x);
 	ImGui::End();
 #endif // _DEBUG
 }
