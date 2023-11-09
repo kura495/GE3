@@ -83,7 +83,4 @@ private:
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
 
-	//MT
-	Quaternion rotation;
-	Vector3 rotateByQuaternion;
 };

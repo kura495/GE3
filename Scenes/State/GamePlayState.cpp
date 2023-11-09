@@ -77,10 +77,6 @@ void GamePlayState::Initialize()
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
-	//MT
-	rotation = MakeRotateAxisAngleQuaternion(Normalize(Vector3{1.0f,0.4f,-0.2f}),0.45f);
-	Vector3 pointY = { 2.1f,-0.9f,1.3f };
-	rotateByQuaternion = RotateVector(pointY,rotation);
 }
 
 void GamePlayState::Update()
@@ -124,16 +120,6 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-
-	//MT
-#ifdef _DEBUG
-	ImGui::Begin("MT4_01_04");
-	ImGui::Text("rotation");
-	ImGui::InputFloat4("rotation", &rotation.x);
-	ImGui::Text("rotateByQuaternion");
-	ImGui::InputFloat3("rotateByQuaternion", &rotateByQuaternion.x);
-	ImGui::End();
-#endif // _DEBUG
 }
 
 void GamePlayState::Draw()
