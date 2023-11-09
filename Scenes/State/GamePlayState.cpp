@@ -16,6 +16,7 @@ void GamePlayState::Initialize()
 	//
 	//3Dオブジェクト生成
 
+#pragma region player
 	player = std::make_unique<Player>();
 	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body", "float_Body.obj"));
 	modelFighterHead_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
@@ -26,17 +27,21 @@ void GamePlayState::Initialize()
 		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get(),modelFighterWeapon.get()
 	};
 	player->Initialize(playerModels);
+#pragma endregion
 
+#pragma region enemy
 	enemy_ = std::make_unique<Enemy>();
 	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
 	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
 	std::vector<Model*> EnemyModels = {
 		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
 	enemy_->Initialize(EnemyModels);
+#pragma endregion
 
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
 
+#pragma region Planes
 
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
@@ -56,30 +61,30 @@ void GamePlayState::Initialize()
 	plane_Move_->Initalize(Plane_Move_Models);
 	plane_Move_->SetPlayer(player.get());
 
+#pragma endregion
+
 	model_goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
 	std::vector<Model*> model_goal_Models = {
 		model_goal_.get() };
 	goal = std::make_unique<Goal>();
 	goal->Initalize(model_goal_Models);
 
-	//
-	//2Dオブジェクト作成
-	sprite = new Sprite();
-	sprite->Initialize(LeftTop[0], LeftBottom[0], RightTop[1], RightBottom[1]);
-	worldTransform_Sprite.Initialize();
-	//
-	//リソースを作る
-	//テクスチャ
-	Texture = textureManager_->LoadTexture("resources/uvChecker.png");
-	//サウンド
-	mokugyo = audio->LoadAudio("resources/mokugyo.wav");
-	//
+
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	//MT
+	Vector3 from0 = Normalize({1.0f,0.7f,0.5f});
+	Vector3 to0 = { -from0.x,-from0.y,-from0.z };
+	Vector3 from1 = Normalize({-0.6f,0.9f,0.2f});
+	Vector3 to1 = Normalize({0.4f,0.7f,-0.5f});
+	rotateMatrix0 = DirectionToDirection(Normalize({1.0f,0.0f,0.0f}), Normalize({ -1.0f,0.0f,0.0f }));
+	rotateMatrix1 = DirectionToDirection(from0,to0);
+	rotateMatrix2 = DirectionToDirection(from1,to1);
 }
 
 void GamePlayState::Update()
@@ -92,6 +97,7 @@ else {
 	camera_->DebugCamera(false);
 }
 #endif // _DEBUG
+
 
 	player->Update();
 	enemy_->Update();
@@ -122,6 +128,29 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
+
+	//MT
+#ifdef _DEBUG
+	ImGui::Begin("MT4_01_02");
+	ImGui::Text("rotateMatrix0");
+	ImGui::InputFloat4("Matrix0_0",&rotateMatrix0.m[0][0]);
+	ImGui::InputFloat4("Matrix0_1",&rotateMatrix0.m[1][0]);
+	ImGui::InputFloat4("Matrix0_2",&rotateMatrix0.m[2][0]);
+	ImGui::InputFloat4("Matrix0_3",&rotateMatrix0.m[3][0]);
+
+	ImGui::Text("rotateMatrix1");
+	ImGui::InputFloat4("Matrix1_0",&rotateMatrix1.m[0][0]);
+	ImGui::InputFloat4("Matrix1_1",&rotateMatrix1.m[1][0]);
+	ImGui::InputFloat4("Matrix1_2",&rotateMatrix1.m[2][0]);
+	ImGui::InputFloat4("Matrix1_3",&rotateMatrix1.m[3][0]);
+	
+	ImGui::Text("rotateMatrix2");
+	ImGui::InputFloat4("Matrix2_0",&rotateMatrix2.m[0][0]);
+	ImGui::InputFloat4("Matrix2_1",&rotateMatrix2.m[1][0]);
+	ImGui::InputFloat4("Matrix2_2",&rotateMatrix2.m[2][0]);
+	ImGui::InputFloat4("Matrix2_3",&rotateMatrix2.m[3][0]);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 void GamePlayState::Draw()
