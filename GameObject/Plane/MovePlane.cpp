@@ -8,6 +8,7 @@ void MovePlane::Initalize(const std::vector<Model*>& models)
 	BaseCharacter::Initialize(models);
 	worldTransform_.translation_.z = 10.0f;
 	worldTransform_.UpdateMatrix();
+	BoxCollider::Initialize();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeMoveFloor);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeMoveFloor);
 	BoxCollider::SetParent(worldTransform_);
@@ -35,7 +36,7 @@ void MovePlane::Draw(const ViewProjection& viewProjection)
 	BaseCharacter::Draw(viewProjection);
 }
 
-void MovePlane::BoxOnCollision(uint32_t collisionAttribute)
+void MovePlane::OnCollision(uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributePlayer) {
 		IsHit = true;

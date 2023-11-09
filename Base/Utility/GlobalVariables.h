@@ -30,13 +30,15 @@ public:
 	void AddItem(const std::string& groupName, const std::string& key, float value);
 	//アイテムの追加(Vector3)(アイテムが追加済みなら何もしない)
 	void AddItem(const std::string& groupName, const std::string& key, const Vector3& value);
+	//アイテムの追加(bool)(アイテムが追加済みなら何もしない)
+	//void AddItem(const std::string& groupName, const std::string& key, const bool& value);
 #pragma endregion AddItem
 	//値を取得する関数たち(Getter)
-
 	#pragma region Getter
 	int32_t GetIntValue(const std::string& groupName, const std::string& key)const;
 	float GetfloatValue(const std::string& groupName, const std::string& key)const;
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key)const;
+	//bool GetboolValue(const std::string& groupName, const std::string& key)const;
 #pragma endregion Getter
 
 	//ファイルにデータを保存
@@ -56,6 +58,8 @@ private:
 	void SetValue(const std::string& groupName, const std:: string& key, float value);
 	//値のセット(Vector3)
 	void SetValue(const std::string& groupName, const std:: string& key, const Vector3& value);
+	//値のセット(bool)
+	//void SetValue(const std::string& groupName, const std:: string& key, const bool& value);
 #pragma endregion SetValue
 
 	void LoadFile(const std::string& groupName);

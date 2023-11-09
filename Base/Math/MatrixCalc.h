@@ -1,5 +1,6 @@
 #pragma once
 #include "Math_Structs.h"
+#include "VectorCalc.h"
 #include <numbers>
 #include <cmath>
 
@@ -24,3 +25,8 @@ float cot(float top);
 
 Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom,float nearClip,float farCcip);
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
+Vector3 GetXAxis(Matrix4x4 matrix);
+Vector3 GetYAxis(Matrix4x4 matrix);
+Vector3 GetZAxis(Matrix4x4 matrix);
+Matrix4x4 DirectionToDirection(const Vector3& from,const Vector3& to);
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);

@@ -9,13 +9,14 @@
 #include "Base/Utility/BoxCollider.h"
 #include "Base/Utility/CollisionConfig.h"
 
-
 enum modelNumber {
 	kModelIndexBody,
 	kModelIndexHead,
 	kModelIndexL_arm,
 	kModelIndexR_arm,
+	kModelIndexWeapon
 };
+
 class BaseCharacter
 {
 public:

@@ -16,25 +16,32 @@ void GamePlayState::Initialize()
 	//
 	//3Dオブジェクト生成
 
+#pragma region player
 	player = std::make_unique<Player>();
 	modelFighterBody_.reset(Model::CreateModelFromObj("resources/float_Body", "float_Body.obj"));
 	modelFighterHead_.reset(Model::CreateModelFromObj("resources/float_Head", "float_Head.obj"));
 	modelFighterL_arm_.reset(Model::CreateModelFromObj("resources/float_L_arm", "float_L_arm.obj"));
 	modelFighterR_arm_.reset(Model::CreateModelFromObj("resources/float_R_arm", "float_R_arm.obj"));
+	modelFighterWeapon.reset(Model::CreateModelFromObj("resources/weapon", "weapon.obj"));
 	std::vector<Model*> playerModels = {
-		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get() };
+		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get(),modelFighterWeapon.get()
+	};
 	player->Initialize(playerModels);
+#pragma endregion
 
+#pragma region enemy
 	enemy_ = std::make_unique<Enemy>();
 	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
 	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
 	std::vector<Model*> EnemyModels = {
 		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
 	enemy_->Initialize(EnemyModels);
+#pragma endregion
 
 	Skydome_ = std::make_unique<Skydome>();
 	Skydome_->Initalize();
 
+#pragma region Planes
 
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
@@ -54,30 +61,26 @@ void GamePlayState::Initialize()
 	plane_Move_->Initalize(Plane_Move_Models);
 	plane_Move_->SetPlayer(player.get());
 
+#pragma endregion
+
 	model_goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
 	std::vector<Model*> model_goal_Models = {
 		model_goal_.get() };
 	goal = std::make_unique<Goal>();
 	goal->Initalize(model_goal_Models);
 
-	//
-	//2Dオブジェクト作成
-	sprite = new Sprite();
-	sprite->Initialize(LeftTop[0], LeftBottom[0], RightTop[1], RightBottom[1]);
-	worldTransform_Sprite.Initialize();
-	//
-	//リソースを作る
-	//テクスチャ
-	Texture = textureManager_->LoadTexture("resources/uvChecker.png");
-	//サウンド
-	mokugyo = audio->LoadAudio("resources/mokugyo.wav");
-	//
+
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
+
+	//MT
+	rotation = MakeRotateAxisAngleQuaternion(Normalize(Vector3{1.0f,0.4f,-0.2f}),0.45f);
+	Vector3 pointY = { 2.1f,-0.9f,1.3f };
+	rotateByQuaternion = RotateVector(pointY,rotation);
 }
 
 void GamePlayState::Update()
@@ -91,6 +94,7 @@ else {
 }
 #endif // _DEBUG
 
+
 	player->Update();
 	enemy_->Update();
 	Skydome_->Update();
@@ -103,25 +107,33 @@ else {
 	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
-	ImGui::Begin("Camera");
-	ImGui::SliderFloat3("transform", &viewProjection_.translation_.x, 10.0f, -10.0f);
-	ImGui::SliderFloat3("rotation", &viewProjection_.rotation_.x, 10.0f, -10.0f);
-	ImGui::End();
-	light_->ImGui("Light");
+
+
 	viewProjection_.UpdateMatrix();
 	
 	
 	
-	collisionManager_->AddBoxCollider(player.get());
-	collisionManager_->AddBoxCollider(enemy_.get());
-	collisionManager_->AddBoxCollider(plane_.get());
-	collisionManager_->AddBoxCollider(plane_2.get());
-	collisionManager_->AddBoxCollider(plane_3.get());
-	collisionManager_->AddBoxCollider(plane_Move_.get());
-	collisionManager_->AddBoxCollider(goal.get());
+	collisionManager_->AddCollider(player.get());
+	collisionManager_->AddCollider(enemy_.get());
+	collisionManager_->AddCollider(plane_.get());
+	collisionManager_->AddCollider(plane_2.get());
+	collisionManager_->AddCollider(plane_3.get());
+	collisionManager_->AddCollider(plane_Move_.get());
+	collisionManager_->AddCollider(goal.get());
+	collisionManager_->AddCollider(player->GetWeapon());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
+
+	//MT
+#ifdef _DEBUG
+	ImGui::Begin("MT4_01_04");
+	ImGui::Text("rotation");
+	ImGui::InputFloat4("rotation", &rotation.x);
+	ImGui::Text("rotateByQuaternion");
+	ImGui::InputFloat3("rotateByQuaternion", &rotateByQuaternion.x);
+	ImGui::End();
+#endif // _DEBUG
 }
 
 void GamePlayState::Draw()

@@ -23,7 +23,6 @@ public:
 	void Initialize(const std::string& directoryPath, const std::string& filename);
 	void Draw(const WorldTransform& transform,const ViewProjection& viewProjection);
 	void Draw(const WorldTransform& transform,const ViewProjection& viewProjection,uint32_t TextureHundle);
-	void ImGui(const char* Title);
 	static Model* CreateModelFromObj(const std::string& directoryPath, const std::string& filename);
 	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 	void SetLightMode(Lighting number) { lightFlag = number; };

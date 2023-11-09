@@ -2,45 +2,28 @@
 
 #include "Base/Math/Struct/Vector3.h"
 #include "Base/WorldTransform.h"
-
+#include "Collider.h"
 
 struct AABB {
 	Vector3 min;//一番小さいポイント
 	Vector3 max;//一番大きいポイント
 };
 
-class BoxCollider
+class BoxCollider : public Collider
 {
 public:
-	
-	void Initalize();
+
+	void Initialize();
 	void Update(const WorldTransform* Parent);
 	//void Draw();
 	
-	virtual void BoxOnCollision(uint32_t collisionAttribute) = 0;
+	//virtual void OnCollision(uint32_t collisionAttribute) = 0;
 
 	///worldの親を設定
 	void SetParent(const WorldTransform& Parent) { world_ = Parent; }
 	
 	void SetSize(Vector3 range) { range_ = range; }
 	AABB GetSize() { return aabb_; }
-	uint32_t GetcollitionAttribute() const { return collisionAttribute_; }
-	/// <summary>
-	/// 衝突属性
-	/// </summary>
-	/// <param name="collisionAttribute"></param>
-	void SetcollitionAttribute(uint32_t collisionAttribute) {
-		collisionAttribute_ = collisionAttribute;
-	}
-	uint32_t GetcollisionMask() const { return collisionMask_; }
-	/// <summary>
-	/// 衝突マスク
-	/// </summary>
-	/// <param name="collisionMask">基本はSetcollitionAttributeに入れたものに~を付けてビット反転</param>
-	void SetcollisionMask(uint32_t collisionMask) {
-
-		collisionMask_ = collisionMask;
-	}
 
 private:
 	/// <summary>
@@ -48,7 +31,7 @@ private:
 	/// </summary>
 	Vector3 range_;
 	/// <summary>
-	/// 箱の中心
+	/// 原点
 	/// </summary>
 	WorldTransform world_;
 	/// <summary>
@@ -56,11 +39,7 @@ private:
 	/// </summary>
 	AABB aabb_ = {};
 	/// <summary>
-/// 衝突属性(自分)
-/// </summary>
-	uint32_t collisionAttribute_ = 0xffffffff;
-	/// <summary>
-	/// 衝突マスク(相手)
+	/// 箱の中心
 	/// </summary>
-	uint32_t collisionMask_ = 0xffffffff;
+	Vector3 center = {0.0f,0.0f,0.0f};
 };

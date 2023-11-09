@@ -6,7 +6,7 @@ void Goal::Initalize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
 	worldTransform_.translation_ = { 0.0f,0.0f,30.0f };
-	BoxCollider::Initalize();
+	BoxCollider::Initialize();
 	BoxCollider::SetSize({1.0f,1.0f,1.0f});
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeGoal);
 	BoxCollider::SetcollisionMask(~kCollitionAttributeGoal);
@@ -24,7 +24,7 @@ void Goal::Draw(const ViewProjection& viewProjection)
 	BaseCharacter::Draw(viewProjection);
 }
 
-void Goal::BoxOnCollision(uint32_t collisionAttribute)
+void Goal::OnCollision(uint32_t collisionAttribute)
 {
 	if (collisionAttribute) {
 		return;

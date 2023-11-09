@@ -1,5 +1,5 @@
 {
     "Player": {
-        "speed": 0.5
+        "DashSpeed": 1.5
     }
 }

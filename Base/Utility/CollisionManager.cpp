@@ -1,4 +1,4 @@
-﻿#include "Utility/CollisionManager.h"
+#include "Utility/CollisionManager.h"
 
 
 void CollisionManager::CheckAllCollisions() {
@@ -12,30 +12,38 @@ void CollisionManager::CheckAllCollisions() {
 		itrB++;
 		for (; itrB != colliders_.end(); ++itrB) {
 			Collider* colliderB = *itrB;
-			CheckCollisionCircle(colliderA, colliderB);
+			//円と円
+			/*if (colliderA->GetId() == ColliderType::Circle && colliderB->GetId() == ColliderType::Circle) {
+				CheckCollisionCircle(colliderA, colliderB);
+			}*/
+			//AABBとAABB
+			if (colliderA->GetId() == ColliderType::Box && colliderB->GetId() == ColliderType::Box) {
+				CheckCollisionBox(dynamic_cast<BoxCollider*>(colliderA), dynamic_cast<BoxCollider*>(colliderB));
+			}
 		}
 	}
-	std::list<BoxCollider*>::iterator BoxitrA = BoxColliders_.begin();
-	for (; BoxitrA != BoxColliders_.end(); ++BoxitrA) {
-		// イテレータAからコライダーを取得
-		BoxCollider* colliderA = *BoxitrA;
-		// イテレータBはイテレータAの次の要素から回す(重複を避ける)
-		std::list<BoxCollider*>::iterator BoxitrB = BoxitrA;
-		BoxitrB++;
-		for (; BoxitrB != BoxColliders_.end(); ++BoxitrB) {
-			BoxCollider* colliderB = *BoxitrB;
-			CheckCollisionBox(colliderA, colliderB);
-		}
-	}
+	//std::list<Collider*>::iterator BoxitrA = colliders_.begin();
+	//for (; BoxitrA != colliders_.end(); ++BoxitrA) {
+	//	// イテレータAからコライダーを取得
+	//	Collider* colliderA = *BoxitrA;
+	//	// イテレータBはイテレータAの次の要素から回す(重複を避ける)
+	//	std::list<Collider*>::iterator BoxitrB = BoxitrA;
+	//	BoxitrB++;
+	//	for (; BoxitrB != colliders_.end(); ++BoxitrB) {
+	//		Collider* colliderB = *BoxitrB;
+	//		
+	//	}
+	//}
 }
 
 void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colliderB) {
 	// 判定対象AとBの座標
-	Vector3 posA, posB;
-	posA = colliderA->GetWorldPosition();
-	posB = colliderB->GetWorldPosition();
+	Vector3 posA = { 1.0f,1.0f,1.0f }, posB = {1.0f, 1.0f,1.0f};
+	//posA = colliderA->GetWorldPosition();
+	//posB = colliderB->GetWorldPosition();
 	float Length =(float)sqrt(
-	    (posB.x - posA.x) * (posB.x - posA.x) + (posB.y - posA.y) * (posB.y - posA.y) +
+	    (posB.x - posA.x) * (posB.x - posA.x) +
+		(posB.y - posA.y) * (posB.y - posA.y) +
 	    (posB.z - posA.z) * (posB.z - posA.z));
 	// コライダーのフィルターの値でビット演算
 	if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0 && (colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
@@ -44,21 +52,21 @@ void CollisionManager::CheckCollisionCircle(Collider* colliderA, Collider* colli
 	else if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0) {
 		if (Length <= colliderA->GetRadius() + colliderB->GetRadius()) {
 			// コライダーAの衝突時コールバック
-			colliderA->OnCollision();
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 		}
 	}
 	else if ((colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
 		if (Length <= colliderA->GetRadius() + colliderB->GetRadius()) {
 			// コライダーBの衝突時コールバック
-			colliderB->OnCollision();
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 	}
 	else {
 		if (Length <= colliderA->GetRadius() + colliderB->GetRadius()) {
 			// コライダーAの衝突時コールバック
-			colliderA->OnCollision();
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 			// コライダーBの衝突時コールバック
-			colliderB->OnCollision();
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 	}
 }
@@ -80,17 +88,22 @@ void CollisionManager::CheckCollisionBox(BoxCollider* colliderA, BoxCollider* co
 	){
 		if ((colliderA->GetcollitionAttribute() & colliderB->GetcollisionMask()) == 0) {
 			// コライダーAの衝突時コールバック
-			colliderA->BoxOnCollision(colliderB->GetcollitionAttribute());
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 		}
 		else if ((colliderB->GetcollitionAttribute() & colliderA->GetcollisionMask()) == 0) {
 			// コライダーBの衝突時コールバック
-			colliderB->BoxOnCollision(colliderA->GetcollitionAttribute());
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 		else {
 			// コライダーAの衝突時コールバック
-			colliderA->BoxOnCollision(colliderB->GetcollitionAttribute());
+			colliderA->OnCollision(colliderB->GetcollitionAttribute());
 			// コライダーBの衝突時コールバック
-			colliderB->BoxOnCollision(colliderA->GetcollitionAttribute());
+			colliderB->OnCollision(colliderA->GetcollitionAttribute());
 		}
 	}
 }
+
+//void CollisionManager::CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB)
+//{
+//	
+//}

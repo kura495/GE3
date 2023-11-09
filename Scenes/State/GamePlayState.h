@@ -25,6 +25,7 @@
 #include "ViewProjection.h"
 #include "Base/Utility/CollisionManager.h"
 #include "Math_Structs.h"
+#include "Base/Math/Quaternion/Quaternion.h"
 
 #include "GameObject/FollowCamera/FollowCamera.h"
 
@@ -61,6 +62,7 @@ private:
 	std::unique_ptr<Model> modelFighterHead_ = nullptr;
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterWeapon = nullptr;
 
 	std::unique_ptr<Model> modelEnemyBody_ = nullptr;
 	std::unique_ptr<Model> modelEnemy_Soul_ = nullptr;
@@ -80,34 +82,8 @@ private:
 
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
-	
-	//2Dオブジェクトたち
-	Sprite* sprite;
-	//
-	//テクスチャハンドルたち
-	int Texture;
-	//
-	//サウンドハンドルたち
-	uint32_t mokugyo;
-	//
-	int Pan = 0;
-	float Volume = 0.0f;
-	//Sprite用の位置
-	Vector4 LeftTop[2] = {
-		{ 0.0f,0.0f,0.0f,1.0f },
-		{ 360.0f,0.0f,0.0f,1.0f }
-	};
-	Vector4 LeftBottom[2] = {
-		{ 0.0f,360.0f,0.0f,1.0f },
-		{ 360.0f,360.0f,0.0f,1.0f }
-	};
-	Vector4 RightTop[2] = {
-		{ 360.0f,0.0f,0.0f,1.0f },
-		{ 640.0f,0.0f,0.0f,1.0f }
-	};
-	Vector4 RightBottom[2] = {
-		{ 360.0f,180.0f,0.0f,1.0f },
-		{ 640.0f,360.0f,0.0f,1.0f }
-	};
-	//
+
+	//MT
+	Quaternion rotation;
+	Vector3 rotateByQuaternion;
 };
