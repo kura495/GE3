@@ -65,3 +65,14 @@ Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
 	result.w = cos(angle/2);
 	return result;
 }
+
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
+{
+	Quaternion conj = Conjugate(quaternion);
+	Vector3 result;
+	result.x = quaternion.x * vector.x * conj.x;
+	result.y = quaternion.y * vector.y * conj.y;
+	result.z = quaternion.z * vector.z * conj.z;
+
+	return result;
+}

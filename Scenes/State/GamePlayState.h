@@ -85,5 +85,5 @@ private:
 
 	//MT
 	Quaternion rotation;
-
+	Vector3 rotateByQuaternion;
 };
