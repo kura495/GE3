@@ -82,8 +82,4 @@ private:
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
 
-	//MT
-	Matrix4x4 rotateMatrix0;
-	Matrix4x4 rotateMatrix1;
-	Matrix4x4 rotateMatrix2;
 };

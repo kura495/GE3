@@ -77,14 +77,7 @@ void GamePlayState::Initialize()
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
-	//MT
-	Vector3 from0 = Normalize({1.0f,0.7f,0.5f});
-	Vector3 to0 = { -from0.x,-from0.y,-from0.z };
-	Vector3 from1 = Normalize({-0.6f,0.9f,0.2f});
-	Vector3 to1 = Normalize({0.4f,0.7f,-0.5f});
-	rotateMatrix0 = DirectionToDirection(Normalize({1.0f,0.0f,0.0f}), Normalize({ -1.0f,0.0f,0.0f }));
-	rotateMatrix1 = DirectionToDirection(from0,to0);
-	rotateMatrix2 = DirectionToDirection(from1,to1);
+
 }
 
 void GamePlayState::Update()
@@ -128,29 +121,6 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-
-	//MT
-#ifdef _DEBUG
-	ImGui::Begin("MT4_01_02");
-	ImGui::Text("rotateMatrix0");
-	ImGui::InputFloat4("Matrix0_0",&rotateMatrix0.m[0][0]);
-	ImGui::InputFloat4("Matrix0_1",&rotateMatrix0.m[1][0]);
-	ImGui::InputFloat4("Matrix0_2",&rotateMatrix0.m[2][0]);
-	ImGui::InputFloat4("Matrix0_3",&rotateMatrix0.m[3][0]);
-
-	ImGui::Text("rotateMatrix1");
-	ImGui::InputFloat4("Matrix1_0",&rotateMatrix1.m[0][0]);
-	ImGui::InputFloat4("Matrix1_1",&rotateMatrix1.m[1][0]);
-	ImGui::InputFloat4("Matrix1_2",&rotateMatrix1.m[2][0]);
-	ImGui::InputFloat4("Matrix1_3",&rotateMatrix1.m[3][0]);
-	
-	ImGui::Text("rotateMatrix2");
-	ImGui::InputFloat4("Matrix2_0",&rotateMatrix2.m[0][0]);
-	ImGui::InputFloat4("Matrix2_1",&rotateMatrix2.m[1][0]);
-	ImGui::InputFloat4("Matrix2_2",&rotateMatrix2.m[2][0]);
-	ImGui::InputFloat4("Matrix2_3",&rotateMatrix2.m[3][0]);
-	ImGui::End();
-#endif // _DEBUG
 }
 
 void GamePlayState::Draw()
