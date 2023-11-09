@@ -3,11 +3,55 @@
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs)
 {
 	Quaternion result;
+	Vector3 cross = Cross({ lhs.x,lhs.y,lhs.z }, { rhs.x,rhs.y,rhs.z });
 	float dot = Dot({ lhs.x,lhs.y,lhs.z },{ rhs.x,rhs.y,rhs.z });
-	result.x = lhs.y * rhs.z - lhs.z * rhs.y + lhs.w * rhs.x + lhs.w * rhs.x;
-	result.y = lhs.z * rhs.x - lhs.x * rhs.z + lhs.w * rhs.y + lhs.w * rhs.y;
-	result.z = lhs.x * rhs.y - lhs.y * rhs.x + lhs.w * rhs.z + lhs.w * rhs.z;
+	result.x = cross.x + rhs.w * lhs.x + lhs.w * rhs.x;
+	result.y = cross.y + rhs.w * lhs.y + lhs.w * rhs.y;
+	result.z = cross.z + rhs.w * lhs.z + lhs.w * rhs.z;
 	result.w = lhs.w * rhs.w - dot;
 
+	return result;
+}
+
+Quaternion IdentityQuaternion()
+{
+	return Quaternion({0.0f,0.0f,0.0f,1.0f});
+}
+
+Quaternion Conjugate(const Quaternion& quaternion)
+{
+	return Quaternion({ quaternion.x*-1.0f,quaternion.y * -1.0f ,quaternion.z * -1.0f ,quaternion.w});
+}
+
+float Norm(const Quaternion& quaternion)
+{
+	return sqrt(quaternion.x * quaternion.x + quaternion.y * quaternion.y + quaternion.z * quaternion.z + quaternion.w * quaternion.w);
+}
+
+Quaternion Normalize(const Quaternion& quaternion)
+{
+	Quaternion result{};
+	float norm = Norm(quaternion);
+	if (norm != 0.0f) {
+		result.x = quaternion.x / norm;
+		result.y = quaternion.y / norm;
+		result.z = quaternion.z / norm;
+		result.w = quaternion.w / norm;
+	}
+	return result;
+}
+
+Quaternion Inverse(const Quaternion& quaternion)
+{
+	Quaternion result;
+	float norm = Norm(quaternion);
+	norm = norm * norm;
+	Quaternion conj = Conjugate(quaternion);
+	if (norm != 0.0f) {
+		result.x = conj.x / norm;
+		result.y = conj.y / norm;
+		result.z = conj.z / norm;
+		result.w = conj.w / norm;
+	}
 	return result;
 }
