@@ -77,6 +77,7 @@ void GamePlayState::Initialize()
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
+	//MT
 
 }
 
@@ -121,6 +122,11 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
+
+	//MT
+#ifdef _DEBUG
+	
+#endif // _DEBUG
 }
 
 void GamePlayState::Draw()
