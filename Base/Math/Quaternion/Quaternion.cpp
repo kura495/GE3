@@ -104,3 +104,22 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 
 	return result;
 }
+
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
+{
+	Quaternion result;
+	Quaternion q0_;
+	//q0Ç∆q1ÇÃì‡êœ
+	float dot = Dot({q0.x,q0.y,q0.z},{ q1.x,q1.y,q1.z });
+	if (dot < 0) {
+		//Ç‡Ç§ï–ï˚ÇÃâÒì]Çóòóp
+		q0_ = Quaternion{ -q0.x, -q0.y, -q0.z, -q0.w };
+		//ì‡êœÇ‡îΩì]
+		dot = -dot;
+	}
+	//Ç»Ç∑äpÇãÅÇﬂÇÈ
+	float theta = std::acos(dot);
+
+
+	return result;
+}
