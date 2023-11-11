@@ -80,7 +80,9 @@ void GamePlayState::Initialize()
 	//MT
 	rotation = MakeRotateAxisAngleQuaternion(Normalize(Vector3{1.0f,0.4f,-0.2f}),0.45f);
 	Vector3 pointY = { 2.1f,-0.9f,1.3f };
+	rotateMatrix = MakeRotateMatrix(rotation);
 	rotateByQuaternion = RotateVector(pointY,rotation);
+	rotateByMatrix = VectorTransform(pointY, rotateMatrix);
 }
 
 void GamePlayState::Update()
@@ -130,8 +132,15 @@ else {
 	ImGui::Begin("MT4_01_04");
 	ImGui::Text("rotation");
 	ImGui::InputFloat4("rotation", &rotation.x);
+	ImGui::Text("rotateMatrix");
+	ImGui::InputFloat4("rotateMatrix_0", &rotateMatrix.m[0][0]);
+	ImGui::InputFloat4("rotateMatrix_1", &rotateMatrix.m[1][0]);
+	ImGui::InputFloat4("rotateMatrix_2", &rotateMatrix.m[2][0]);
+	ImGui::InputFloat4("rotateMatrix_3", &rotateMatrix.m[3][0]);
 	ImGui::Text("rotateByQuaternion");
 	ImGui::InputFloat3("rotateByQuaternion", &rotateByQuaternion.x);
+	ImGui::Text("rotateByMatrix");
+	ImGui::InputFloat3("rotateByMatrix", &rotateByMatrix.x);
 	ImGui::End();
 #endif // _DEBUG
 }

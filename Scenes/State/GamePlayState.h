@@ -85,5 +85,8 @@ private:
 
 	//MT
 	Quaternion rotation;
+	Matrix4x4 rotateMatrix;
 	Vector3 rotateByQuaternion;
+	Vector3 rotateByMatrix;
+
 };
