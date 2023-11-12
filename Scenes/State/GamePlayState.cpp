@@ -78,11 +78,14 @@ void GamePlayState::Initialize()
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
 	//MT
-	rotation = MakeRotateAxisAngleQuaternion(Normalize(Vector3{1.0f,0.4f,-0.2f}),0.45f);
-	Vector3 pointY = { 2.1f,-0.9f,1.3f };
-	rotateMatrix = MakeRotateMatrix(rotation);
-	rotateByQuaternion = RotateVector(pointY,rotation);
-	rotateByMatrix = VectorTransform(pointY, rotateMatrix);
+	Quaternion rotation0 = MakeRotateAxisAngleQuaternion({0.71f,0.71f,0.0f},0.3f);
+	Quaternion rotation1 = MakeRotateAxisAngleQuaternion({ 0.71f,0.0f,0.71f }, 0.3141592f);
+	interpolate0 =Slerp(rotation0,rotation1,0.0f);
+	interpolate1 =Slerp(rotation0,rotation1,0.3f);
+	interpolate2 =Slerp(rotation0,rotation1,0.5f);
+	interpolate3 =Slerp(rotation0,rotation1,0.7f);
+	interpolate4 =Slerp(rotation0,rotation1,1.0f);
+
 }
 
 void GamePlayState::Update()
@@ -130,17 +133,11 @@ else {
 	//MT
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_04");
-	ImGui::Text("rotation");
-	ImGui::InputFloat4("rotation", &rotation.x);
-	ImGui::Text("rotateMatrix");
-	ImGui::InputFloat4("rotateMatrix_0", &rotateMatrix.m[0][0]);
-	ImGui::InputFloat4("rotateMatrix_1", &rotateMatrix.m[1][0]);
-	ImGui::InputFloat4("rotateMatrix_2", &rotateMatrix.m[2][0]);
-	ImGui::InputFloat4("rotateMatrix_3", &rotateMatrix.m[3][0]);
-	ImGui::Text("rotateByQuaternion");
-	ImGui::InputFloat3("rotateByQuaternion", &rotateByQuaternion.x);
-	ImGui::Text("rotateByMatrix");
-	ImGui::InputFloat3("rotateByMatrix", &rotateByMatrix.x);
+	ImGui::InputFloat4("interpolate0", &interpolate0.x);
+	ImGui::InputFloat4("interpolate1", &interpolate1.x);
+	ImGui::InputFloat4("interpolate2", &interpolate2.x);
+	ImGui::InputFloat4("interpolate3", &interpolate3.x);
+	ImGui::InputFloat4("interpolate4", &interpolate4.x);
 	ImGui::End();
 #endif // _DEBUG
 }

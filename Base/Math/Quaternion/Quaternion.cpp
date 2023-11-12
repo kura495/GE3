@@ -108,18 +108,25 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
 	Quaternion result;
-	Quaternion q0_;
-	//q0Ç∆q1ÇÃì‡êœ
-	float dot = Dot({q0.x,q0.y,q0.z},{ q1.x,q1.y,q1.z });
-	if (dot < 0) {
-		//Ç‡Ç§ï–ï˚ÇÃâÒì]Çóòóp
-		q0_ = Quaternion{ -q0.x, -q0.y, -q0.z, -q0.w };
-		//ì‡êœÇ‡îΩì]
+	Quaternion Localq0 = q0;
+	Quaternion Localq1 = q1;
+	//q0„Å®q1„ÅÆÂÜÖÁ©ç
+	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
+	if (dot < 0.0f) {
+		//„ÇÇ„ÅÜÁâáÊñπ„ÅÆÂõûËª¢„ÇíÂà©Áî®
+		Localq0 = { -Localq0.x, -Localq0.y, -Localq0.z, -Localq0.w };
+		//ÂÜÖÁ©ç„ÇÇÂèçËª¢
 		dot = -dot;
 	}
-	//Ç»Ç∑äpÇãÅÇﬂÇÈ
+	//„Å™„ÅôËßí„ÇíÊ±Ç„ÇÅ„Çã
 	float theta = std::acos(dot);
 
+	float scale0 = std::sin((1 - t) * theta) / std::sin(theta);
+	float scale1 = std::sin(t * theta) / std::sin(theta);
+	result.x = scale0 * Localq0.x + scale1 * Localq1.x;
+	result.y = scale0 * Localq0.y + scale1 * Localq1.y;
+	result.z = scale0 * Localq0.z + scale1 * Localq1.z;
+	result.w = scale0 * Localq0.w + scale1 * Localq1.w;
 
 	return result;
 }
