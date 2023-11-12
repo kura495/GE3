@@ -25,6 +25,7 @@
 #include "ViewProjection.h"
 #include "Base/Utility/CollisionManager.h"
 #include "Math_Structs.h"
+#include "Base/Math/Quaternion/Quaternion.h"
 
 #include "GameObject/FollowCamera/FollowCamera.h"
 
@@ -81,5 +82,13 @@ private:
 
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
+
+	//MT
+	Quaternion interpolate0;
+	Quaternion interpolate1;
+	Quaternion interpolate2;
+	Quaternion interpolate3;
+	Quaternion interpolate4;
+
 
 };
