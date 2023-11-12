@@ -59,10 +59,10 @@ Quaternion Inverse(const Quaternion& quaternion)
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
 {
 	Quaternion result;
-	result.x = axis.x * sin(angle/2);
-	result.y = axis.y * sin(angle/2);
-	result.z = axis.z * sin(angle/2);
-	result.w = cos(angle/2);
+	result.x = axis.x * std::sin(angle/2);
+	result.y = axis.y * std::sin(angle/2);
+	result.z = axis.z * std::sin(angle / 2);
+	result.w = std::cos(angle/2);
 	return result;
 }
 
@@ -114,7 +114,7 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
 	if (dot < 0.0f) {
 		//もう片方の回転を利用
-		Localq0 = { -Localq0.x, -Localq0.y, -Localq0.z, -Localq0.w };
+		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };
 		//内積も反転
 		dot = -dot;
 	}

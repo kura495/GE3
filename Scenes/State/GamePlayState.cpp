@@ -79,7 +79,7 @@ void GamePlayState::Initialize()
 
 	//MT
 	Quaternion rotation0 = MakeRotateAxisAngleQuaternion({0.71f,0.71f,0.0f},0.3f);
-	Quaternion rotation1 = MakeRotateAxisAngleQuaternion({ 0.71f,0.0f,0.71f }, 0.3141592f);
+	Quaternion rotation1 = MakeRotateAxisAngleQuaternion({ 0.71f,0.0f,0.71f }, 3.141592f);
 	interpolate0 =Slerp(rotation0,rotation1,0.0f);
 	interpolate1 =Slerp(rotation0,rotation1,0.3f);
 	interpolate2 =Slerp(rotation0,rotation1,0.5f);
