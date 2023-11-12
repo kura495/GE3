@@ -132,7 +132,7 @@ else {
 
 	//MT
 #ifdef _DEBUG
-	ImGui::Begin("MT4_01_04");
+	ImGui::Begin("MT4_01_05");
 	ImGui::InputFloat4("interpolate0", &interpolate0.x);
 	ImGui::InputFloat4("interpolate1", &interpolate1.x);
 	ImGui::InputFloat4("interpolate2", &interpolate2.x);
