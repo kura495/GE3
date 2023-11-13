@@ -77,15 +77,6 @@ void GamePlayState::Initialize()
 	followCamera->SetTarget(&player->GetWorldTransform());
 	player->SetViewProjection(&followCamera->GetViewProjection());
 
-	//MT
-	Quaternion rotation0 = MakeRotateAxisAngleQuaternion({0.71f,0.71f,0.0f},0.3f);
-	Quaternion rotation1 = MakeRotateAxisAngleQuaternion({ 0.71f,0.0f,0.71f }, 3.141592f);
-	interpolate0 =Slerp(rotation0,rotation1,0.0f);
-	interpolate1 =Slerp(rotation0,rotation1,0.3f);
-	interpolate2 =Slerp(rotation0,rotation1,0.5f);
-	interpolate3 =Slerp(rotation0,rotation1,0.7f);
-	interpolate4 =Slerp(rotation0,rotation1,1.0f);
-
 }
 
 void GamePlayState::Update()
@@ -129,17 +120,6 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
-
-	//MT
-#ifdef _DEBUG
-	ImGui::Begin("MT4_01_05");
-	ImGui::InputFloat4("interpolate0", &interpolate0.x);
-	ImGui::InputFloat4("interpolate1", &interpolate1.x);
-	ImGui::InputFloat4("interpolate2", &interpolate2.x);
-	ImGui::InputFloat4("interpolate3", &interpolate3.x);
-	ImGui::InputFloat4("interpolate4", &interpolate4.x);
-	ImGui::End();
-#endif // _DEBUG
 }
 
 void GamePlayState::Draw()

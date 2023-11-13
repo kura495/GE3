@@ -83,12 +83,4 @@ private:
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
 
-	//MT
-	Quaternion interpolate0;
-	Quaternion interpolate1;
-	Quaternion interpolate2;
-	Quaternion interpolate3;
-	Quaternion interpolate4;
-
-
 };
