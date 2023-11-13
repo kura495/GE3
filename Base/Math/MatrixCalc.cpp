@@ -274,6 +274,12 @@ Quaternion Normalize(const Quaternion& quaternion)
 	}
 	return result;
 }
+//VectorからQuaternionを作る
+//Quaternion MakeFromVector(const Vector3& rotation, const Vector3& up)
+//{
+//	return Quaternion();
+//}
+
 
 float det(const Matrix4x4& m)
 {
