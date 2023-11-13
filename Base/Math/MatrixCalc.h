@@ -16,7 +16,7 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);
-
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Quaternion& quaternion, const Vector3& translate);
 //Quaternionの積
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
 //単位Quaternionを返す

@@ -167,6 +167,15 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const
 
 	return result;
 }
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Quaternion& quaternion, const Vector3& translate) {
+	Matrix4x4 Scaleresult = MakeScaleMatrix(scale);
+	Matrix4x4 Rotateresult = MakeRotateMatrix(rotate);
+	Rotateresult = Multiply(Rotateresult,MakeRotateMatrix(quaternion));
+	Matrix4x4 Transformresult = MakeTranslateMatrix(translate);
+	Matrix4x4 result = Multiply(Scaleresult, Multiply(Rotateresult, Transformresult));
+
+	return result;
+}
 
 Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs)
 {
