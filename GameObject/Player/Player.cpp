@@ -177,14 +177,14 @@ void Player::Move()
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
 		move = Normalize(move);
-		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
+		Vector3 cross = Normalize(Cross({ 1.0f,0.0f,0.0f }, move));
 		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 		Quaternion moveQuaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-		Vector3 rotateVector = RotateVector({0.0f,1.0f,1.0f},moveQuaternion);
-
+		Vector3 rotateVector = RotateVector({1.0f,0.0f,1.0f},moveQuaternion);
+		worldTransform_.rotation_.y = rotateVector.y;
 		//TODO : クウォータ二オンを使いましょう
 		//targetAngle = std::atan2(move.x, move.z);
-		worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y, rotateVector.y,0.2f);
+		//worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y, rotateVector.y,0.2f);
 }
 
 void Player::ApplyGlobalVariables()
