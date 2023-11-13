@@ -15,7 +15,7 @@ struct WorldTransform {
 	// ローカルスケール
 	Vector3 scale_ = { 1, 1, 1 };
 	// X,Y,Z軸回りのローカル回転角
-	Quaternion rotation_ = { 0, 0, 0,0 };
+	Vector3 rotation_ = { 0, 0, 0 };
 	// ローカル座標
 	Vector3 translation_ = { 0, 0, 0 };
 	// ローカル → ワールド変換行列

@@ -24,7 +24,7 @@ struct ViewProjection {
 
 #pragma region ビュー行列の設定
 	// X,Y,Z軸回りのローカル回転角
-	Quaternion rotation_ = { 0, 0, 0, 0 };
+	Vector3 rotation_ = { 0, 0, 0 };
 	// ローカル座標
 	Vector3 translation_ = { 0, 0, -25 };
 #pragma endregion

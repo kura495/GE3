@@ -126,7 +126,7 @@ Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
 	};
 	return result;
 }
-Matrix4x4 MakeAffineMatrix(const Vector3& scale,Quaternion rotate, const Vector3& translate) {
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 Scaleresult = MakeScaleMatrix(scale);
 	Matrix4x4 Rotateresult = MakeRotateMatrix(rotate);
 	Matrix4x4 Transformresult = MakeTranslateMatrix(translate);
@@ -252,22 +252,18 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 		v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2]
 	);
 }
-
 Vector3 GetXAxis(Matrix4x4 matrix)
 {
 	return Vector3(matrix.m[0][0], matrix.m[0][1], matrix.m[0][2]);
 }
-
 Vector3 GetYAxis(Matrix4x4 matrix)
 {
 	return Vector3(matrix.m[1][0], matrix.m[1][1], matrix.m[1][2]);
 }
-
 Vector3 GetZAxis(Matrix4x4 matrix)
 {
 	return Vector3(matrix.m[2][0], matrix.m[2][1], matrix.m[2][2]);
 }
-
 Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 {
 	Matrix4x4 result;
@@ -307,7 +303,6 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to)
 
 	return result;
 }
-
 Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle)
 {
 	Matrix4x4 result;
