@@ -3,7 +3,6 @@
 #include "VectorCalc.h"
 #include <numbers>
 #include <cmath>
-#include <Quaternion/Quaternion.h>
 
 Matrix4x4 MakeIdentity4x4();
 Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);

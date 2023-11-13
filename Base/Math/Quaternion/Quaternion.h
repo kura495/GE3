@@ -3,12 +3,7 @@
 #include "Base/Math/VectorCalc.h"
 #include "Base/Math/MatrixCalc.h"
 
-struct Quaternion{
-	float x;
-	float y;
-	float z;
-	float w;
-};
+
 //Quaternionの積
 Quaternion Multiply(const Quaternion& lhs, const Quaternion&rhs);
 //単位Quaternionを返す
