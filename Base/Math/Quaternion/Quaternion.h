@@ -27,5 +27,7 @@ Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
 Vector3 RotateVector(const Vector3& vector,const Quaternion& quaternion);
 //Quaternionから回転行列を求める
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+//Quaternionから回転角を求める
+Vector3 MakeRotateVector(const Quaternion& quaternion);
 
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
