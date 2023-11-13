@@ -236,13 +236,28 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
 
 	return result;
 }
+Quaternion Lerp(const Quaternion& q0, const Quaternion& q1,float t) {
+	Quaternion result;
+	result.x = q1.x - q0.x;
+	result.y = q1.y - q0.y;
+	result.z = q1.z - q0.z;
+	result.w = q1.w - q0.w;
+	result.x = q1.x + t * result.x;
+	result.y = q1.y + t * result.y;
+	result.z = q1.z + t * result.z;
+	result.w = q1.w + t * result.w;
+	return result;
+}
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
 	Quaternion result;
-	Quaternion Localq0 = q0;
-	Quaternion Localq1 = q1;
+	Quaternion Localq0 = Normalize(q0);
+	Quaternion Localq1 = Normalize(q1);
 	//q0とq1の内積
 	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
+	if (std::abs(dot) > 0.999f) {
+		return Lerp(Localq0, Localq1,t);
+	}
 	if (dot < 0.0f) {
 		//もう片方の回転を利用
 		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };

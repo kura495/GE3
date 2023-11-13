@@ -176,9 +176,9 @@ void Player::Move()
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
-		//move = Normalize(move);
-		//worldTransform_.quaternion = Slerp(worldTransform_.quaternion,{ move.x,move.y,move.z, 0.0f }, 1.0f);
-		//TODO : クウォータ二オンを使いましょう
+
+		//TODO : クォータ二オンを使いましょう
+		//クォータニオン実装は出来たものの回転方法がよくわからず
 		targetAngle = std::atan2(move.x, move.z);
 		worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y, targetAngle,0.2f);
 }
