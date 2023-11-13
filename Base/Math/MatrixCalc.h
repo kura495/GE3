@@ -13,7 +13,7 @@ Matrix4x4 MakeRotateYMatrix(float radian);
 Matrix4x4 MakeRotateZMatrix(float radian);
 Matrix4x4 MakeRotateMatrix(Vector3 rotation);
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
-Matrix4x4 MakeAffineMatrix(const Vector3& scale,Quaternion rotate, const Vector3& translate);
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 float det(const Matrix4x4& m);
 Matrix4x4 Inverse(const Matrix4x4& m);
 //透視投影行列
