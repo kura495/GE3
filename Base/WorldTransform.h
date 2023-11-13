@@ -9,7 +9,7 @@ struct ConstBufferDataWorldTransform {
 };
 struct WorldTransform {
 	// 定数バッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuff_;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuff_ = nullptr;
 	// マッピング済みアドレス
 	ConstBufferDataWorldTransform* constMap = nullptr;
 	// ローカルスケール
@@ -17,7 +17,7 @@ struct WorldTransform {
 	// X,Y,Z軸回りのローカル回転角
 	Vector3 rotation_ = {0.0f,0.0f,0.0f};
 
-	Quaternion quatrnion = { 0,0,0,1.0f };
+	Quaternion quaternion = { 0,0,0,1.0f };
 	// ローカル座標
 	Vector3 translation_ = { 0, 0, 0 };
 	// ローカル → ワールド変換行列
