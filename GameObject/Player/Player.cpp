@@ -180,7 +180,7 @@ void Player::Move()
 		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
 		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 		Quaternion moveQuaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-		Vector3 rotateVector = RotateVector({0.0f,0.0f,1.0f},moveQuaternion);
+		Vector3 rotateVector = RotateVector({0.0f,1.0f,1.0f},moveQuaternion);
 
 		//TODO : クウォータ二オンを使いましょう
 		//targetAngle = std::atan2(move.x, move.z);

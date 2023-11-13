@@ -105,11 +105,6 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 	return result;
 }
 
-Vector3 MakeRotateVector(const Quaternion& quaternion)
-{
-	return Vector3();
-}
-
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
 	Quaternion result;
