@@ -74,9 +74,9 @@ void Player::Update()
 		worldTransform_.UpdateMatrix();
 	}
 		
-	//worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
+	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
 
-	//worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
+	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 	
 
 	BaseCharacter::Update();
