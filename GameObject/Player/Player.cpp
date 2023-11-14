@@ -101,11 +101,11 @@ void Player::Draw(const ViewProjection& viewProjection)
 	}
 }
 
-void Player::OnCollision(uint32_t collisionAttribute)
+void Player::OnCollision(const uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
-		//worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -299,8 +299,6 @@ void Player::UpdateFloatingGimmick() {
 
 void Player::PullDown()
 {
-	//TODO : デバッグ用に落ちないよう固定
-	IsOnGraund = true;
 	if (IsOnGraund) {
 		IsOnGraund = false;
 		return;

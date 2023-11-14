@@ -24,7 +24,7 @@ void Goal::Draw(const ViewProjection& viewProjection)
 	BaseCharacter::Draw(viewProjection);
 }
 
-void Goal::OnCollision(uint32_t collisionAttribute)
+void Goal::OnCollision(const uint32_t collisionAttribute)
 {
 	if (collisionAttribute) {
 		return;
