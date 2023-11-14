@@ -185,7 +185,7 @@ void Player::Move()
 		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
 		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-		//クォータニオンで回転は出来たものの、平べったくなってしまう
+		//FIXME: クォータニオンで回転は出来たものの、平べったくなってしまう
 
 }
 
