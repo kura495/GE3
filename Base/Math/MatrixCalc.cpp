@@ -121,24 +121,24 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 {
 	Matrix4x4 result;
 	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[0][1] = 2 * (quaternion.x * quaternion.y) + (quaternion.w * quaternion.z);
-	result.m[0][2] = 2 * (quaternion.x * quaternion.z) - (quaternion.w * quaternion.y);
-	result.m[0][3] = 0;
+	result.m[0][1] = 2.0f * (quaternion.x * quaternion.y) + (quaternion.w * quaternion.z);
+	result.m[0][2] = 2.0f * (quaternion.x * quaternion.z) - (quaternion.w * quaternion.y);
+	result.m[0][3] = 0.0f;
 
-	result.m[1][0] = 2 * (quaternion.x * quaternion.y) - (quaternion.w * quaternion.z);
+	result.m[1][0] = 2.0f * (quaternion.x * quaternion.y) - (quaternion.w * quaternion.z);
 	result.m[1][1] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) + (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[1][2] = 2 * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
-	result.m[1][3] = 0;
+	result.m[1][2] = 2.0f * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
+	result.m[1][3] = 0.0f;
 
-	result.m[2][0] = 2 * (quaternion.x * quaternion.z) + (quaternion.w * quaternion.y);
-	result.m[2][1] = 2 * (quaternion.y * quaternion.z) - (quaternion.w * quaternion.x);
+	result.m[2][0] = 2.0f * (quaternion.x * quaternion.z) + (quaternion.w * quaternion.y);
+	result.m[2][1] = 2.0f * (quaternion.y * quaternion.z) - (quaternion.w * quaternion.x);
 	result.m[2][2] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) + (quaternion.z * quaternion.z);
-	result.m[2][3] = 0;
+	result.m[2][3] = 0.0f;
 
-	result.m[3][0] = 0;
-	result.m[3][1] = 0;
-	result.m[3][2] = 0;
-	result.m[3][3] = 1;
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
 
 	return result;
 }
@@ -217,11 +217,16 @@ Quaternion Inverse(const Quaternion& quaternion)
 }
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
 {
-	Quaternion result;
-	result.x = axis.x * std::sin(angle / 2);
-	result.y = axis.y * std::sin(angle / 2);
-	result.z = axis.z * std::sin(angle / 2);
-	result.w = std::cos(angle / 2);
+	Quaternion result{};
+
+	float halfAngle = angle / 2.0f;
+	float sin = std::sin(halfAngle);
+
+	result.x = axis.x * sin;
+	result.y = axis.y * sin;
+	result.z = axis.z * sin;
+	result.w = std::cos(halfAngle);
+
 	return result;
 }
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
@@ -251,8 +256,8 @@ Quaternion Lerp(const Quaternion& q0, const Quaternion& q1,float t) {
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
 	Quaternion result;
-	Quaternion Localq0 = Normalize(q0);
-	Quaternion Localq1 = Normalize(q1);
+	Quaternion Localq0 = q0;//Normalize(q0);
+	Quaternion Localq1 = q1;//Normalize(q1);
 	//q0とq1の内積
 	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
 	if (std::abs(dot) > 0.999f) {

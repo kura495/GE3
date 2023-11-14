@@ -73,6 +73,11 @@ void Player::Update()
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
+		
+	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.7f);
+
+	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
+	
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -176,11 +181,12 @@ void Player::Move()
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
+		move = Normalize(move);
+		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
+		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
+		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+		//クォータニオンで回転は出来たものの、平べったくなってしまう
 
-		//TODO : クォータ二オンを使いましょう
-		//クォータニオン実装は出来たものの回転方法がよくわからず
-		targetAngle = std::atan2(move.x, move.z);
-		worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y, targetAngle,0.2f);
 }
 
 void Player::ApplyGlobalVariables()

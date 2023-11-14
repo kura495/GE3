@@ -105,6 +105,8 @@ private:
 	void PullDown();
 	bool IsOnGraund = true;
 	float DownForce = 0.98f;
+
+	Quaternion moveQuaternion_;
 	
 };
 

@@ -23,7 +23,7 @@ float Length(const Vector3& v) {
 
 Vector3 Normalize(const Vector3& v1) {
 	Vector3 result{};
-	float length = Length(v1);
+	float length = sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
 	if (length != 0.0f) {
 		result.x = v1.x / length;
 		result.y = v1.y / length;
@@ -49,7 +49,10 @@ Vector3 VectorLerp(const Vector3& v1, const Vector3& v2, float t) {
 
 Vector3 Cross(const Vector3& v1, const Vector3& v2)
 {
-	Vector3 result = { v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x };
+	Vector3 result;
+	result.x = (v1.y * v2.z) - (v1.z * v2.y);
+	result.y = (v1.z * v2.x) - (v1.x * v2.z);
+	result.z = (v1.x * v2.y) - (v1.y * v2.x);
 	return result;
 }
 Vector3 VectorTransform(const Vector3& vector, const Matrix4x4& matrix)
