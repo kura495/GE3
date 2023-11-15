@@ -73,10 +73,10 @@ void Player::Update()
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
-
+	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
 
-	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
+	
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -185,7 +185,6 @@ void Player::Move()
 		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
 		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-		
 		//FIXME: クォータニオンで回転は出来たものの、平べったくなってしまう
 
 }
