@@ -73,7 +73,7 @@ void Player::Update()
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
-		
+
 	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
@@ -168,9 +168,10 @@ void Player::Move()
 			(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
 			(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
 		//正規化をして斜めの移動量を正しくする
-		move.x = Normalize(move).x * speed;
-		move.y = Normalize(move).y * speed;
-		move.z = Normalize(move).z * speed;
+		move = Normalize(move);
+		move.x =move.x * speed;
+		move.y =move.y * speed;
+		move.z =move.z * speed;
 		//カメラの正面方向に移動するようにする
 		//回転行列を作る
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
