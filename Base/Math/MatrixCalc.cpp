@@ -173,7 +173,7 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Qu
 	Matrix4x4 Matquaternion = MakeRotateMatrix(quaternion);
 	Rotateresult = Multiply(Rotateresult, Matquaternion);
 	Matrix4x4 Transformresult = MakeTranslateMatrix(translate);
-	Matrix4x4 result = Multiply(Scaleresult, Multiply(Rotateresult, Transformresult));
+	Matrix4x4 result = Multiply(Multiply(Scaleresult, Rotateresult), Transformresult);
 
 	return result;
 }
@@ -261,16 +261,12 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 	Quaternion Localq1 = Normalize(q1);
 	//q0とq1の内積
 	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
-	if (std::abs(dot) > 0.999f) {
-		return Lerp(Localq0, Localq1,t);
-	}
 	if (dot < 0.0f) {
 		//もう片方の回転を利用
 		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };
 		//内積も反転
 		dot = -dot;
 	}
-
 	if (dot >= 1.0f - std::numeric_limits<float>::epsilon())
 	{
 		result.x = (1.0f - t) * Localq0.x + t * Localq1.x;

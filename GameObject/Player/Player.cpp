@@ -24,10 +24,24 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"DashSpeed",workDash_.dashSpeed_);
+
+	moveQuaternion_ = IdentityQuaternion();
 }
 
 void Player::Update()
 {	
+	//TODO : 消せ！！
+#ifdef _DEBUG
+	float norm = Norm(moveQuaternion_);
+	ImGui::Begin("Quaternion");
+	ImGui::Text("Norm : %f", norm);
+	ImGui::Text("moveQuaternion : %f %f %f %f",moveQuaternion_.x, moveQuaternion_.y, moveQuaternion_.z, moveQuaternion_.w);
+	ImGui::Text("matWorld_ : %f %f %f %f", worldTransform_.matWorld_.m[0][0], worldTransform_.matWorld_.m[0][1], worldTransform_.matWorld_.m[0][2], worldTransform_.matWorld_.m[0][3]);
+	ImGui::Text("matWorld_ : %f %f %f %f", worldTransform_.matWorld_.m[1][0], worldTransform_.matWorld_.m[1][1], worldTransform_.matWorld_.m[1][2], worldTransform_.matWorld_.m[1][3]);
+	ImGui::Text("matWorld_ : %f %f %f %f", worldTransform_.matWorld_.m[2][0], worldTransform_.matWorld_.m[2][1], worldTransform_.matWorld_.m[2][2], worldTransform_.matWorld_.m[2][3]);
+	ImGui::Text("matWorld_ : %f %f %f %f", worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1], worldTransform_.matWorld_.m[3][2], worldTransform_.matWorld_.m[3][3]);
+	ImGui::End();
+#endif
 	//jsonファイルの内容を適応
 	ApplyGlobalVariables();
 	//パッドの状態をゲット
@@ -73,10 +87,8 @@ void Player::Update()
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
-	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
-	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
-
 	
+	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -99,7 +111,6 @@ void Player::Draw(const ViewProjection& viewProjection)
 		weapon_->Draw(viewProjection);
 	}
 }
-
 void Player::OnCollision(const uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
@@ -125,7 +136,6 @@ void Player::OnCollision(const uint32_t collisionAttribute)
 	}
 	
 }
-
 void Player::SetParent(const WorldTransform* parent)
 {
 	// 親子関係を結ぶ
@@ -136,7 +146,6 @@ void Player::SetParent(const WorldTransform* parent)
 		worldTransform_.UpdateMatrix();
 	}
 }
-
 void Player::WorldTransformInitalize()
 {
 	worldTransformBody_.Initialize();
@@ -157,7 +166,6 @@ void Player::WorldTransformInitalize()
 
 	weapon_->SetParent(worldTransform_Weapon_);
 }
-
 void Player::Move()
 {
 		//移動量
@@ -186,7 +194,6 @@ void Player::Move()
 		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 		//FIXME: クォータニオンで回転は出来たものの、平べったくなってしまう
-
 }
 
 void Player::ApplyGlobalVariables()
