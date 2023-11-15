@@ -90,5 +90,4 @@ private:
 	Quaternion interpolate3;
 	Quaternion interpolate4;
 
-
 };

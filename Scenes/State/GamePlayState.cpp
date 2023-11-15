@@ -133,11 +133,17 @@ else {
 	//MT
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_05");
-	ImGui::InputFloat4("interpolate0", &interpolate0.x);
-	ImGui::InputFloat4("interpolate1", &interpolate1.x);
-	ImGui::InputFloat4("interpolate2", &interpolate2.x);
-	ImGui::InputFloat4("interpolate3", &interpolate3.x);
-	ImGui::InputFloat4("interpolate4", &interpolate4.x);
+	ImGui::Text("interpolate0");
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate0.x, interpolate0.y, interpolate0.z, interpolate0.w);
+	ImGui::Text("interpolate1");
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate1.x, interpolate1.y, interpolate1.z, interpolate1.w);
+	ImGui::Text("interpolate2");
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate2.x, interpolate2.y, interpolate2.z, interpolate2.w);
+	ImGui::Text("interpolate3");
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate3.x, interpolate3.y, interpolate3.z, interpolate3.w);
+	ImGui::Text("interpolate4");
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", interpolate4.x, interpolate4.y, interpolate4.z, interpolate4.w);
+
 	ImGui::End();
 #endif // _DEBUG
 }
