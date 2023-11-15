@@ -133,22 +133,22 @@ else {
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_02");
 	ImGui::Text("rotateMatrix0");
-	ImGui::InputFloat4("Matrix0_0",&rotateMatrix0.m[0][0]);
-	ImGui::InputFloat4("Matrix0_1",&rotateMatrix0.m[1][0]);
-	ImGui::InputFloat4("Matrix0_2",&rotateMatrix0.m[2][0]);
-	ImGui::InputFloat4("Matrix0_3",&rotateMatrix0.m[3][0]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix0.m[0][0], rotateMatrix0.m[0][1], rotateMatrix0.m[0][2], rotateMatrix0.m[0][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix0.m[1][0], rotateMatrix0.m[1][1], rotateMatrix0.m[1][2], rotateMatrix0.m[1][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix0.m[2][0], rotateMatrix0.m[2][1], rotateMatrix0.m[2][2], rotateMatrix0.m[2][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix0.m[3][0], rotateMatrix0.m[3][1], rotateMatrix0.m[3][2], rotateMatrix0.m[3][3]);
 
 	ImGui::Text("rotateMatrix1");
-	ImGui::InputFloat4("Matrix1_0",&rotateMatrix1.m[0][0]);
-	ImGui::InputFloat4("Matrix1_1",&rotateMatrix1.m[1][0]);
-	ImGui::InputFloat4("Matrix1_2",&rotateMatrix1.m[2][0]);
-	ImGui::InputFloat4("Matrix1_3",&rotateMatrix1.m[3][0]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix1.m[0][0], rotateMatrix1.m[0][1], rotateMatrix1.m[0][2], rotateMatrix1.m[0][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix1.m[1][0], rotateMatrix1.m[1][1], rotateMatrix1.m[1][2], rotateMatrix1.m[1][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix1.m[2][0], rotateMatrix1.m[2][1], rotateMatrix1.m[2][2], rotateMatrix1.m[2][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix1.m[3][0], rotateMatrix1.m[3][1], rotateMatrix1.m[3][2], rotateMatrix1.m[3][3]);
 	
 	ImGui::Text("rotateMatrix2");
-	ImGui::InputFloat4("Matrix2_0",&rotateMatrix2.m[0][0]);
-	ImGui::InputFloat4("Matrix2_1",&rotateMatrix2.m[1][0]);
-	ImGui::InputFloat4("Matrix2_2",&rotateMatrix2.m[2][0]);
-	ImGui::InputFloat4("Matrix2_3",&rotateMatrix2.m[3][0]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix2.m[0][0], rotateMatrix2.m[0][1], rotateMatrix2.m[0][2], rotateMatrix2.m[0][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix2.m[1][0], rotateMatrix2.m[1][1], rotateMatrix2.m[1][2], rotateMatrix2.m[1][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix2.m[2][0], rotateMatrix2.m[2][1], rotateMatrix2.m[2][2], rotateMatrix2.m[2][3]);
+	ImGui::Text("%4.3f %4.3f %4.3f %4.3f", rotateMatrix2.m[3][0], rotateMatrix2.m[3][1], rotateMatrix2.m[3][2], rotateMatrix2.m[3][3]);
 	ImGui::End();
 #endif // _DEBUG
 }
