@@ -1,4 +1,5 @@
 ﻿#include "Math/MatrixCalc.h"
+#include <limits>
 
 Matrix4x4 MakeIdentity4x4()
 {
