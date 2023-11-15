@@ -135,19 +135,19 @@ else {
 #ifdef _DEBUG
 	ImGui::Begin("MT4_01_03");
 	ImGui::Text("identity");
-	ImGui::InputFloat4("identity", &identity.x);
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", identity.x, identity.y, identity.z, identity.w);
 	ImGui::Text("conjugate");
-	ImGui::InputFloat4("conj", &conj.x);
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", conj.x, conj.y, conj.z, conj.w);
 	ImGui::Text("Inverse");
-	ImGui::InputFloat4("Inverse", &inv.x);
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", inv.x, inv.y, inv.z, inv.w);
 	ImGui::Text("normalize");
-	ImGui::InputFloat4("Normalize", &normal.x);
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", normal.x, normal.y, normal.z, normal.w);
 	ImGui::Text("mul1");
-	ImGui::InputFloat4("mul1", &mul1.x);
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", mul1.x, mul1.y, mul1.z, mul1.w);
 	ImGui::Text("mul2");
-	ImGui::InputFloat4("mul2", &mul2.x);
+	ImGui::Text("%4.2f %4.2f %4.2f %4.2f", mul2.x, mul2.y, mul2.z, mul2.w);
 	ImGui::Text("norm");
-	ImGui::InputFloat("norm", &norm);
+	ImGui::Text("%4.2f", norm);
 
 	ImGui::End();
 #endif // _DEBUG
