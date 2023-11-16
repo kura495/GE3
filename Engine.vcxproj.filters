@@ -116,9 +116,6 @@
     <Filter Include="Engine\Base\Collider">
       <UniqueIdentifier>{0a9c68e3-19ae-4e6e-94e4-55158d97d1d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Base\Math\Quaternion">
-      <UniqueIdentifier>{85af9e90-8b92-47ef-9750-2c311a20264b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
