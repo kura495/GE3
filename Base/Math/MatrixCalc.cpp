@@ -121,18 +121,19 @@ Matrix4x4 MakeRotateMatrix(Vector3 rotation)
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 {
 	Matrix4x4 result;
+	
 	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[0][1] = 2.0f * (quaternion.x * quaternion.y) + (quaternion.w * quaternion.z);
-	result.m[0][2] = 2.0f * (quaternion.x * quaternion.z) - (quaternion.w * quaternion.y);
+	result.m[0][1] = 2.0f * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
+	result.m[0][2] = 2.0f * ((quaternion.x * quaternion.z) - (quaternion.w * quaternion.y));
 	result.m[0][3] = 0.0f;
 
-	result.m[1][0] = 2.0f * (quaternion.x * quaternion.y) - (quaternion.w * quaternion.z);
+	result.m[1][0] = 2.0f * ((quaternion.x * quaternion.y) - (quaternion.w * quaternion.z));
 	result.m[1][1] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) + (quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
 	result.m[1][2] = 2.0f * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
 	result.m[1][3] = 0.0f;
 
-	result.m[2][0] = 2.0f * (quaternion.x * quaternion.z) + (quaternion.w * quaternion.y);
-	result.m[2][1] = 2.0f * (quaternion.y * quaternion.z) - (quaternion.w * quaternion.x);
+	result.m[2][0] = 2.0f * ((quaternion.x * quaternion.z) + (quaternion.w * quaternion.y));
+	result.m[2][1] = 2.0f * ((quaternion.y * quaternion.z) - (quaternion.w * quaternion.x));
 	result.m[2][2] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) - (quaternion.y * quaternion.y) + (quaternion.z * quaternion.z);
 	result.m[2][3] = 0.0f;
 
@@ -205,7 +206,7 @@ float Norm(const Quaternion& quaternion)
 }
 Quaternion Inverse(const Quaternion& quaternion)
 {
-	Quaternion result;
+	Quaternion result{};
 	float norm = Norm(quaternion);
 	norm = norm * norm;
 	Quaternion conj = Conjugate(quaternion);
@@ -261,10 +262,10 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 	Quaternion Localq0 = Normalize(q0);
 	Quaternion Localq1 = Normalize(q1);
 	//q0とq1の内積
-	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
+	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z;
 	if (dot < 0.0f) {
 		//もう片方の回転を利用
-		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };
+		Localq0 = { -Localq0.x, -Localq0.y, -Localq0.z, -Localq0.w };
 		//内積も反転
 		dot = -dot;
 	}
