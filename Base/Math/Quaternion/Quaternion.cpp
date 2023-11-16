@@ -59,20 +59,48 @@ Quaternion Inverse(const Quaternion& quaternion)
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
 {
 	Quaternion result;
-	result.x = axis.x * sin(angle/2);
-	result.y = axis.y * sin(angle/2);
-	result.z = axis.z * sin(angle/2);
-	result.w = cos(angle/2);
+	result.x = axis.x * std::sin(angle/2);
+	result.y = axis.y * std::sin(angle/2);
+	result.z = axis.z * std::sin(angle / 2);
+	result.w = std::cos(angle/2);
 	return result;
 }
 
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
 {
+	Quaternion fromVector = {vector.x,vector.y,vector.z,0.0f};
 	Quaternion conj = Conjugate(quaternion);
+	Quaternion rotate = Multiply(quaternion, Multiply(fromVector, conj));
 	Vector3 result;
-	result.x = quaternion.x * vector.x * conj.x;
-	result.y = quaternion.y * vector.y * conj.y;
-	result.z = quaternion.z * vector.z * conj.z;
+	result.x = rotate.x;
+	result.y = rotate.y;
+	result.z = rotate.z;
+
+	return result;
+}
+
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
+{
+	Quaternion result;
+	Quaternion Localq0 = q0;
+	Quaternion Localq1 = q1;
+	//q0とq1の内積
+	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
+	if (dot < 0.0f) {
+		//もう片方の回転を利用
+		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };
+		//内積も反転
+		dot = -dot;
+	}
+	//なす角を求める
+	float theta = std::acos(dot);
+
+	float scale0 = std::sin((1 - t) * theta) / std::sin(theta);
+	float scale1 = std::sin(t * theta) / std::sin(theta);
+	result.x = scale0 * Localq0.x + scale1 * Localq1.x;
+	result.y = scale0 * Localq0.y + scale1 * Localq1.y;
+	result.z = scale0 * Localq0.z + scale1 * Localq1.z;
+	result.w = scale0 * Localq0.w + scale1 * Localq1.w;
 
 	return result;
 }

@@ -24,6 +24,8 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"DashSpeed",workDash_.dashSpeed_);
+
+	moveQuaternion_ = IdentityQuaternion();
 }
 
 void Player::Update()
@@ -73,6 +75,10 @@ void Player::Update()
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
+	
+	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
+
+	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -95,12 +101,11 @@ void Player::Draw(const ViewProjection& viewProjection)
 		weapon_->Draw(viewProjection);
 	}
 }
-
-void Player::OnCollision(uint32_t collisionAttribute)
+void Player::OnCollision(const uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
-		//worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
+		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -121,7 +126,6 @@ void Player::OnCollision(uint32_t collisionAttribute)
 	}
 	
 }
-
 void Player::SetParent(const WorldTransform* parent)
 {
 	// 親子関係を結ぶ
@@ -132,7 +136,6 @@ void Player::SetParent(const WorldTransform* parent)
 		worldTransform_.UpdateMatrix();
 	}
 }
-
 void Player::WorldTransformInitalize()
 {
 	worldTransformBody_.Initialize();
@@ -153,20 +156,20 @@ void Player::WorldTransformInitalize()
 
 	weapon_->SetParent(worldTransform_Weapon_);
 }
-
 void Player::Move()
 {
 		//移動量
-		if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0 && joyState.Gamepad.sThumbLY == 0) {
+		if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0) {
 			return;
 		}
 		Vector3 move{
 			(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
 			(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
 		//正規化をして斜めの移動量を正しくする
-		move.x = Normalize(move).x * speed;
-		move.y = Normalize(move).y * speed;
-		move.z = Normalize(move).z * speed;
+		move = Normalize(move);
+		move.x =move.x * speed;
+		move.y =move.y * speed;
+		move.z =move.z * speed;
 		//カメラの正面方向に移動するようにする
 		//回転行列を作る
 		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
@@ -176,11 +179,11 @@ void Player::Move()
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 		//プレイヤーの向きを移動方向に合わせる
 		//playerのY軸周り角度(θy)
-
-		//TODO : クウォータ二オンを使いましょう
-		targetAngle = std::atan2(move.x, move.z);
-
-		worldTransform_.rotation_.y = LerpShortAngle(worldTransform_.rotation_.y,targetAngle,0.2f);
+		move = Normalize(move);
+		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
+		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
+		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+		
 }
 
 void Player::ApplyGlobalVariables()
@@ -293,8 +296,6 @@ void Player::UpdateFloatingGimmick() {
 
 void Player::PullDown()
 {
-	//TODO : デバッグ用に落ちないよう固定
-	IsOnGraund = true;
 	if (IsOnGraund) {
 		IsOnGraund = false;
 		return;

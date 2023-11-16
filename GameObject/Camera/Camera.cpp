@@ -5,7 +5,7 @@ void Camera::Initialize(int32_t kClientWidth, int32_t kClientHeight)
 	kClientWidth_= kClientWidth;
 	kClientHeight_= kClientHeight;
 	matRot_ = MakeIdentity4x4();
-	worldMatrix = MakeAffineMatrix({1,1,1},{0,0,0}, {0,0,0});
+	worldMatrix = MakeAffineMatrix({ 1,1,1 },Vector3 { 0,0,0 }, { 0,0,0 });
 	/*Matrix4x4 cameraMatrix = MakeAffineMatrix({1,1,1},{0,0,0}, translation_);*/
 	Matrix4x4 cameraMatrix = MakeIdentity4x4();
 	cameraMatrix = Multiply(cameraMatrix, matRot_);
@@ -27,7 +27,7 @@ void Camera::Update()
 		DebugCameraMove();
 	}
 #endif // _DEBUG
-	worldMatrix = MakeAffineMatrix({ 1,1,1 }, { 0,0,0 }, { 0,0,0 });
+	worldMatrix = MakeAffineMatrix({ 1,1,1 }, Vector3{ 0,0,0 }, { 0,0,0 });
 	/*Matrix4x4 cameraMatrix = MakeAffineMatrix({ 1,1,1 }, {0,0,0}, translation_);*/
 	Matrix4x4 cameraMatrix = MakeIdentity4x4();
 	//cameraMatrix = Multiply(cameraMatrix,matRot_);

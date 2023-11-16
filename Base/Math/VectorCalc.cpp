@@ -23,7 +23,7 @@ float Length(const Vector3& v) {
 
 Vector3 Normalize(const Vector3& v1) {
 	Vector3 result{};
-	float length = Length(v1);
+	float length = sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
 	if (length != 0.0f) {
 		result.x = v1.x / length;
 		result.y = v1.y / length;
@@ -49,6 +49,22 @@ Vector3 VectorLerp(const Vector3& v1, const Vector3& v2, float t) {
 
 Vector3 Cross(const Vector3& v1, const Vector3& v2)
 {
-	Vector3 result = { v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x };
+	Vector3 result;
+	result.x = (v1.y * v2.z) - (v1.z * v2.y);
+	result.y = (v1.z * v2.x) - (v1.x * v2.z);
+	result.z = (v1.x * v2.y) - (v1.y * v2.x);
+	return result;
+}
+Vector3 VectorTransform(const Vector3& vector, const Matrix4x4& matrix)
+{
+	Vector3 result;
+	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] + 1.0f * matrix.m[3][0];
+	result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] + 1.0f * matrix.m[3][1];
+	result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] + 1.0f * matrix.m[3][2];
+	float W = vector.x * matrix.m[0][3] + vector.y * matrix.m[1][3] + vector.z * matrix.m[2][3] + 1.0f * matrix.m[3][3];
+	assert(W != 0.0f);
+	result.x /= W;
+	result.y /= W;
+	result.z /= W;
 	return result;
 }

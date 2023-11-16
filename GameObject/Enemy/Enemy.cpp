@@ -17,7 +17,7 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
 
-	BoxCollider::SetSize({ 2.0f,2.0f,2.0f });
+	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 
 }
 

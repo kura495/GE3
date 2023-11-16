@@ -61,7 +61,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -86,7 +86,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,7 +109,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClCompile Include="Base\Light.cpp" />
     <ClCompile Include="Base\Math\Calc.cpp" />
     <ClCompile Include="Base\Math\MatrixCalc.cpp" />
-    <ClCompile Include="Base\Math\Quaternion\Quaternion.cpp" />
     <ClCompile Include="Base\Math\VectorCalc.cpp" />
     <ClCompile Include="Base\Mesh.cpp" />
     <ClCompile Include="Base\Model.cpp" />
@@ -160,7 +159,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatFormVersion)\x64\dxil.dll"</Command>
     <ClInclude Include="Base\Math\Calc.h" />
     <ClInclude Include="Base\Math\Math_Structs.h" />
     <ClInclude Include="Base\Math\MatrixCalc.h" />
-    <ClInclude Include="Base\Math\Quaternion\Quaternion.h" />
     <ClInclude Include="Base\Math\Struct\Matrix3x3.h" />
     <ClInclude Include="Base\Math\Struct\Matrix4x4.h" />
     <ClInclude Include="Base\Math\Struct\Vector2.h" />

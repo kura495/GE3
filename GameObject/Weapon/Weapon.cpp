@@ -5,7 +5,7 @@ void Weapon::Initialize(const std::vector<Model*>& models)
 	BaseCharacter::Initialize(models);
 	BoxCollider::Initialize();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeWeapon&&~kCollitionAttributeEnemy);
-	BoxCollider::SetSize({2.0f,2.0f,3.0f});
+	BoxCollider::SetSize({10.0f,2.0f,2.0f});
 
 }
 

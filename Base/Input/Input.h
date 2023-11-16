@@ -10,6 +10,8 @@
 
 #include <XInput.h>
 
+#include "Base/Math/VectorCalc.h"
+
 class Input
 {
 public:

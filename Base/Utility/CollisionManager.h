@@ -8,9 +8,9 @@
 class CollisionManager {
 public:
 	void AddCollider(Collider* collider) { colliders_.push_back(collider); }
-	/*void AddBoxCollider(Collider* collider) { BoxColliders_.push_back(collider); }*/
+	void AddBoxCollider(BoxCollider* collider) { BoxColliders_.push_back(collider); }
 	void ClearCollider() {
-		colliders_.clear(); //BoxColliders_.clear();
+		colliders_.clear(); BoxColliders_.clear();
 	}
 	void CheckAllCollisions();
 
@@ -22,11 +22,9 @@ private:
 	/// <summary>
 	///　Boxコライダー登録用
 	/// </summary>
-	//std::list<Collider*> BoxColliders_;
+	std::list<BoxCollider*> BoxColliders_;
 	
-	void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
-
+	//void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
 	void CheckCollisionBox(BoxCollider* colliderA, BoxCollider* colliderB);
-
-	void CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB);
+	//void CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB);
 };

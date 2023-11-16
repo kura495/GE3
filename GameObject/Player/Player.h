@@ -34,7 +34,7 @@ public:
 		return worldTransform_;
 	}
 
-	void OnCollision(uint32_t collisionAttribute)override;
+	void OnCollision(const uint32_t collisionAttribute)override;
 	
 	void SetParent(const WorldTransform* parent);
 	void DeleteParent() {
@@ -105,6 +105,8 @@ private:
 	void PullDown();
 	bool IsOnGraund = true;
 	float DownForce = 0.98f;
+
+	Quaternion moveQuaternion_;
 	
 };
 
