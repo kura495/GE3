@@ -111,7 +111,7 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 	Quaternion Localq0 = q0;
 	Quaternion Localq1 = q1;
 	//q0とq1の内積
-	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z + Localq0.w * Localq1.w;
+	float dot = Localq0.x * Localq1.x + Localq0.y * Localq1.y + Localq0.z * Localq1.z;
 	if (dot < 0.0f) {
 		//もう片方の回転を利用
 		Localq0 = { -q0.x, -q0.y, -q0.z, -q0.w };
