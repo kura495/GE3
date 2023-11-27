@@ -1,5 +1,13 @@
 ﻿#include "Player.h"
 
+const std::array<ConstAttack, Player::ComboNum>Player::kConstAttacks_ = {
+	{
+	{10,0,20,0,0.0f,0.0f,0.15f},
+	{15,10,15,0,0.2f,0.0f,0.0f},
+	{15,10,15,30,0.2f,0.0f,0.0f},
+	}
+};
+
 void Player::Initialize(const std::vector<Model*>& models)
 {
 	std::vector<Model*> PlayerModel = { models[kModelIndexBody],models[kModelIndexHead],models[kModelIndexL_arm],models[kModelIndexR_arm]
@@ -14,14 +22,16 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::Initialize();
 	input = Input::GetInstance();
 
-
 	WorldTransformInitalize();
 
-	const char* groupName = "Player";
 	BoxCollider::SetcollisionMask(~kCollitionAttributePlayer);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributePlayer);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
+
+
+
+	const char* groupName = "Player";
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 	GlobalVariables::GetInstance()->AddItem(groupName,"DashSpeed",workDash_.dashSpeed_);
 
@@ -244,30 +254,34 @@ void Player::BehaviorAttackInit()
 
 	attackAnimationFrame = 0;
 	weapon_->AttackInit();
+	
+	workAttack_.anticipationTime = kConstAttacks_[workAttack_.comboIndex].anticipationTime;
 }
 
 void Player::BehaviorAttackUpdate()
 {
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
-	Quaternion ArmMovequaternion = worldTransformL_arm_.quaternion;
-		
-	float dot = Dot({ 0.0f,1.0f,0.0f }, {0.0f,0.0f,0.0f});
 	
+
+	if (workAttack_.anticipationTime-- >= 0.0f) {
+		return;
+	}
+
+	//腕の回転クォータニオンを求める
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
+	Quaternion ArmMovequaternion = worldTransformL_arm_.quaternion;	
+	float dot = Dot({ 0.0f,1.0f,0.0f }, {0.0f,0.0f,0.0f});
 	ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 	ArmMovequaternion = Normalize(ArmMovequaternion);
-	
+	//武器の回転クォータニオンを求める
 	cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,-1.0f,0.0f }));
 	Quaternion WeaponMovequaternion = worldTransform_Weapon_.quaternion;
-	
 	dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
-
 	WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 	WeaponMovequaternion = Normalize(WeaponMovequaternion);
 
 	if (attackAnimationFrame < 5) {
-		// 腕の挙動
 		float t = 0.2f;
-		
+		// 腕の挙動
 		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
 		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
 		// 武器の挙動

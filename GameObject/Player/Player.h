@@ -18,6 +18,31 @@ struct WorkDash {
 	//ダッシュ用スピード
 	float dashSpeed_ = 5.0f;
 };
+//攻撃用定数
+struct ConstAttack {
+	//振りかぶりの時間
+	uint32_t anticipationTime;
+	//ための時間
+	uint32_t chargeTime;
+	//攻撃振りの時間
+	uint32_t swingTime;
+	//硬直時間
+	uint32_t recoveryTime;
+	//振りかぶりの移動の速さ
+	float anticipationSpeed;	
+	//ための移動の速さ
+	float chargeSpeed;
+	//攻撃振りの移動の速さ
+	float swingSpeed;
+};
+//攻撃用ワーク
+struct WorkAttack {
+	//攻撃ギミック用
+	int32_t comboIndex = 0;
+	int32_t inComboPhase = 0;
+	uint32_t anticipationTime = 0;
+	bool comboNext = false;
+};
 
 class Player : public BaseCharacter , public BoxCollider
 {
@@ -46,7 +71,10 @@ public:
 		worldTransform_.parent_ = nullptr; }
 
 	Weapon* GetWeapon() { return weapon_.get(); }
-
+	//コンボの数
+	static const int ComboNum = 3;
+	//コンボ定数表
+	static const std::array<ConstAttack, ComboNum> kConstAttacks_;
 private:
 
 
@@ -60,10 +88,13 @@ private:
 	void BehaviorRootInit();
 	void BehaviorRootUpdate();
 	Vector3 move;
+	//プレイヤーの移動
+	float speed = 0.5f;
 	//攻撃
 	void BehaviorAttackInit();
 	void BehaviorAttackUpdate();
 	int attackAnimationFrame;
+	WorkAttack workAttack_;
 	//武器や腕の回転クォータニオン
 	Quaternion moveQuaternion_;
 	//ダッシュ
@@ -97,8 +128,7 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 
 	GlobalVariables* globalVariables = nullptr;
-	//プレイヤーの移動
-	float speed = 0.5f;
+
 	
 
 	//浮遊ギミック
