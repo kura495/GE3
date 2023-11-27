@@ -249,8 +249,8 @@ void Player::BehaviorAttackInit()
 	worldTransformL_arm_.quaternion = quaternion_;
 	worldTransformR_arm_.quaternion = quaternion_;
 	//武器の位置
-	quaternion_ = MakeRotateAxisAngleQuaternion(cross, 0);
-	worldTransform_Weapon_.quaternion = quaternion_;
+	//quaternion_ = MakeRotateAxisAngleQuaternion(cross, (float)std::numbers::pi / 2.0f);
+	//worldTransform_Weapon_.quaternion = quaternion_;
 
 	attackAnimationFrame = 0;
 	weapon_->AttackInit();
@@ -262,8 +262,9 @@ void Player::BehaviorAttackUpdate()
 {
 	
 
-	if (workAttack_.anticipationTime-- >= 0.0f) {
-		return;
+	if (workAttack_.anticipationTime >= 0.0f) {
+		workAttack_.anticipationTime--;
+			return;
 	}
 
 	//腕の回転クォータニオンを求める
