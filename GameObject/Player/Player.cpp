@@ -75,9 +75,9 @@ void Player::Update()
 		break;
 	}
 
-	PullDown();
 
-	if (worldTransform_.translation_.y <= -10.0f) {
+
+	if (worldTransform_.translation_.y <= -20.0f) {
 		//地面から落ちたらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
@@ -171,7 +171,7 @@ void Player::Move()
 		if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0) {
 			return;
 		}
-		Vector3 move{
+		move = {
 			(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
 			(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
 		//正規化をして斜めの移動量を正しくする
@@ -207,12 +207,14 @@ void Player::BehaviorRootInit()
 	worldTransformL_arm_.quaternion = IdentityQuaternion();
 	worldTransformR_arm_.quaternion = IdentityQuaternion();
 	weapon_->RootInit();
+	DownForce = 0.05f;
 }
 
 void Player::BehaviorRootUpdate()
 {
 	UpdateFloatingGimmick();
 	Move();
+	PullDown();
 	//RTで攻撃
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		behaviorRequest_ = Behavior::kAttack;
@@ -299,16 +301,16 @@ void Player::BehaviorDashInit()
 
 void Player::BehaviorDashUpdate()
 {
-	Vector3 move = { 0.0f,0.0f,1.0f };
+	Vector3 DashVector = { 0.0f,0.0f,1.0f };
 	//正規化をして斜めの移動量を正しくする
-	move.z = Normalize(move).z * workDash_.dashSpeed_;
+	DashVector.z = Normalize(DashVector).z * workDash_.dashSpeed_;
 	//プレイヤーの正面方向に移動するようにする
 	//回転行列を作る
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_.rotation_);
 	//移動ベクトルをカメラの角度だけ回転
-	move = TransformNormal(move, rotateMatrix);
+	DashVector = TransformNormal(DashVector, rotateMatrix);
 	//移動
-	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+	worldTransform_.translation_ = Add(worldTransform_.translation_, DashVector);
 	if (++workDash_.dashParameter_ >= behaviorDashTime) {
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -321,22 +323,22 @@ void Player::BehaviorJumpInit()
 	worldTransformR_arm_.quaternion.x = 0;
 
 	//ジャンプ初速
-	const float kJumpFirstSpeed = 2.0f;
+	const float kJumpFirstSpeed = 1.0f;
 
-	jumpForce = {0.0f,kJumpFirstSpeed,0.0f};
+	move.y = kJumpFirstSpeed;
 
 }
 
 void Player::BehaviorJumpUpdate()
 {
 	//移動
-	worldTransform_.translation_ += jumpForce;
+	worldTransform_.translation_ += move;
 	//重力加速度
 	const float kGravity = 0.05f;
 	//加速度ベクトル
 	Vector3 accelerationVector = {0.0f,-kGravity,0.0f};
 	//加速する
-	jumpForce += accelerationVector;
+	move += accelerationVector;
 
 	if (worldTransform_.translation_.y <= 0.0f) {
 		worldTransform_.translation_.y = 0.0f;
@@ -344,7 +346,6 @@ void Player::BehaviorJumpUpdate()
 		behaviorRequest_ = Behavior::kRoot;
 	}
 }
-
 
 void Player::InitializeFloatingGimmick() {
 	floatingParameter_ = 0.0f;
@@ -373,6 +374,14 @@ void Player::PullDown()
 		return;
 	}
 	else {
-		worldTransform_.translation_.y -= DownForce;
+		
+		//重力加速度
+		const float kGravity = 0.05f;
+		//加速度ベクトル
+		Vector3 accelerationVector = { 0.0f,-kGravity,0.0f };
+		//移動
+		worldTransform_.translation_.y += DownForce;
+
+		DownForce += accelerationVector.y;
 	}
 }

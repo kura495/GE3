@@ -59,6 +59,7 @@ private:
 	//通常
 	void BehaviorRootInit();
 	void BehaviorRootUpdate();
+	Vector3 move;
 	//攻撃
 	void BehaviorAttackInit();
 	void BehaviorAttackUpdate();
@@ -111,7 +112,7 @@ private:
 	//プレイヤーを下に引っ張る
 	void PullDown();
 	bool IsOnGraund = true;
-	float DownForce = 0.98f;
+	float DownForce = 0.05f;
 
 	
 	
