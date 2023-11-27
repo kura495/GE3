@@ -249,9 +249,9 @@ void Player::BehaviorAttackInit()
 	worldTransformL_arm_.quaternion = quaternion_;
 	worldTransformR_arm_.quaternion = quaternion_;
 	//武器の位置
-	quaternion_ = MakeRotateAxisAngleQuaternion(cross, (float)std::numbers::pi / 2.0f);
+	quaternion_ = MakeRotateAxisAngleQuaternion(cross, 0);
 	worldTransform_Weapon_.quaternion = quaternion_;
-
+	worldTransform_Weapon_.UpdateMatrix();
 	attackAnimationFrame = 0;
 	weapon_->AttackInit();
 	
