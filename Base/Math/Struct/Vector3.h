@@ -10,5 +10,12 @@ struct Vector3 final{
 		me.z = this->z + other.z;
 			return me;
 	}
+	Vector3* operator +=(Vector3 other) {
+	
+		this->x = this->x + other.x;
+		this->y = this->y + other.y;
+		this->z = this->z + other.z;
+			return this;
+	}
 };
 

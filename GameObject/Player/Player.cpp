@@ -51,7 +51,11 @@ void Player::Update()
 		case Behavior::kDash:
 			BehaviorDashInit();
 			break;
+		case Behavior::kJump:
+			BehaviorJumpInit();
+			break;
 		}
+		
 		behaviorRequest_ = std::nullopt;
 	}
 	switch (behavior_)
@@ -65,6 +69,9 @@ void Player::Update()
 		break;
 	case Behavior::kDash:
 		BehaviorDashUpdate();
+		break;
+	case Behavior::kJump:
+		BehaviorJumpUpdate();
 		break;
 	}
 
@@ -214,6 +221,10 @@ void Player::BehaviorRootUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		behaviorRequest_ = Behavior::kDash;
 	}
+	//Bでジャンプ
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+		behaviorRequest_ = Behavior::kJump;
+	}
 	
 }
 
@@ -299,6 +310,37 @@ void Player::BehaviorDashUpdate()
 	//移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	if (++workDash_.dashParameter_ >= behaviorDashTime) {
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
+
+void Player::BehaviorJumpInit()
+{
+	worldTransformBody_.translation_.y = 0;
+	worldTransformL_arm_.quaternion.x = 0;
+	worldTransformR_arm_.quaternion.x = 0;
+
+	//ジャンプ初速
+	const float kJumpFirstSpeed = 2.0f;
+
+	jumpForce = {0.0f,kJumpFirstSpeed,0.0f};
+
+}
+
+void Player::BehaviorJumpUpdate()
+{
+	//移動
+	worldTransform_.translation_ += jumpForce;
+	//重力加速度
+	const float kGravity = 0.05f;
+	//加速度ベクトル
+	Vector3 accelerationVector = {0.0f,-kGravity,0.0f};
+	//加速する
+	jumpForce += accelerationVector;
+
+	if (worldTransform_.translation_.y <= 0.0f) {
+		worldTransform_.translation_.y = 0.0f;
+		//ジャンプ終了
 		behaviorRequest_ = Behavior::kRoot;
 	}
 }

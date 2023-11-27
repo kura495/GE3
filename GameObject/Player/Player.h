@@ -9,6 +9,7 @@ enum class Behavior {
 	kRoot,//通常
 	kAttack,//攻撃中
 	kDash,//ダッシュ中
+	kJump,//ジャンプ中
 };
 //ダッシュ用ワーク
 struct WorkDash {
@@ -62,12 +63,18 @@ private:
 	void BehaviorAttackInit();
 	void BehaviorAttackUpdate();
 	int attackAnimationFrame;
+	//武器や腕の回転クォータニオン
+	Quaternion moveQuaternion_;
 	//ダッシュ
 	void BehaviorDashInit();
 	void BehaviorDashUpdate();
 	WorkDash workDash_;
 	//ダッシュの時間
 	const uint32_t behaviorDashTime = 20;
+	//ジャンプ
+	void BehaviorJumpInit();
+	void BehaviorJumpUpdate();
+	Vector3 jumpForce;
 
 	//ふるまい
 	Behavior behavior_ = Behavior::kRoot;
@@ -106,11 +113,7 @@ private:
 	bool IsOnGraund = true;
 	float DownForce = 0.98f;
 
-	Quaternion moveQuaternion_;
-
-	//攻撃
-	//腕用
-	Vector3 ArmMove = { 0.0f,0.0f,0.0f };
+	
 	
 };
 
