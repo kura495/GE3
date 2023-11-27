@@ -85,6 +85,8 @@ void Player::Update()
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
+	weapon_->Update();
+
 	BoxCollider::Update(&worldTransform_);
 	
 	
@@ -195,8 +197,8 @@ void Player::ApplyGlobalVariables()
 void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
-	worldTransformL_arm_.rotation_.x = 0.0f;
-	worldTransformR_arm_.rotation_.x = 0.0f;
+	worldTransformL_arm_.quaternion = IdentityQuaternion();
+	worldTransformR_arm_.quaternion = IdentityQuaternion();
 	weapon_->RootInit();
 }
 
@@ -217,33 +219,60 @@ void Player::BehaviorRootUpdate()
 
 void Player::BehaviorAttackInit()
 {
-	worldTransformL_arm_.rotation_.x = (float)std::numbers::pi;
-	worldTransformR_arm_.rotation_.x = (float)std::numbers::pi;
-	worldTransform_Weapon_.rotation_.x = 0.0f;
+
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, {0.0f,1.0f,0.0f}));
+	float dot = Dot({ 0.0f,0.0f,1.0f }, {0.0f,0.0f,-1.0f});
+	Quaternion quaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+	worldTransformL_arm_.quaternion = quaternion_;
+	worldTransformR_arm_.quaternion = quaternion_;
+
+	quaternion_ = MakeRotateAxisAngleQuaternion(cross, 0);
+	worldTransform_Weapon_.quaternion = quaternion_;
 	attackAnimationFrame = 0;
 	weapon_->AttackInit();
 }
 
 void Player::BehaviorAttackUpdate()
 {
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
+	Quaternion ArmMovequaternion = worldTransformL_arm_.quaternion;
+		
+	float dot = Dot({ 0.0f,1.0f,0.0f }, {0.0f,0.0f,0.0f});
+	
+	ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+	ArmMovequaternion = Normalize(ArmMovequaternion);
+	
+	cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,-1.0f,0.0f }));
+	Quaternion WeaponMovequaternion = worldTransform_Weapon_.quaternion;
+	
+	dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
+
+	WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+	WeaponMovequaternion = Normalize(WeaponMovequaternion);
+
 	if (attackAnimationFrame < 10) {
 		// 腕の挙動
-		worldTransformL_arm_.rotation_.x += 0.05f;
-		worldTransformR_arm_.rotation_.x += 0.05f;
-
+		float t = 0.2f;
+		
+		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
+		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
 		// 武器の挙動
-		worldTransform_Weapon_.rotation_.x -= 0.05f;
+		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
 	}
-	else if (worldTransform_Weapon_.rotation_.x <= 2.0f * (float)std::numbers::pi / 4) {
+	else if (attackAnimationFrame < 20) {
 		// 腕の挙動
-		worldTransformL_arm_.rotation_.x += 0.1f;
-		worldTransformR_arm_.rotation_.x += 0.1f;
+		float t = 0.1f;
+
+		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
+		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
 		// 武器の挙動
-		worldTransform_Weapon_.rotation_.x += 0.1f;
+		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion,WeaponMovequaternion, t);
 	}
 	else {
 		behaviorRequest_ = Behavior::kRoot;
 	}
+
+
 	worldTransform_Weapon_.UpdateMatrix();
 	weapon_->Update();
 	attackAnimationFrame++;

@@ -220,7 +220,7 @@ Quaternion Inverse(const Quaternion& quaternion)
 }
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
 {
-	Quaternion result{};
+	Quaternion result = IdentityQuaternion();
 
 	float halfAngle = angle / 2.0f;
 	float sin = std::sin(halfAngle);

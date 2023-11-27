@@ -107,6 +107,10 @@ private:
 	float DownForce = 0.98f;
 
 	Quaternion moveQuaternion_;
+
+	//攻撃
+	//腕用
+	Vector3 ArmMove = { 0.0f,0.0f,0.0f };
 	
 };
 
