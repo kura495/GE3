@@ -219,15 +219,16 @@ void Player::BehaviorRootUpdate()
 
 void Player::BehaviorAttackInit()
 {
-
+	//腕の位置
 	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, {0.0f,1.0f,0.0f}));
 	float dot = Dot({ 0.0f,0.0f,1.0f }, {0.0f,0.0f,-1.0f});
 	Quaternion quaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 	worldTransformL_arm_.quaternion = quaternion_;
 	worldTransformR_arm_.quaternion = quaternion_;
-
+	//武器の位置
 	quaternion_ = MakeRotateAxisAngleQuaternion(cross, 0);
 	worldTransform_Weapon_.quaternion = quaternion_;
+
 	attackAnimationFrame = 0;
 	weapon_->AttackInit();
 }
@@ -250,7 +251,7 @@ void Player::BehaviorAttackUpdate()
 	WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 	WeaponMovequaternion = Normalize(WeaponMovequaternion);
 
-	if (attackAnimationFrame < 10) {
+	if (attackAnimationFrame < 5) {
 		// 腕の挙動
 		float t = 0.2f;
 		
