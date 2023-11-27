@@ -32,20 +32,22 @@ void Enemy::Update()
 			IsAlive = true;
 		}
 	}
-	//IsAlive = true;
-	// 速さ
-	const float kSpeed = 0.01f;
-	Vector3 velocity{ 0.0f, 0.0f, kSpeed };
-
-	// 移動ベクトルをカメラの角度だけ回転
-	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
-
-	// 移動量
-	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+	
 	// 自機のY軸周り角度(θy)
-	worldTransform_.rotation_.y -= 0.03f;
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 1.0f,0.0f,0.0f }));
+	
+
+	Quaternion ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross,rotate_t);
+	ArmMovequaternion = Normalize(ArmMovequaternion);
+	
+	worldTransform_.quaternion = ArmMovequaternion;
 	
 	SoulRotationGimmick();
+	
+	rotate_t += 0.01f;
+	if (rotate_t >= 2.0f * (float)std::numbers::pi) {
+		rotate_t = 0.0f;
+	}
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
@@ -77,12 +79,10 @@ void Enemy::SetParent(const WorldTransform* parent) {
 
 void Enemy::SoulRotationGimmick()
 {
-	// 速さ
-	const float kSpeed = 1.5f;
-	Vector3 velocity{ 0.0f, 0.0f, kSpeed };
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 1.0f,0.0f,0.0f }));
 
-	// 移動ベクトルをカメラの角度だけ回転
-	velocity = TransformNormal(velocity, worldTransformBody_.matWorld_);
-	worldTransformSoul_.translation_ = Add(worldTransformBody_.translation_, velocity);
-	worldTransformSoul_.rotation_.y += 0.03f;
+	Quaternion ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, rotate_t * 2.0f);
+	ArmMovequaternion = Normalize(ArmMovequaternion);
+
+	worldTransformSoul_.quaternion = ArmMovequaternion;
 }

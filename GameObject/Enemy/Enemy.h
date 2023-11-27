@@ -22,4 +22,7 @@ private:
 	bool IsAlive = true;
 	const int kRespownTime = 120;
 	int RespownTimeCount = 0;
+
+	//回転の媒介変数
+	float rotate_t = 0.0f;
 };
