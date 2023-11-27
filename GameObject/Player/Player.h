@@ -38,6 +38,7 @@ struct ConstAttack {
 //攻撃用ワーク
 struct WorkAttack {
 	//攻撃ギミック用
+	uint32_t attackAnimeTimer_ = 0;
 	int32_t comboIndex = 0;
 	int32_t inComboPhase = 0;
 	uint32_t anticipationTime = 0;
@@ -93,6 +94,11 @@ private:
 	//攻撃
 	void BehaviorAttackInit();
 	void BehaviorAttackUpdate();
+	void Attack1();
+	void Attack2Init();
+	void Attack2();
+	void Attack3Init();
+	void Attack3();
 	int attackAnimationFrame;
 	WorkAttack workAttack_;
 	//武器や腕の回転クォータニオン
@@ -115,6 +121,7 @@ private:
 	//キー入力とパッド
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 	//Weapon
 	std::unique_ptr<Weapon>weapon_;
 	WorldTransform worldTransform_Weapon_;
