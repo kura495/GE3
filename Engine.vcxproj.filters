@@ -257,6 +257,9 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameObject\Player\LockOn.cpp">
+      <Filter>GameObjectソース\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -438,6 +441,9 @@
     </ClInclude>
     <ClInclude Include="Base\WorldTransform.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player\LockOn.h">
+      <Filter>GameObjectヘッダー\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

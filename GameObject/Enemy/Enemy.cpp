@@ -11,8 +11,6 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 	worldTransformSoul_.Initialize();
 	SetParent(&worldTransformBody_);
 	worldTransformBody_.parent_ = &worldTransform_;
-	worldTransform_.translation_ = { 10.0f, 0.0f, 20.0f
-	};
 	worldTransform_.UpdateMatrix();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeEnemy);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);

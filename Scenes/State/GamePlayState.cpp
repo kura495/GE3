@@ -27,15 +27,16 @@ void GamePlayState::Initialize()
 		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get(),modelFighterWeapon.get()
 	};
 	player->Initialize(playerModels);
+	//ロックオン機能
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initalize();
 #pragma endregion
 
 #pragma region enemy
-	enemy_ = std::make_unique<Enemy>();
 	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
 	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
-	std::vector<Model*> EnemyModels = {
-		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
-	enemy_->Initialize(EnemyModels);
+	AddEnemy({ 10.0f, 0.0f, 20.0f});
+	AddEnemy({ 7.0f, 0.0f, 20.0f});
 #pragma endregion
 
 	Skydome_ = std::make_unique<Skydome>();
@@ -92,7 +93,13 @@ else {
 
 
 	player->Update();
-	enemy_->Update();
+	
+	for (Enemy* enemy_ : enemies_) {
+		enemy_->Update();
+	}
+	
+
+	
 	Skydome_->Update();
 	plane_->Update();
 	plane_2->Update();
@@ -110,7 +117,10 @@ else {
 	
 	
 	collisionManager_->AddBoxCollider(player.get());
-	collisionManager_->AddBoxCollider(enemy_.get());
+	for (Enemy* enemy_ : enemies_) {
+		collisionManager_->AddBoxCollider(enemy_);
+	}
+
 	collisionManager_->AddBoxCollider(plane_.get());
 	collisionManager_->AddBoxCollider(plane_2.get());
 	collisionManager_->AddBoxCollider(plane_3.get());
@@ -126,7 +136,9 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
-	enemy_->Draw(viewProjection_);
+	for (Enemy* enemy_ : enemies_) {
+		enemy_->Draw(viewProjection_);
+	}
 	Skydome_->Draw(viewProjection_);
 	plane_->Draw(viewProjection_);
 	plane_2->Draw(viewProjection_);
@@ -154,4 +166,14 @@ void GamePlayState::Draw()
 	//Sprite描画ここまで
 	
 	//描画ここまで
+}
+
+void GamePlayState::AddEnemy(Vector3 Pos)
+{
+	Enemy* enemy_ = new Enemy();
+	std::vector<Model*> EnemyModels = {
+		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
+	enemy_->Initialize(EnemyModels);
+	enemy_->SetPos(Pos);
+	enemies_.push_back(enemy_);
 }

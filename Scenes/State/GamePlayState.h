@@ -16,6 +16,7 @@
 #pragma comment(lib,"dxguid.lib")
 #include "GameObject/Camera/Camera.h"
 #include "GameObject/Player/Player.h"
+#include "GameObject/Player/LockOn.h"
 #include "GameObject/Enemy/Enemy.h"
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Plane/Plane.h"
@@ -57,6 +58,7 @@ private:
 
 	//3Dオブジェクトたち
 	std::unique_ptr<Player> player;
+	std::unique_ptr<LockOn> lockOn_;
 	//プレイヤーモデル
 	std::unique_ptr<Model> modelFighterBody_ = nullptr;
 	std::unique_ptr<Model> modelFighterHead_ = nullptr;
@@ -67,7 +69,8 @@ private:
 	std::unique_ptr<Model> modelEnemyBody_ = nullptr;
 	std::unique_ptr<Model> modelEnemy_Soul_ = nullptr;
 
-	std::unique_ptr<Enemy> enemy_;
+	void AddEnemy(Vector3 Pos);
+	std::list<Enemy*> enemies_;
 
 	std::unique_ptr<Skydome> Skydome_;
 

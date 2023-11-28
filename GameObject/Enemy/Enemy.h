@@ -11,6 +11,7 @@ public:
 	void Update()override;
 	void Draw(const ViewProjection& viewProjection)override;
 	void OnCollision(uint32_t collisionAttribute)override;
+	void SetPos(Vector3 pos) { worldTransform_.translation_ = pos; }
 
 private:
 	void SetParent(const WorldTransform* parent);
