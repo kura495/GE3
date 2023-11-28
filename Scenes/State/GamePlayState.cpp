@@ -136,6 +136,7 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
+	lockOn_->Draw(viewProjection_);
 	for (Enemy* enemy_ : enemies_) {
 		enemy_->Draw(viewProjection_);
 	}

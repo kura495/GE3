@@ -5,7 +5,7 @@ class LockOn
 public:
 	void Initalize();
 	void Update();
-	void Draw();
+	void Draw(const ViewProjection& viewProjection);
 
 private:
 
