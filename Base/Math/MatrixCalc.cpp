@@ -1,7 +1,7 @@
 ﻿#include "Math/MatrixCalc.h"
 #include <limits>
 
-Matrix4x4 MakeIdentity4x4()
+Matrix4x4 CreateIdentity4x4()
 {
 	Matrix4x4 result = {
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -114,7 +114,7 @@ Matrix4x4 MakeRotateZMatrix(float radian) {
 Matrix4x4 MakeRotateMatrix(Vector3 rotation)
 {
 	Matrix4x4 result;
-	result = MakeIdentity4x4();	
+	result = CreateIdentity4x4();
 	result = Multiply(MakeRotateXMatrix(rotation.x),Multiply(MakeRotateYMatrix(rotation.y),MakeRotateZMatrix(rotation.z)));
 	return result;
 }

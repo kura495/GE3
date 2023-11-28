@@ -22,6 +22,8 @@ public:
 		CD3DX12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
 		// 名前
 		std::string name;
+		// 使っているかどうか
+		bool IsUsed = false;
 	};
 
 	static TextureManager* GetInstance();

@@ -15,11 +15,8 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 {
 	input->GetJoystickState(0,joyState);
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
-
+		search(enemies,viewProjection);
 	}
-	return;
-	enemies;
-	viewProjection;
 }
 
 void LockOn::Draw()
@@ -31,8 +28,36 @@ void LockOn::Draw()
 
 void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)
 {
-	//�ڕW
+	//目標
 	std::list<std::pair<float, const Enemy*>> targets;
-	//�S�Ă̓G�ɑ΂��ď��Ƀ��b�N�I������
+	//全ての敵に対して順にロックオン判定
+	for (Enemy* enemy_ : enemies) {
+		//敵のロックオン座標取得
+		Vector3 positionWorld = enemy_->GetWorldTransform().translation_;
+
+		//ワールド→ビュー座標変換
+		Vector3 positionView = VectorTransform(positionWorld,viewProjection.matView);
+
+		if (minDistance_ <= positionView.z && positionView.z <= maxDistance_) {
+			//カメラ前方との角度を計算
+			float arcTangent = std::atan2(std::sqrt(positionView.x * positionView.x + positionView.y * positionView.y), positionView.z);
+
+			//角度条件チェック(コーンにおさまっているか)
+			if (std::abs(arcTangent) <= angleRange_) {
+				targets.emplace_back(std::make_pair(positionView.z, enemy_));
+			}
+		}
+	}
+
+	//ロックオン対象をリセット
+	target_ = nullptr;
+	//targetsが空っぽ出なければ
+	if (!targets.empty()) {
+		//距離で昇順でソート
+		targets.sort([](auto& pair1, auto& pair2) {return pair1.first < pair2.first; });
+		//ソートの結果一番近い敵をロックオン対象とする
+		target_ = targets.front().second;
+
+	}
 
 }

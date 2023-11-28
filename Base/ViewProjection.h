@@ -44,6 +44,8 @@ struct ViewProjection {
 	Matrix4x4 matView;
 	// 射影行列
 	Matrix4x4 matProjection;
+	// カメラ行列
+	Matrix4x4 CameraMatrix;
 
 	/// <summary>
 	/// 初期化

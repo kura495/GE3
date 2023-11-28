@@ -4,10 +4,10 @@ void Camera::Initialize(int32_t kClientWidth, int32_t kClientHeight)
 {
 	kClientWidth_= kClientWidth;
 	kClientHeight_= kClientHeight;
-	matRot_ = MakeIdentity4x4();
+	matRot_ = CreateIdentity4x4();
 	worldMatrix = MakeAffineMatrix({ 1,1,1 },Vector3 { 0,0,0 }, { 0,0,0 });
 	/*Matrix4x4 cameraMatrix = MakeAffineMatrix({1,1,1},{0,0,0}, translation_);*/
-	Matrix4x4 cameraMatrix = MakeIdentity4x4();
+	Matrix4x4 cameraMatrix = CreateIdentity4x4();
 	cameraMatrix = Multiply(cameraMatrix, matRot_);
 	Matrix4x4 Move = MakeTranslateMatrix(translation_);
 	cameraMatrix = Multiply(cameraMatrix, Move);
@@ -29,7 +29,7 @@ void Camera::Update()
 #endif // _DEBUG
 	worldMatrix = MakeAffineMatrix({ 1,1,1 }, Vector3{ 0,0,0 }, { 0,0,0 });
 	/*Matrix4x4 cameraMatrix = MakeAffineMatrix({ 1,1,1 }, {0,0,0}, translation_);*/
-	Matrix4x4 cameraMatrix = MakeIdentity4x4();
+	Matrix4x4 cameraMatrix = CreateIdentity4x4();
 	//cameraMatrix = Multiply(cameraMatrix,matRot_);
 	//TODO:rotate後で消す！！
 	Matrix4x4 rotate = MakeRotateMatrix(rotation_);
@@ -57,7 +57,7 @@ Vector3 Camera::GetmatRot()
 void Camera::DebugCameraMove()
 {
 #pragma region rotation
-		Matrix4x4 matRotDelta = MakeIdentity4x4();
+		Matrix4x4 matRotDelta = CreateIdentity4x4();
 		if (input->IspushKey(DIK_UP)) {
 			const float speed = -0.05f;
 			matRotDelta = Multiply(matRotDelta, MakeRotateXMatrix(speed));

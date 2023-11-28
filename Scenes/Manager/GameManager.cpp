@@ -16,6 +16,9 @@ void GameManager::Initialize()
 	winApp = WinApp::GetInstance();
 	//DirectX
 	directX = DirectXCommon::GetInstance();
+	//Renderer
+	renderer_ = std::make_unique<Renderer>();
+	renderer_->Initalize();
 	//Audio
 	audio = Audio::GetInstance();
 	audio->Initialize();
@@ -35,8 +38,10 @@ void GameManager::Initialize()
 	//State
 	state[TITLE] = std::make_unique<GameTitleState>();
 	state[PLAY] = std::make_unique<GamePlayState>();
-	state[PLAY]->Initialize();
-	GameState::StateNo = TITLE;
+	state[CLEAR] = std::make_unique<GameClearState>();
+	state[TITLE]->Initialize();
+	currentSceneNum_ = TITLE;
+	/*state[Boss]->Initialize();*/
 }
 void GameManager::Gameloop()
 {
@@ -46,16 +51,24 @@ void GameManager::Gameloop()
 			DispatchMessage(&msg);
 		}
 		else {
+			prevSceneNum_ = currentSceneNum_;
+			currentSceneNum_ = state[currentSceneNum_]->GetSceneNum();
+
+			if (prevSceneNum_ != currentSceneNum_)
+			{
+				state[currentSceneNum_]->Initialize();
+			}
 			imGuiManager->BeginFrame();
 			directX->PreView();
+			renderer_->Draw(PipelineType::Standerd);
 			input->Update();
-			state[GameState::StateNo]->Update();
-			state[GameState::StateNo]->Draw();
+			state[currentSceneNum_]->Update();
+			state[currentSceneNum_]->Draw();
 			imGuiManager->EndFrame();
 			directX->PostView();
 		}
 	}
-	
+
 }
 
 void GameManager::Release()

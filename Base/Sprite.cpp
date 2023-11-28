@@ -39,7 +39,7 @@ void Sprite::Initialize(const Vector4& LeftTop, const Vector4& LeftBottom, const
 	indexData[5] = 2;
 
 	viewProjection_.Initialize();
-	viewProjection_.constMap->view = MakeIdentity4x4();
+	viewProjection_.constMap->view = CreateIdentity4x4();
 	viewProjection_.constMap->projection = MakeOrthographicMatrix(0.0f, 0.0f, float(WinApp::kClientWidth), float(WinApp::kClientHeight), 0.0f, 100.0f);
 
 }
@@ -52,7 +52,7 @@ void Sprite::Draw(const WorldTransform& transform,const uint32_t TextureHandle)
 	materialData->color = color_;
 	//ライティングをしない
 	materialData->enableLighting = false;
-	materialData->uvTransform = MakeIdentity4x4();
+	materialData->uvTransform = CreateIdentity4x4();
 	Matrix4x4 uvTransformMatrix = MakeScaleMatrix(uvTranform.scale);
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZMatrix(uvTranform.rotate.z));
 	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTranform.translate));

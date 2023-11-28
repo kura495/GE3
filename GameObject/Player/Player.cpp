@@ -479,7 +479,11 @@ void Player::BehaviorDashUpdate()
 	DashVector.z = Normalize(DashVector).z * workDash_.dashSpeed_;
 	//プレイヤーの正面方向に移動するようにする
 	//回転行列を作る
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(worldTransform_.rotation_);
+	move = Normalize(move);
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
+	float dot = Dot({ 0.0f,0.0f,1.0f }, move);
+	moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(moveQuaternion_);
 	//移動ベクトルをカメラの角度だけ回転
 	DashVector = TransformNormal(DashVector, rotateMatrix);
 	//移動

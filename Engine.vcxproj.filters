@@ -65,24 +65,6 @@
     <Filter Include="GameObjectソース\Goal">
       <UniqueIdentifier>{b47fc20f-045c-4b9b-815d-e039ba24f1bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenesソース">
-      <UniqueIdentifier>{4daa0f17-004f-4069-be16-b52ffc9211c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesソース\Manager">
-      <UniqueIdentifier>{d7d1cf80-41a1-433d-aa34-ec9099cfbd06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesソース\State">
-      <UniqueIdentifier>{815f09b2-983d-4b5d-9155-7098162ef22a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesヘッダー">
-      <UniqueIdentifier>{ce7a2ccb-3c79-4d96-9a64-5c69d1f951a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesヘッダー\State">
-      <UniqueIdentifier>{23c14a85-fee4-41c0-bb09-43b1d5f71aa3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenesヘッダー\Manager">
-      <UniqueIdentifier>{a12342b7-6a3c-4011-a2ee-bc9da68c4b95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjectヘッダー\Weapon">
       <UniqueIdentifier>{79a0e5bc-c5df-411b-a54d-b745aba3dfe6}</UniqueIdentifier>
     </Filter>
@@ -116,6 +98,36 @@
     <Filter Include="Engine\Base\Collider">
       <UniqueIdentifier>{0a9c68e3-19ae-4e6e-94e4-55158d97d1d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Base\ParticleSystem">
+      <UniqueIdentifier>{938d2fa0-42e7-4197-a0cb-573b0bfd54d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\ParticleSystem\PipeLine">
+      <UniqueIdentifier>{a352b819-8922-4672-9cf5-eada58ba5756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\PipeLineState">
+      <UniqueIdentifier>{ded4c6a4-0a6a-48ec-8030-e2901c5e9879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\PipeLineState\Standard">
+      <UniqueIdentifier>{5ce68b2c-6e36-4502-9992-d77d3a1589ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Renderer">
+      <UniqueIdentifier>{d8cafa05-6e52-442b-88f8-225b6d5d1ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\ShaderCompiler">
+      <UniqueIdentifier>{9a310ae4-f5da-4e63-8f49-2643faa95ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Manager">
+      <UniqueIdentifier>{a8eed34b-33eb-4398-b299-c4e0fc62f1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{4daa0f17-004f-4069-be16-b52ffc9211c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Manager">
+      <UniqueIdentifier>{d7d1cf80-41a1-433d-aa34-ec9099cfbd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\State">
+      <UniqueIdentifier>{815f09b2-983d-4b5d-9155-7098162ef22a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="externals\imgui\imgui.cpp">
@@ -143,16 +155,16 @@
       <Filter>GameObjectソース\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\Manager\GameManager.cpp">
-      <Filter>Scenesソース\Manager</Filter>
+      <Filter>Scenes\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\State\GameClearState.cpp">
-      <Filter>Scenesソース\State</Filter>
+      <Filter>Scenes\State</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\State\GamePlayState.cpp">
-      <Filter>Scenesソース\State</Filter>
+      <Filter>Scenes\State</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\State\GameTitleState.cpp">
-      <Filter>Scenesソース\State</Filter>
+      <Filter>Scenes\State</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Player\Player.cpp">
       <Filter>GameObjectソース\Player</Filter>
@@ -235,9 +247,6 @@
     <ClCompile Include="Base\MyEngine.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Particle.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Base\Sphere.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -259,6 +268,24 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObject\Player\LockOn.cpp">
       <Filter>GameObjectソース\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\Particle.cpp">
+      <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.cpp">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\PipelineState\Standard\Standard.cpp">
+      <Filter>Engine\Base\PipeLineState\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Renderer\Renderer.cpp">
+      <Filter>Engine\Base\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Engine\Base\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Manager\PSOManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,21 +315,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Camera\Camera.h">
       <Filter>GameObjectヘッダー\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\Manager\GameManager.h">
-      <Filter>Scenesヘッダー\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\GameClearState.h">
-      <Filter>Scenesヘッダー\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\GamePlayState.h">
-      <Filter>Scenesヘッダー\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\GameTitleState.h">
-      <Filter>Scenesヘッダー\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\State\IgameState.h">
-      <Filter>Scenesヘッダー\State</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Player\Player.h">
       <Filter>GameObjectヘッダー\Player</Filter>
@@ -421,9 +433,6 @@
     <ClInclude Include="Base\MyEngine.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Particle.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\Sphere.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -444,6 +453,45 @@
     </ClInclude>
     <ClInclude Include="GameObject\Player\LockOn.h">
       <Filter>GameObjectヘッダー\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\Particle.h">
+      <Filter>Engine\Base\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ParticleSystem\PipeLine\ParticlePipeLine.h">
+      <Filter>Engine\Base\ParticleSystem\PipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\IPipelineStateObject.h">
+      <Filter>Engine\Base\PipeLineState</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\PipeLineTags.h">
+      <Filter>Engine\Base\PipeLineState</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\PipelineState\Standard\Standard.h">
+      <Filter>Engine\Base\PipeLineState\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Renderer\Renderer.h">
+      <Filter>Engine\Base\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Engine\Base\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Manager\PSOManager.h">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Manager\GameManager.h">
+      <Filter>Scenes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GameClearState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GamePlayState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\GameTitleState.h">
+      <Filter>Scenes\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\State\IgameState.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

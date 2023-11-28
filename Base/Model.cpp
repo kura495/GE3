@@ -15,7 +15,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 	materialResource.Get()->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 
 	
-	materialData->uvTransform = MakeIdentity4x4();
+	materialData->uvTransform = CreateIdentity4x4();
 }
 
 void Model::Draw(const WorldTransform& transform, const ViewProjection& viewProjection)
