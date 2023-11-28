@@ -98,7 +98,7 @@ else {
 		enemy_->Update();
 	}
 	
-
+	
 	
 	Skydome_->Update();
 	plane_->Update();
@@ -110,7 +110,7 @@ else {
 	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
-
+	lockOn_->Update(enemies_,viewProjection_);
 
 	viewProjection_.UpdateMatrix();
 	
@@ -136,7 +136,7 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
-	lockOn_->Draw(viewProjection_);
+	lockOn_->Draw();
 	for (Enemy* enemy_ : enemies_) {
 		enemy_->Draw(viewProjection_);
 	}
