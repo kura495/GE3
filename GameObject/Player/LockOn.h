@@ -4,6 +4,7 @@
 #include "Base/Sprite.h"
 #include "GameObject/Enemy/Enemy.h"
 #include "Base/TextureManager.h"
+#include "Base/Input/Input.h"
 
 class LockOn
 {
@@ -13,6 +14,10 @@ public:
 	void Draw();
 
 private:
+	void search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection);
+
+	Input* input = nullptr;
+	XINPUT_STATE joyState;
 
 	std::unique_ptr<Sprite> lockOnMark_;
 	const Enemy* target_ = nullptr;
