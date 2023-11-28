@@ -412,6 +412,10 @@ void Player::Attack3Init()
 	Quaternion zAxisQuaternion_ = MakeRotateAxisAngleQuaternion(cross, (float)-std::numbers::pi / 2.0f);
 	//合成したQuaternionを代入
 	worldTransform_Weapon_.quaternion = zAxisQuaternion_;
+	//腕をZ軸回転
+	cross = Normalize(Cross({ 0.0f,1.0f,0.0f }, { 1.0f,0.0f,0.0f }));
+	zAxisQuaternion_ = MakeRotateAxisAngleQuaternion(cross, (float)std::numbers::pi / 2.0f);
+	worldTransformR_arm_.quaternion = Multiply(worldTransformR_arm_.quaternion,zAxisQuaternion_);
 	//腕の回転を同じにする
 	worldTransformL_arm_.quaternion = worldTransformR_arm_.quaternion;
 	//腕と武器の位置を戻す
