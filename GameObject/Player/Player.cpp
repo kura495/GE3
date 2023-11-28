@@ -366,6 +366,11 @@ void Player::Attack1()
 		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
 
 	}
+	else if (attackAnimationFrame == 0) {
+		worldTransformL_arm_.quaternion = ArmMovequaternion;
+		worldTransformR_arm_.quaternion = ArmMovequaternion;
+		worldTransform_Weapon_.quaternion = WeaponMovequaternion;
+	}
 
 	worldTransform_Weapon_.UpdateMatrix();
 	weapon_->Update();
@@ -407,28 +412,57 @@ void Player::Attack2()
 }
 void Player::Attack3Init()
 {
-	//武器の回転
-	Vector3 cross = Normalize(Cross({ 0.0f,1.0f,0.0f }, { 1.0f,0.0f,0.0f }));
-	Quaternion zAxisQuaternion_ = MakeRotateAxisAngleQuaternion(cross, (float)-std::numbers::pi / 2.0f);
-	//合成したQuaternionを代入
-	worldTransform_Weapon_.quaternion = zAxisQuaternion_;
-	//腕をZ軸回転
-	cross = Normalize(Cross({ 0.0f,1.0f,0.0f }, { 1.0f,0.0f,0.0f }));
-	zAxisQuaternion_ = MakeRotateAxisAngleQuaternion(cross, (float)std::numbers::pi / 2.0f);
-	worldTransformR_arm_.quaternion = Multiply(worldTransformR_arm_.quaternion,zAxisQuaternion_);
-	//腕の回転を同じにする
-	worldTransformL_arm_.quaternion = worldTransformR_arm_.quaternion;
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
+	Quaternion ArmMovequaternion = worldTransformL_arm_.quaternion;
+	float dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
+	ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+	ArmMovequaternion = Normalize(ArmMovequaternion);
 	//腕と武器の位置を戻す
+	worldTransformR_arm_.quaternion = ArmMovequaternion;
+	worldTransformL_arm_.quaternion = ArmMovequaternion;
 	worldTransformR_arm_.translation_.z = 0;
 	worldTransform_Weapon_.translation_.z = 0;
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 	worldTransform_Weapon_.UpdateMatrix();
 }
-
 void Player::Attack3()
 {
+	//腕の位置
+	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
+	float dot = Dot({ 0.0f,0.0f,1.0f }, { 0.0f,0.0f,-1.0f });
+	// 腕の挙動
+	Quaternion ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+	// 武器の挙動
+	Quaternion WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, 0);
 
+
+	if (attackAnimationFrame > 15) {
+		float t = 0.3f;
+
+		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
+		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
+
+		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
+	}
+	else if (attackAnimationFrame > 0) {
+		// 腕の挙動
+		float t = 0.1f;
+
+		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
+		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
+
+		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
+
+	}
+	else if (attackAnimationFrame == 0) {
+		worldTransformL_arm_.quaternion = ArmMovequaternion;
+		worldTransformR_arm_.quaternion = ArmMovequaternion;
+		worldTransform_Weapon_.quaternion = WeaponMovequaternion;
+	}
+	worldTransform_Weapon_.UpdateMatrix();
+	weapon_->Update();
+	attackAnimationFrame--;
 }
 
 void Player::BehaviorDashInit()
