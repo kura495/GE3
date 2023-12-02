@@ -88,4 +88,5 @@ private:
 	std::unique_ptr<MovePlane> plane_Move_;
 
 	std::unique_ptr<Particle> particle = nullptr;
+	int Texture_;
 };

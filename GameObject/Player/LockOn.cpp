@@ -6,8 +6,25 @@ void LockOn::Initalize()
 	input = Input::GetInstance();
 	Texture_ = TextureManager::GetInstance()->LoadTexture("resources/reticle.png");
 	lockOnMark_ = std::make_unique<Sprite>();
-	lockOnMark_->Initialize({-1.0f,1.0f,0.0f,0.0f},{-1.0f,-1.0f,0.0f,0.0f},{1.0f,1.0f,0.0f,0.0f},{1.0f,-1.0f,0.0f,0.0f});
+	Vector4 LeftTop[2] = {
+		{ 0.0f,0.0f,0.0f,1.0f },
+		{ 360.0f,0.0f,0.0f,1.0f }
+	};
+	Vector4 LeftBottom[2] = {
+		{ 0.0f,64.0f,0.0f,1.0f },
+		{ 360.0f,360.0f,0.0f,1.0f }
+	};
+	Vector4 RightTop[2] = {
+		{ 360.0f,0.0f,0.0f,1.0f },
+		{ 64.0f,0.0f,0.0f,1.0f }
+	};
+	Vector4 RightBottom[2] = {
+		{ 360.0f,180.0f,0.0f,1.0f },
+		{ 64,64,0.0f,1.0f }
+	};
+	lockOnMark_->Initialize(LeftTop[0], LeftBottom[0], RightTop[1], RightBottom[1]);
 	world_.Initialize();
+	world_.translation_.x = -3.0f;
 
 }
 
@@ -15,15 +32,18 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 {
 	input->GetJoystickState(0,joyState);
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
-		search(enemies,viewProjection);
+		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+			search(enemies, viewProjection);
+		}
 	}
+	joyStatePre = joyState;
 }
 
 void LockOn::Draw()
 {
-	if (target_) {
+	/*if (target_) {*/
 		lockOnMark_->Draw(world_, Texture_);
-	}
+	
 }
 
 void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)

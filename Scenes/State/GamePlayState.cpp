@@ -81,6 +81,7 @@ void GamePlayState::Initialize()
 	particle = std::make_unique<Particle>();
 	particle->Initalize(10,"resources/circle.png");
 
+	Texture_ = TextureManager::GetInstance()->LoadTexture("resources/reticle.png");
 }
 
 void GamePlayState::Update()

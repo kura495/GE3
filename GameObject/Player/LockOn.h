@@ -18,6 +18,7 @@ private:
 
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
+	XINPUT_STATE joyStatePre;
 
 	std::unique_ptr<Sprite> lockOnMark_;
 	const Enemy* target_ = nullptr;

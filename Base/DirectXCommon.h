@@ -13,6 +13,8 @@
 #pragma comment(lib,"dxguid.lib")
 #include "externals/DirectXTex/d3dx12.h"
 #include <wrl.h>
+#include <chrono>
+#include <thread>
 
 #include "PipeLineState/PipeLineTags.h"
 
@@ -20,6 +22,11 @@ struct PipelineStateObject {
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
 };
+
+//1/60秒ぴったりの時間
+const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+//1/60秒よりわずかに短い時間
+const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
 
 class DirectXCommon
 {
@@ -101,6 +108,13 @@ private:
 
 	void MakeViewport();
 	void MakeScissor();
+
+	//FPS固定初期化
+	void InitalizeFixFPS();
+	//FPS固定更新
+	void UpdateFixFPS();
+	//記録時間(FPS固定用)
+	//逆行しないタイマー
+	std::chrono::steady_clock::time_point reference_;
+
 };
-
-
