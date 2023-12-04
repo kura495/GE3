@@ -1,4 +1,5 @@
 ﻿#include "FollowCamera.h"
+#include "GameObject/Player/LockOn.h"
 
 void FollowCamera::Initalize() { 
 	viewProjection_.Initialize();
@@ -24,8 +25,17 @@ void FollowCamera::Update() {
 		//オフセット分と追従座標の補間分ずらす
 		viewProjection_.translation_ = workInter.interTarget_ + offset;
 	}
+	//ロックオン中
+	if (lockOn_->ExistTarget()) {
+		//ロックオン座標
+		Vector3 lockOnPos = lockOn_->GetTargetPosition();
+
+		Vector3 sub = lockOnPos - workInter.interTarget_;
+
+		viewProjection_.rotation_.y = std::atan2(sub.x,sub.z);
+	}
 	//スティックでのカメラ回転
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+	else if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		const float kRadian = 0.02f;
 		viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
 	}

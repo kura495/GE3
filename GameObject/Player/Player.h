@@ -5,6 +5,8 @@
 #include "GameObject/Weapon/Weapon.h"
 #include "Base/Math/Calc.h"
 
+//前方宣言
+class LockOn;
 enum class Behavior {
 	kRoot,//通常
 	kAttack,//攻撃中
@@ -69,13 +71,16 @@ public:
 			return;
 		}
 		worldTransform_.translation_ = Add(worldTransform_.GetTranslateFromMatWorld(),{0.0f,0.0f,0.0f});
-		worldTransform_.parent_ = nullptr; }
+		worldTransform_.parent_ = nullptr; 
+	}
 
 	Weapon* GetWeapon() { return weapon_.get(); }
 	//コンボの数
 	static const int ComboNum = 3;
 	//コンボ定数表
 	static const std::array<ConstAttack, ComboNum> kConstAttacks_;
+
+	void SetLockOn(LockOn* lockOn) { this->lockOn_ = lockOn; }
 private:
 
 
@@ -136,7 +141,8 @@ private:
 
 	GlobalVariables* globalVariables = nullptr;
 
-	
+	//ロックオン
+	const LockOn* lockOn_ = nullptr;
 
 	//浮遊ギミック
 	void InitializeFloatingGimmick();

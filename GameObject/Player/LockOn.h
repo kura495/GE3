@@ -13,6 +13,9 @@ public:
 	void Update(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection);
 	void Draw();
 
+	Vector3 GetTargetPosition()const;
+	bool ExistTarget()const { return target_ ? true : false; }
+
 private:
 	void search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection);
 	Vector3 WorldToScreen(Vector3& position, const ViewProjection& viewProjection);

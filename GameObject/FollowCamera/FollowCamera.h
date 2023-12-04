@@ -5,6 +5,9 @@
 #include "WorldTransform.h"
 #include "MatrixCalc.h"
 #include "VectorCalc.h"
+
+//前方宣言
+class LockOn;
 //カメラ補間用ワーク
 struct WorkInterpolation {
 	//追従対象の残像座標
@@ -23,6 +26,8 @@ public:
 	void SetTarget(const WorldTransform* target);
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
+	void SetLockOn(LockOn* lockOn) { this->lockOn_ = lockOn; }
+
 private:
 	//jsonファイルの値を適応
 	void ApplyGlobalVariables();
@@ -30,6 +35,8 @@ private:
 	ViewProjection viewProjection_;
 	//追従対象
 	const WorldTransform* target_ = nullptr;
+	//ロックオン
+	const LockOn* lockOn_ = nullptr;
 	// ゲームパッド
 	XINPUT_STATE joyState;
 	

@@ -1,4 +1,5 @@
 ﻿#include "Player.h"
+#include "GameObject/Player/LockOn.h"
 
 const std::array<ConstAttack, Player::ComboNum>Player::kConstAttacks_ = {
 	{
@@ -124,6 +125,9 @@ void Player::OnCollision(const uint32_t collisionAttribute)
 {
 	if (collisionAttribute == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
+		//ペアレントの解除
+		DeleteParent();
+
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
@@ -178,30 +182,45 @@ void Player::WorldTransformInitalize()
 void Player::Move()
 {
 		//移動量
-		if (joyState.Gamepad.sThumbLX == 0 && joyState.Gamepad.sThumbLY == 0) {
-			return;
-		}
-		move = {
+		if (joyState.Gamepad.sThumbLX != 0 && joyState.Gamepad.sThumbLY != 0) {
+			move = {
 			(float)joyState.Gamepad.sThumbLX / SHRT_MAX, 0.0f,
 			(float)joyState.Gamepad.sThumbLY / SHRT_MAX };
-		//正規化をして斜めの移動量を正しくする
-		move = Normalize(move);
-		move.x =move.x * speed;
-		move.y =move.y * speed;
-		move.z =move.z * speed;
-		//カメラの正面方向に移動するようにする
-		//回転行列を作る
-		Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
-		//移動ベクトルをカメラの角度だけ回転
-		move = TransformNormal(move, rotateMatrix);
-		//移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
-		//プレイヤーの向きを移動方向に合わせる
-		//playerのY軸周り角度(θy)
-		move = Normalize(move);
-		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
-		float dot = Dot({ 0.0f,0.0f,1.0f }, move);
-		moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+			//正規化をして斜めの移動量を正しくする
+			move = Normalize(move);
+			move.x =move.x * speed;
+			move.y =move.y * speed;
+			move.z =move.z * speed;
+			//カメラの正面方向に移動するようにする
+			//回転行列を作る
+			Matrix4x4 rotateMatrix = MakeRotateMatrix(viewProjection_->rotation_);
+			//移動ベクトルをカメラの角度だけ回転
+			move = TransformNormal(move, rotateMatrix);
+			//移動
+			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+			//プレイヤーの向きを移動方向に合わせる
+			move = Normalize(move);
+			Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
+			float dot = Dot({ 0.0f,0.0f,1.0f }, move);
+			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+		}
+		else if (lockOn_ && lockOn_->ExistTarget()) {
+			//ロックオン座標
+			Vector3 lockOnPosition = lockOn_->GetTargetPosition();
+			//追従対象からロックオン対象へのベクトル
+			Vector3 sub = lockOnPosition - worldTransform_.GetTranslateFromMatWorld();
+
+			//プレイヤーの現在の向き
+			sub = Normalize(sub);
+
+			Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, sub));
+			float dot = Dot({0.0f,0.0f,1.0f}, sub);
+
+			//行きたい方向のQuaternionの作成
+			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+		}
+		worldTransform_.UpdateMatrix();
+		
 		
 }
 
@@ -327,7 +346,37 @@ void Player::BehaviorAttackUpdate()
 			behaviorRequest_ = Behavior::kRoot;
 		}
 	}
+	//ロックオン中の敵の方向を向く
+	if (lockOn_ && lockOn_->ExistTarget()) {
+		//ロックオン座標
+		Vector3 lockOnPosition = lockOn_->GetTargetPosition();
+		//追従対象からロックオン対象へのベクトル
+		Vector3 sub = lockOnPosition - worldTransform_.GetTranslateFromMatWorld();
+
+		//距離
+		float distance = Length(sub);
+		//距離のしきい値
+		const float threshold = 0.02f;
+
+		//プレイヤーの現在の向き
+		sub = Normalize(sub);
+
+		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, sub));
+		float dot = Dot({ 0.0f,0.0f,1.0f }, sub);
 	
+		if (distance > threshold) {
+			//行きたい方向のQuaternionの作成
+			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+
+			//しきい値を超える速さなら補正する
+			if (speed > distance - threshold) {
+				//ロックオン対象へのめりこみ防止
+				speed = distance - threshold;
+			}
+		}
+
+	}
+
 	workAttack_.attackAnimeTimer_++;
 	worldTransform_Weapon_.UpdateMatrix();
 	weapon_->Update();
@@ -500,7 +549,7 @@ void Player::BehaviorJumpInit()
 	worldTransformR_arm_.quaternion.x = 0;
 
 	//ジャンプ初速
-	const float kJumpFirstSpeed = 1.0f;
+	const float kJumpFirstSpeed = 0.5f;
 
 	move.y = kJumpFirstSpeed;
 

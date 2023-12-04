@@ -70,6 +70,14 @@ void LockOn::Draw()
 	}
 }
 
+Vector3 LockOn::GetTargetPosition() const
+{
+	if (target_) {
+		return target_->GetPos();
+	}
+	return Vector3();
+}
+
 void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)
 {
 	//目標
@@ -84,10 +92,11 @@ void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& view
 
 		if (minDistance_ <= positionView.z && positionView.z <= maxDistance_) {
 			//カメラ前方との角度を計算
-			float arcTangent = std::atan2(std::sqrt(positionView.x * positionView.x + positionView.y * positionView.y), positionView.z);
+			float norm = Length(positionView);
+			float angleCosine = std::acos(positionView.z / norm);
 
 			//角度条件チェック(コーンにおさまっているか)
-			if (std::abs(arcTangent) <= angleRange_) {
+			if (std::abs(angleCosine) <= angleRange_) {
 				targets.emplace_back(std::make_pair(positionView.z, enemy_));
 			}
 		}
@@ -128,10 +137,11 @@ bool LockOn::ChackOnLockOnRenge(const ViewProjection& viewProjection)
 
 	if (minDistance_ <= positionView.z && positionView.z <= maxDistance_) {
 		//カメラ前方との角度を計算
-		float arcTangent = std::atan2(std::sqrt(positionView.x * positionView.x + positionView.y * positionView.y), positionView.z);
+		float norm = Length(positionView);
+		float angleCosine = std::acos(positionView.z / norm);
 
 		//角度条件チェック(コーンにおさまっているか)
-		if (std::abs(arcTangent) <= angleRange_) {
+		if (std::abs(angleCosine) <= angleRange_) {
 			return false;
 		}
 	}

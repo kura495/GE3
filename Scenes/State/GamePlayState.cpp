@@ -76,8 +76,11 @@ void GamePlayState::Initialize()
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
+	followCamera->SetLockOn(lockOn_.get());
+	
 	player->SetViewProjection(&followCamera->GetViewProjection());
-
+	player->SetLockOn(lockOn_.get());
+	
 	particle = std::make_unique<Particle>();
 	particle->Initalize(10,"resources/circle.png");
 
