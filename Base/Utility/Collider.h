@@ -32,6 +32,13 @@ public:
 
 	int GetId() { return Id_; }
 
+	Vector3 GetPositionFromMatrix() const {
+		return { world_.matWorld_.m[3][0],world_.matWorld_.m[3][1],world_.matWorld_.m[3][2] };
+	}
+	Vector3 GetPosition() const {
+		return world_.translation_;
+	}
+
 protected:
 
 	void SetId(int Type) { Id_ = Type; }
@@ -49,6 +56,10 @@ private:
 	/// 衝突マスク(相手)
 	/// </summary>
 	uint32_t collisionMask_ = 0xffffffff;
+	/// <summary>
+	/// 原点
+	/// </summary>
+	WorldTransform world_;
 
 	float Radius_;
 

@@ -37,13 +37,23 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 		}
 	}
 	joyStatePre = joyState;
+
+	if (target_) {
+		//敵のロックオン座標取得
+		Vector3 positionWorld = target_->GetPositionFromMatrix();
+		//ワールド座標からスクリーン座標に変換
+		Vector3 positionScreen = 
+
+	}
+
+	world_.UpdateMatrix();
 }
 
 void LockOn::Draw()
 {
-	/*if (target_) {*/
+	if (target_) {
 		lockOnMark_->Draw(world_, Texture_);
-	
+	}
 }
 
 void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)
