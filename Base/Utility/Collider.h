@@ -33,6 +33,12 @@ public:
 	int GetId() { return Id_; }
 
 
+	Vector3 GetPositionFromMatrix() const {
+		return { world_.matWorld_.m[3][0],world_.matWorld_.m[3][1],world_.matWorld_.m[3][2] };
+	}
+	Vector3 GetPosition() const {
+		return world_.translation_;
+	}
 
 protected:
 

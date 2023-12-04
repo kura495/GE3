@@ -41,9 +41,9 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 
 void LockOn::Draw()
 {
-	/*if (target_) {*/
+	if (target_) {
 		lockOnMark_->Draw(world_, Texture_);
-	
+	}
 }
 
 void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)
