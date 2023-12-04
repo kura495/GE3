@@ -24,8 +24,6 @@ void LockOn::Initalize()
 	};
 	lockOnMark_->Initialize(LeftTop[0], LeftBottom[0], RightTop[1], RightBottom[1]);
 	world_.Initialize();
-	world_.translation_.x = -3.0f;
-
 }
 
 void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewProjection)
@@ -36,6 +34,19 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 			search(enemies, viewProjection);
 		}
 	}
+
+	if (target_) {
+		//敵のロックオン座標取得
+		Vector3 positionWorld = target_->GetPos();
+		//ワールド座標からスクリーン座標に変換
+		Vector3 positionScreen = WorldToScreen(positionWorld,viewProjection);
+		//Vector2に格納
+		//TODO : 少しずれているので修正
+		Vector2 positionScreenV2 = { positionScreen.x,positionScreen.y };
+		//スプライトの座標の位置を設定
+		world_.translation_ = positionScreen;
+	}
+	world_.UpdateMatrix();
 	joyStatePre = joyState;
 }
 

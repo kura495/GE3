@@ -12,6 +12,10 @@ public:
 	void Draw(const ViewProjection& viewProjection)override;
 	void OnCollision(uint32_t collisionAttribute)override;
 	void SetPos(Vector3 pos) { worldTransform_.translation_ = pos; }
+	Vector3 GetPos() const {
+	return	{ worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1]
+			, worldTransform_.matWorld_.m[3][2]};
+	}
 
 private:
 	void SetParent(const WorldTransform* parent);
