@@ -30,10 +30,7 @@ private:
 	/// x,y,zそれぞれの幅
 	/// </summary>
 	Vector3 range_;
-	/// <summary>
-	/// 原点
-	/// </summary>
-	WorldTransform world_;
+
 	/// <summary>
 	/// 箱の大きさ
 	/// </summary>
