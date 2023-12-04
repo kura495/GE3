@@ -29,20 +29,33 @@ void LockOn::Initalize()
 void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewProjection)
 {
 	input->GetJoystickState(0,joyState);
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
-		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
-			search(enemies, viewProjection);
+
+	if (target_) {
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
+			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+				target_ = nullptr;
+			}
+		}else if (ChackOnLockOnRenge(viewProjection)) {
+		target_ = nullptr;
+		}
+
+	}else {
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
+			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+				search(enemies, viewProjection);
+			}
 		}
 	}
+	
 
 	if (target_) {
 		//敵のロックオン座標取得
-		Vector3 positionWorld = target_->GetPos();
+		//ずれているので調整
+		Vector3 positionWorld = { target_->GetPos().x,target_->GetPos().y + 1.0f,target_->GetPos().z };
 		//ワールド座標からスクリーン座標に変換
 		Vector3 positionScreen = WorldToScreen(positionWorld,viewProjection);
 		//Vector2に格納
-		//TODO : 少しずれているので修正
-		Vector2 positionScreenV2 = { positionScreen.x,positionScreen.y };
+		Vector2 positionScreenV2 = { positionScreen.x,positionScreen.y};
 		//スプライトの座標の位置を設定
 		world_.translation_ = positionScreen;
 	}
@@ -103,4 +116,24 @@ Vector3 LockOn::WorldToScreen(Vector3& position, const ViewProjection& viewProje
 	Vector3 position_ = VectorTransform(position, matViewProjctionViewport);
 
 	return position_;
+}
+
+bool LockOn::ChackOnLockOnRenge(const ViewProjection& viewProjection)
+{
+	//敵のロックオン座標取得
+	Vector3 positionWorld = target_->GetPos();
+
+	//ワールド→ビュー座標変換
+	Vector3 positionView = VectorTransform(positionWorld, viewProjection.matView);
+
+	if (minDistance_ <= positionView.z && positionView.z <= maxDistance_) {
+		//カメラ前方との角度を計算
+		float arcTangent = std::atan2(std::sqrt(positionView.x * positionView.x + positionView.y * positionView.y), positionView.z);
+
+		//角度条件チェック(コーンにおさまっているか)
+		if (std::abs(arcTangent) <= angleRange_) {
+			return false;
+		}
+	}
+	return true;
 }

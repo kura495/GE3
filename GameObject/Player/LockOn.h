@@ -16,6 +16,8 @@ public:
 private:
 	void search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection);
 	Vector3 WorldToScreen(Vector3& position, const ViewProjection& viewProjection);
+	bool ChackOnLockOnRenge(const ViewProjection& viewProjection);
+
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
