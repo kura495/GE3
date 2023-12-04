@@ -33,7 +33,10 @@ public:
 	int GetId() { return Id_; }
 
 protected:
-
+	/// <summary>
+	/// 原点
+	/// </summary>
+	WorldTransform world_;
 	void SetId(int Type) { Id_ = Type; }
 	
 private:
