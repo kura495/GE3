@@ -106,22 +106,30 @@ else {
 }
 #endif // _DEBUG
 
-	/*enemies_.remove_if([](Enemy* enemy) {
-		if (enemy->GetIsAlive()) {
-			return false;
+
+	
+	if (!player->GetIsAlive()) {
+		for (Enemy* enemy_ : enemies_) {
+			enemy_->Reset();
 		}
-		delete enemy;
-		return true;
-	});*/
-	
-	
+		player->Reset();
+	}
 
 	player->Update();
 	
 	for (Enemy* enemy_ : enemies_) {
 		enemy_->Update();
+		if (enemy_->GetIsHit()) {
+			if (IsSetParticle == false) {
+				particle->Reset(enemy_->GetPos());
+				IsSetParticle = true;
+			}
+			break;
+		}
 	}
-	
+	if (!particle->GetIsAlive()) {
+		IsSetParticle = false;
+	}
 	
 	
 	Skydome_->Update();

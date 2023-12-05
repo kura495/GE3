@@ -38,6 +38,10 @@ public:
 
 	void SetPos(Vector3 Pos);
 
+	void Reset(Vector3 Pos);
+
+	bool GetIsAlive() { return IsAlive; };
+
 private:
 	//インスタンスの数
 	const uint32_t kNumMaxInstance = 10;
@@ -78,6 +82,8 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
 	const float kDeltaTime = 1.0f / 60.0f;
+
+	bool IsAlive = true;
 
 	//ランダム
 	ParticleForGPU MakeNewParticle(std::mt19937& randomEngine);

@@ -94,6 +94,7 @@ void Player::Update()
 
 	if (worldTransform_.translation_.y <= -20.0f) {
 		//地面から落ちたらリスタートする
+		IsAlive = false;
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
@@ -131,7 +132,7 @@ void Player::OnCollision(const Collider* collider)
 		//敵に当たったらリスタートする
 		//ペアレントの解除
 		DeleteParent();
-
+		IsAlive = false;
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
@@ -144,6 +145,7 @@ void Player::OnCollision(const Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
 		//ゴールしたらリスタートする
+		IsAlive = false;
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;

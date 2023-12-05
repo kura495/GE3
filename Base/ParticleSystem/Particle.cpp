@@ -90,6 +90,10 @@ void Particle::Update()
 		particles[Volume_i].matWorld = MakeAffineMatrix({1.0f,1.0f,1.0f}, Vector3{0.0f,0.0f,0.0f}, particles[Volume_i].translate);
 		++numInstance;
 	}
+
+	if (numInstance == 0) {
+		IsAlive = false;
+	}
 }
 
 void Particle::Draw(const ViewProjection& viewProjection)
@@ -137,6 +141,20 @@ void Particle::SetPos(Vector3 Pos)
 	 particles[Volume_i].translate = Pos;
 	}
 
+}
+
+void Particle::Reset(Vector3 Pos)
+{
+	IsAlive = true;
+	//ランダム生成用
+	std::random_device seedGenerator;
+	std::mt19937 ranndomEngine(seedGenerator());
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i] = MakeNewParticle(ranndomEngine);
+	}
+	for (uint32_t Volume_i = 0; Volume_i < kNumMaxInstance; Volume_i++) {
+		particles[Volume_i].translate = Pos;
+	}
 }
 
 void Particle::CreateResources()

@@ -87,4 +87,6 @@ private:
 
 	std::unique_ptr<Particle> particle = nullptr;
 	int Texture_;
+
+	bool IsSetParticle = false;
 };

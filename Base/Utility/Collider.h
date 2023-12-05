@@ -38,6 +38,9 @@ public:
 	Vector3 GetPosition() const {
 		return world_.translation_;
 	}
+	WorldTransform GetColliderWorld()const {
+		return world_;
+	}
 
 protected:
 	/// <summary>

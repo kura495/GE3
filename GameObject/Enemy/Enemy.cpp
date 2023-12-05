@@ -31,9 +31,11 @@ void Enemy::Update()
 		}
 		else if (t <= 0.0f) {
 			IsAlive = false;
+			IsHit = false;
 		}
 		models_[kModelIndexBody]->SetColor({1.0f,1.0f,1.0f,t});
 		models_[kModelIndexHead]->SetColor({1.0f,1.0f,1.0f,t});
+		worldTransform_.translation_ = Add(worldTransform_.translation_, deathAnimationVelocity);
 	}
 	
 	// 自機のY軸周り角度(θy)
@@ -70,8 +72,10 @@ void Enemy::OnCollision(const Collider* collider)
 {
 	//武器に当たった時
 	if (collider->GetcollitionAttribute() == kCollitionAttributeWeapon) {
-		worldTransform_.translation_.y += 0.2f;
+		const float kSpeed = 0.5f;
 		IsHit = true;
+		deathAnimationVelocity = { 0.0f,0.2f,kSpeed };
+		deathAnimationVelocity = TransformNormal(deathAnimationVelocity, player_->GetWorldTransform().matWorld_);
 	}
 
 	return;

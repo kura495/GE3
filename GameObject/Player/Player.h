@@ -81,8 +81,11 @@ public:
 	static const std::array<ConstAttack, ComboNum> kConstAttacks_;
 
 	void SetLockOn(LockOn* lockOn) { this->lockOn_ = lockOn; }
-private:
 
+	bool GetIsAlive()const { return IsAlive; }
+	void Reset() { IsAlive = true; }
+private:
+	bool IsAlive = true;
 
 	void WorldTransformInitalize();
 	
