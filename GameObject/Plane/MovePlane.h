@@ -21,7 +21,7 @@ public:
 	void Update();
 	void Draw(const ViewProjection& viewProjection);
 
-	void OnCollision(uint32_t collisionAttribute)override;
+	void OnCollision(const Collider* collider)override;
 
 	void LinearMoveGimmick();
 

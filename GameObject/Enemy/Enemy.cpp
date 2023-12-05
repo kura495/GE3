@@ -61,10 +61,10 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 	}
 }
 
-void Enemy::OnCollision(uint32_t collisionAttribute)
+void Enemy::OnCollision(const Collider* collider)
 {
 	//プレイヤーと当たった時は何もしない
-	if (collisionAttribute == kCollitionAttributeWeapon) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributeWeapon) {
 		IsAlive = false;
 	}
 	return;

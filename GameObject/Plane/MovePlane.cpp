@@ -36,9 +36,9 @@ void MovePlane::Draw(const ViewProjection& viewProjection)
 	BaseCharacter::Draw(viewProjection);
 }
 
-void MovePlane::OnCollision(uint32_t collisionAttribute)
+void MovePlane::OnCollision(const Collider* collider)
 {
-	if (collisionAttribute == kCollitionAttributePlayer) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer) {
 		IsHit = true;
 	}
 	return;

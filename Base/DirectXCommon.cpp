@@ -124,7 +124,8 @@ void DirectXCommon::PostView()
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 	//FPS固定
-	UpdateFixFPS();
+	//TODO : 固定が30fになってしまうのでとりあえずなし
+	//UpdateFixFPS();
 
 	hr = commandAllocator->Reset();
 	assert(SUCCEEDED(hr));

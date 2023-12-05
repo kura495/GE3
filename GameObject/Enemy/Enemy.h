@@ -10,7 +10,7 @@ public:
 	void Initialize(const std::vector<Model*>& models)override;
 	void Update()override;
 	void Draw(const ViewProjection& viewProjection)override;
-	void OnCollision(uint32_t collisionAttribute)override;
+	void OnCollision(const Collider* collider)override;
 	void SetPos(Vector3 pos) { worldTransform_.translation_ = pos; }
 	Vector3 GetPos() const {
 	return	{ worldTransform_.matWorld_.m[3][0], worldTransform_.matWorld_.m[3][1]

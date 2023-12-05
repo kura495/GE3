@@ -36,7 +36,10 @@ void GamePlayState::Initialize()
 	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
 	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
 	AddEnemy({ 10.0f, 0.0f, 20.0f});
-	AddEnemy({ 7.0f, 0.0f, 20.0f});
+	AddEnemy({ 15.0f, 0.0f, 20.0f});
+	AddEnemy({ 20.0f, 0.0f, 15.0f});
+	AddEnemy({ 20.0f, 0.0f, 10.0f});
+	AddEnemy({ 10.0f, 0.0f, 15.0f});
 #pragma endregion
 
 	Skydome_ = std::make_unique<Skydome>();

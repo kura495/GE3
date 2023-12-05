@@ -37,10 +37,10 @@ void Weapon::SetParent(const WorldTransform& parent)
 	worldTransform_.parent_ = &parent;
 }
 
-void Weapon::OnCollision(uint32_t collisionAttribute)
+void Weapon::OnCollision(const Collider* collider)
 {
 
-	if (collisionAttribute == kCollitionAttributeEnemy) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		return;
 	}
 }

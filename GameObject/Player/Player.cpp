@@ -121,9 +121,9 @@ void Player::Draw(const ViewProjection& viewProjection)
 		weapon_->Draw(viewProjection);
 	}
 }
-void Player::OnCollision(const uint32_t collisionAttribute)
+void Player::OnCollision(const Collider* collider)
 {
-	if (collisionAttribute == kCollitionAttributeEnemy) {
+	if (collider->GetcollitionAttribute() == kCollitionAttributeEnemy) {
 		//敵に当たったらリスタートする
 		//ペアレントの解除
 		DeleteParent();
@@ -132,13 +132,13 @@ void Player::OnCollision(const uint32_t collisionAttribute)
 		worldTransform_.UpdateMatrix();
 		behaviorRequest_ = Behavior::kRoot;
 	}
-	else if (collisionAttribute == kCollitionAttributeFloor) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeFloor) {
 		IsOnGraund = true;
 	}
-	else if (collisionAttribute == kCollitionAttributeMoveFloor) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeMoveFloor) {
 		IsOnGraund = true;
 	}
-	else if (collisionAttribute == kCollitionAttributeGoal) {
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
 		//ゴールしたらリスタートする
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
@@ -283,7 +283,6 @@ void Player::BehaviorAttackInit()
 	workAttack_.comboIndex = 0;
 
 	attackAnimationFrame = kConstAttacks_[workAttack_.comboIndex].swingTime;
-	weapon_->AttackInit();
 	
 	workAttack_.anticipationTime = kConstAttacks_[workAttack_.comboIndex].anticipationTime;
 
@@ -474,6 +473,7 @@ void Player::Attack3Init()
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 	worldTransform_Weapon_.UpdateMatrix();
+
 }
 void Player::Attack3()
 {
@@ -502,7 +502,7 @@ void Player::Attack3()
 		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
 
 		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
-
+		weapon_->AttackInit();
 	}
 	else if (attackAnimationFrame == 0) {
 		worldTransformL_arm_.quaternion = ArmMovequaternion;

@@ -12,7 +12,7 @@ public:
 	void AttackInit();
 	void SetParent(const WorldTransform& parent);
 
-	void OnCollision(uint32_t collisionAttribute)override;
+	void OnCollision(const Collider* collider)override;
 
 
 
