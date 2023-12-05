@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "GameObject/Player/LockOn.h"
 
+
 const std::array<ConstAttack, Player::ComboNum>Player::kConstAttacks_ = {
 	{
 	{10,0,20,0,0.0f,0.0f,0.15f},
@@ -30,7 +31,10 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
 
-
+	models_[kModelIndexBody]->SetLightMode(Lighting::harfLambert);
+	models_[kModelIndexHead]->SetLightMode(Lighting::harfLambert);
+	models_[kModelIndexL_arm]->SetLightMode(Lighting::harfLambert);
+	models_[kModelIndexR_arm]->SetLightMode(Lighting::harfLambert);
 
 	const char* groupName = "Player";
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
@@ -486,13 +490,15 @@ void Player::Attack3()
 	Quaternion WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, 0);
 
 
-	if (attackAnimationFrame > 15) {
+	if (attackAnimationFrame > 10) {
 		float t = 0.3f;
 
 		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
 		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
 
 		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
+		//武器に判定を追加
+		weapon_->AttackInit();
 	}
 	else if (attackAnimationFrame > 0) {
 		// 腕の挙動
@@ -502,7 +508,7 @@ void Player::Attack3()
 		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
 
 		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
-		weapon_->AttackInit();
+
 	}
 	else if (attackAnimationFrame == 0) {
 		worldTransformL_arm_.quaternion = ArmMovequaternion;

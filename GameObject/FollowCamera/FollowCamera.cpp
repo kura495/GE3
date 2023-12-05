@@ -42,6 +42,8 @@ void FollowCamera::Update() {
 		else {
 			rotate_ = (sub.x >= 0.0) ? std::numbers::pi_v<float> / 2.0f : -std::numbers::pi_v<float> / 2.0f;
 		}
+
+		parameter_t = 0.1f;
 	}
 	//スティックでのカメラ回転
 	else if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -50,8 +52,9 @@ void FollowCamera::Update() {
 
 		rotate_ += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
 
+		parameter_t = 1.0f;
 	}
-	viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, rotate_, 0.1f);
+	viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, rotate_, parameter_t);
 	viewProjection_.UpdateMatrix();
 }
 

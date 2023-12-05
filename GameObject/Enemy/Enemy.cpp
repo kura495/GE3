@@ -1,5 +1,5 @@
 ﻿#include "Enemy.h"
-
+#include "GameObject/Player/Player.h"
 Enemy::Enemy(){}
 Enemy::~Enemy(){}
 
@@ -23,12 +23,17 @@ void Enemy::Update()
 {
 	if (IsAlive == false) {
 		BoxCollider::SetSize({ 0.0f,0.0f,0.0f });
-		RespownTimeCount++;
-		if (RespownTimeCount == kRespownTime) {
-			RespownTimeCount = 0;
-			BoxCollider::SetSize({ 2.0f,2.0f,2.0f });
-			IsAlive = true;
+	}
+
+	if (IsHit) {
+		if (t > 0.0f) {
+			t -= 0.1f;
 		}
+		else if (t <= 0.0f) {
+			IsAlive = false;
+		}
+		models_[kModelIndexBody]->SetColor({1.0f,1.0f,1.0f,t});
+		models_[kModelIndexHead]->SetColor({1.0f,1.0f,1.0f,t});
 	}
 	
 	// 自機のY軸周り角度(θy)
@@ -63,10 +68,12 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 
 void Enemy::OnCollision(const Collider* collider)
 {
-	//プレイヤーと当たった時は何もしない
+	//武器に当たった時
 	if (collider->GetcollitionAttribute() == kCollitionAttributeWeapon) {
-		IsAlive = false;
+		worldTransform_.translation_.y += 0.2f;
+		IsHit = true;
 	}
+
 	return;
 }
 

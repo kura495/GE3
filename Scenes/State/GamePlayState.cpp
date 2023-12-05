@@ -106,6 +106,15 @@ else {
 }
 #endif // _DEBUG
 
+	/*enemies_.remove_if([](Enemy* enemy) {
+		if (enemy->GetIsAlive()) {
+			return false;
+		}
+		delete enemy;
+		return true;
+	});*/
+	
+	
 
 	player->Update();
 	
@@ -182,5 +191,6 @@ void GamePlayState::AddEnemy(Vector3 Pos)
 		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
 	enemy_->Initialize(EnemyModels);
 	enemy_->SetPos(Pos);
+	enemy_->setPlayer(player.get());
 	enemies_.push_back(enemy_);
 }
