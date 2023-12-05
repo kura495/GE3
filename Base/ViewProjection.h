@@ -27,6 +27,8 @@ struct ViewProjection {
 	Vector3 rotation_ = { 0, 0, 0 };
 	// ローカル座標
 	Vector3 translation_ = { 0, 0, -25 };
+	//quaternion
+	Quaternion quaternion = { 0.0f,0.0f,0.0f,1.0f };
 #pragma endregion
 
 #pragma region 射影行列の設定

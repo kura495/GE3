@@ -23,11 +23,6 @@ struct PipelineStateObject {
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
 };
 
-//1/60秒ぴったりの時間
-const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
-//1/60秒よりわずかに短い時間
-const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
-
 class DirectXCommon
 {
 public:

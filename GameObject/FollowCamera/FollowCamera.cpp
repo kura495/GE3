@@ -32,16 +32,30 @@ void FollowCamera::Update() {
 
 		Vector3 sub = lockOnPos - workInter.interTarget_;
 
+		if (sub.z != 0.0) {
+			rotate_ = std::asin(sub.x / std::sqrt(sub.x * sub.x + sub.z * sub.z));
+
+			if (sub.z < 0.0) {
+				rotate_ = (sub.x >= 0.0) ? std::numbers::pi_v<float> -rotate_ : -std::numbers::pi_v<float> -rotate_;
+			}
+		}
+		else {
+			rotate_ = (sub.x >= 0.0) ? std::numbers::pi_v<float> / 2.0f : -std::numbers::pi_v<float> / 2.0f;
+		}
+
 		viewProjection_.rotation_.y = std::atan2(sub.x,sub.z);
 	}
 	//スティックでのカメラ回転
 	else if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+
 		const float kRadian = 0.02f;
-		viewProjection_.rotation_.y += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
+
+		rotate_ += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
+
+		viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, rotate_, 1.0f);
 	}
 	
-	viewProjection_.UpdateViewMatrix();
-	viewProjection_.TransferMatrix();
+	viewProjection_.UpdateMatrix();
 }
 
 void FollowCamera::SetTarget(const WorldTransform* target)

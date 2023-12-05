@@ -47,13 +47,18 @@ void GamePlayState::Initialize()
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
 		model_plane_.get() };
-	plane_ = std::make_unique<Plane>();
-	plane_->Initalize(PlaneModels, { 0.0f,0.0f,0.0f });
+	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+		plane_[Volume_i] = std::make_unique<Plane>();
+	}
 
-	plane_2 = std::make_unique<Plane>();
-	plane_2->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f});
-	plane_3 = std::make_unique<Plane>();
-	plane_3->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
+	plane_[0]->Initalize(PlaneModels, {0.0f,0.0f,0.0f});
+	plane_[1]->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f});
+	plane_[2]->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
+	plane_[3]->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
+	plane_[4]->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
+	plane_[5]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
+	plane_[6]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
+	plane_[7]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
 
 	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
 	std::vector<Model*> Plane_Move_Models = {
@@ -108,9 +113,9 @@ else {
 	
 	
 	Skydome_->Update();
-	plane_->Update();
-	plane_2->Update();
-	plane_3->Update();
+	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+		plane_[Volume_i]->Update();
+	}
 	plane_Move_->Update();
 	goal->Update();
 
@@ -127,10 +132,9 @@ else {
 	for (Enemy* enemy_ : enemies_) {
 		collisionManager_->AddBoxCollider(enemy_);
 	}
-
-	collisionManager_->AddBoxCollider(plane_.get());
-	collisionManager_->AddBoxCollider(plane_2.get());
-	collisionManager_->AddBoxCollider(plane_3.get());
+	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+		collisionManager_->AddBoxCollider(plane_[Volume_i].get());		
+	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->AddBoxCollider(goal.get());
 	collisionManager_->AddBoxCollider(player->GetWeapon());
@@ -150,9 +154,9 @@ void GamePlayState::Draw()
 		enemy_->Draw(viewProjection_);
 	}
 	Skydome_->Draw(viewProjection_);
-	plane_->Draw(viewProjection_);
-	plane_2->Draw(viewProjection_);
-	plane_3->Draw(viewProjection_);
+	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+		plane_[Volume_i]->Draw(viewProjection_);
+	}
 	plane_Move_->Draw(viewProjection_);
 	goal->Draw(viewProjection_);
 	//3Dモデル描画ここまで	

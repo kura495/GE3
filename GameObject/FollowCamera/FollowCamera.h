@@ -5,6 +5,7 @@
 #include "WorldTransform.h"
 #include "MatrixCalc.h"
 #include "VectorCalc.h"
+#include "Calc.h"
 
 //前方宣言
 class LockOn;
@@ -39,6 +40,8 @@ private:
 	const LockOn* lockOn_ = nullptr;
 	// ゲームパッド
 	XINPUT_STATE joyState;
+
+	float rotate_ = 0.0f;
 	
 	//追従対象の座標・角度を再設定
 	void Reset();

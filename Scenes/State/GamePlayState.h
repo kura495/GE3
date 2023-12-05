@@ -77,9 +77,7 @@ private:
 
 	std::unique_ptr<Model> model_plane_ = nullptr;
 	
-	std::unique_ptr<Plane> plane_;
-	std::unique_ptr<Plane> plane_2;
-	std::unique_ptr<Plane> plane_3;
+	std::unique_ptr<Plane> plane_[8];
 
 	std::unique_ptr<Model> model_goal_ = nullptr;
 	std::unique_ptr<Goal> goal;
