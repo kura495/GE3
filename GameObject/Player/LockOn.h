@@ -17,13 +17,21 @@ public:
 	bool ExistTarget()const { return target_ ? true : false; }
 
 private:
-	void search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection);
+	void Search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection);
 	Vector3 WorldToScreen(Vector3& position, const ViewProjection& viewProjection);
 	bool ChackOnLockOnRenge(const ViewProjection& viewProjection);
+	void Target();
+	void ChangeTarget();
+
+	//目標
+	std::list<std::pair<float, const Enemy*>> targets;
 
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
+
+	int iteratornum;
+	int max = 0;
 
 	std::unique_ptr<Sprite> lockOnMark_;
 	const Enemy* target_ = nullptr;

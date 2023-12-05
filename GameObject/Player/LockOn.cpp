@@ -42,11 +42,25 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 	}else {
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
 			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
-				search(enemies, viewProjection);
+				Search(enemies, viewProjection);
 			}
 		}
 	}
-	
+	//Yを押したらターゲット変更
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
+		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_Y)) {
+			if (iteratornum > 0) {
+				iteratornum--;
+				Search(enemies, viewProjection);
+				ChangeTarget();
+			}
+			else {
+				iteratornum = max;
+				Search(enemies, viewProjection);
+				ChangeTarget();
+			}
+		}
+	}
 
 	if (target_) {
 		//敵のロックオン座標取得
@@ -78,10 +92,9 @@ Vector3 LockOn::GetTargetPosition() const
 	return Vector3();
 }
 
-void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)
+void LockOn::Search(const std::list<Enemy*>& enemies, const ViewProjection& viewProjection)
 {
-	//目標
-	std::list<std::pair<float, const Enemy*>> targets;
+	targets.clear();
 	//全ての敵に対して順にロックオン判定
 	for (Enemy* enemy_ : enemies) {
 		//敵のロックオン座標取得
@@ -101,19 +114,41 @@ void LockOn::search(const std::list<Enemy*>& enemies, const ViewProjection& view
 			}
 		}
 	}
-
-	//ロックオン対象をリセット
-	target_ = nullptr;
-	//targetsが空っぽ出なければ
-	if (!targets.empty()) {
-		//距離で昇順でソート
-		targets.sort([](auto& pair1, auto& pair2) {return pair1.first < pair2.first; });
-		//ソートの結果一番近い敵をロックオン対象とする
-		target_ = targets.front().second;
-
-	}
+	Target();
 
 }
+
+void LockOn::Target() {
+	target_ = nullptr;
+
+	if (!targets.empty()) {
+		targets.sort([](auto& pair1, auto& pair2) {return pair1.first > pair2.first; });
+		max = (int)targets.size();
+		target_ = targets.front().second;
+	}
+}
+
+void LockOn::ChangeTarget()
+{
+
+	if (!targets.empty()) {
+		targets.sort([](auto& pair1, auto& pair2) {return pair1.first > pair2.first; });
+		max = (int)targets.size();
+		target_ = targets.front().second;
+
+		auto it = targets.begin(); // イテレータをリストの先頭に設定する
+		if (iteratornum >= targets.size()) {
+			iteratornum = (int)targets.size();
+		}
+		//iteratorを回数分進める
+		std::advance(it, iteratornum);
+		if (it != targets.end()) {
+			std::pair<float, const Enemy*>element = *it;
+			target_ = element.second;
+		}
+	}
+}
+
 
 Vector3 LockOn::WorldToScreen(Vector3& position, const ViewProjection& viewProjection)
 {

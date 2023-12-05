@@ -54,11 +54,11 @@ void GamePlayState::Initialize()
 	plane_[0]->Initalize(PlaneModels, {0.0f,0.0f,0.0f});
 	plane_[1]->Initalize(PlaneModels, {0.0f, 0.0f, 30.0f});
 	plane_[2]->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
-	plane_[3]->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
-	plane_[4]->Initalize(PlaneModels, {10.0f, 0.0f, 20.0f});
+	plane_[3]->Initalize(PlaneModels, {10.0f, 0.0f, 10.0f});
+	plane_[4]->Initalize(PlaneModels, {10.0f, 0.0f, 0.0f});
 	plane_[5]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
-	plane_[6]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
-	plane_[7]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
+	plane_[6]->Initalize(PlaneModels, {20.0f, 0.0f, 10.0f});
+	plane_[7]->Initalize(PlaneModels, {20.0f, 0.0f, 0.0f});
 
 	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
 	std::vector<Model*> Plane_Move_Models = {
