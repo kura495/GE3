@@ -16,7 +16,8 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeEnemy);
 
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
-
+	models_[kModelIndexBody]->SetLightMode(Lighting::harfLambert);
+	models_[kModelIndexHead]->SetLightMode(Lighting::harfLambert);
 }
 
 void Enemy::Update()
