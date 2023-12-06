@@ -26,5 +26,6 @@ private:
 	
 	//void CheckCollisionCircle(Collider* colliderA, Collider* colliderB);
 	void CheckCollisionBox(BoxCollider* colliderA, BoxCollider* colliderB);
-	//void CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB);
+	void CheckCollitionOBBox(OBBoxCollider* colliderA, OBBoxCollider* colliderB);
+	bool SeparationAxis(const Vector3 axis, const OBB obb_1, const OBB obb_2);
 };

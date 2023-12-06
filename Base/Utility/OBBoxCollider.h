@@ -18,6 +18,7 @@ public:
 	void SetOrientations(Matrix4x4 Matrix);
 	void OBBIndex(const OBB& obb, std::vector<Vector3>& outputvertices);
 	bool SeparationAxis(const Vector3 axis, const OBB obb_1, const OBB obb_2);
+	Vector3 GetOrientations(uint32_t num) { return obb_.orientations[num]; }
 private:
 
 	OBB obb_;
