@@ -15,23 +15,3 @@ void OBBoxCollider::SetOrientations(Matrix4x4 Matrix)
 }
 
 
-void OBBoxCollider::OBBIndex(const OBB & obb, std::vector<Vector3>&outputvertices) {
-    std::vector<Vector3> vertices = {
-        {-obb.size},
-        {+obb.size.x, -obb.size.y, -obb.size.z},
-        {+obb.size.x, -obb.size.y, +obb.size.z},
-        {-obb.size.x, -obb.size.y, +obb.size.z},
-        {-obb.size.x, +obb.size.y, -obb.size.z},
-        {+obb.size.x, +obb.size.y, -obb.size.z},
-        {obb.size},
-        {-obb.size.x, +obb.size.y, +obb.size.z},
-    };
-
-    Matrix4x4 rotateMatrix = SetRotate(obb.orientations);
-    for (auto& vertex : vertices) {
-        vertex = VectorTransform(vertex, rotateMatrix);
-        vertex = vertex + obb.center;
-    }
-    output_vertices = vertices;
-}
-
