@@ -213,6 +213,7 @@ void Player::Move()
 		else if (lockOn_ && lockOn_->ExistTarget()) {
 			//ロックオン座標
 			Vector3 lockOnPosition = lockOn_->GetTargetPosition();
+			lockOnPosition.y = 0;
 			//追従対象からロックオン対象へのベクトル
 			Vector3 sub = lockOnPosition - worldTransform_.GetTranslateFromMatWorld();
 

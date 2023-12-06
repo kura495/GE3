@@ -38,7 +38,21 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 		}else if (ChackOnLockOnRenge(viewProjection)) {
 		target_ = nullptr;
 		}
-
+		//Yを押したらターゲット変更
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
+			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_Y)) {
+				if (iteratornum > 0) {
+					iteratornum--;
+					Search(enemies, viewProjection);
+					ChangeTarget();
+				}
+				else {
+					iteratornum = max;
+					Search(enemies, viewProjection);
+					ChangeTarget();
+				}
+			}
+		}
 	}else {
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
 			if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
@@ -46,21 +60,8 @@ void LockOn::Update(const std::list<Enemy*>& enemies,const ViewProjection& viewP
 			}
 		}
 	}
-	//Yを押したらターゲット変更
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
-		if (!(joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_Y)) {
-			if (iteratornum > 0) {
-				iteratornum--;
-				Search(enemies, viewProjection);
-				ChangeTarget();
-			}
-			else {
-				iteratornum = max;
-				Search(enemies, viewProjection);
-				ChangeTarget();
-			}
-		}
-	}
+
+	
 
 	if (target_) {
 		//敵のロックオン座標取得
@@ -97,6 +98,9 @@ void LockOn::Search(const std::list<Enemy*>& enemies, const ViewProjection& view
 	targets.clear();
 	//全ての敵に対して順にロックオン判定
 	for (Enemy* enemy_ : enemies) {
+		if (!enemy_->GetIsAlive()) {
+			continue;
+		}
 		//敵のロックオン座標取得
 		Vector3 positionWorld = enemy_->GetWorldTransform().translation_;
 

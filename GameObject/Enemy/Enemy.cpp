@@ -25,7 +25,12 @@ void Enemy::Update()
 	if (IsAlive == false) {
 		BoxCollider::SetSize({ 0.0f,0.0f,0.0f });
 	}
-
+#ifdef _DEBUG
+	ImGui::Begin("Enemy");
+	ImGui::DragFloat3("pos",&worldTransform_.translation_.x);
+	worldTransform_.UpdateMatrix();
+	ImGui::End();
+#endif
 	if (IsHit) {
 		if (t > 0.0f) {
 			t -= 0.1f;
@@ -83,6 +88,18 @@ void Enemy::OnCollision(const Collider* collider)
 	}
 
 	return;
+}
+
+void Enemy::Reset()
+{
+	worldTransform_.translation_ = setPos_;
+	IsAlive = true;
+	IsHit = false;
+	deathAnimationVelocity = { 0.0f,0.0f,0.0f }; worldTransform_.UpdateMatrix();
+	t = 1.0f; 
+	Scale_.x = t;
+	Scale_.y = t;
+	Scale_.z = t;
 }
 
 void Enemy::SetParent(const WorldTransform* parent) {

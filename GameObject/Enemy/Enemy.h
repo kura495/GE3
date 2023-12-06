@@ -21,10 +21,7 @@ public:
 	bool GetIsAlive() const { return IsAlive; }
 	bool GetIsHit() const { return IsHit; }
 
-	void Reset() {
-		worldTransform_.translation_ = setPos_; IsAlive = true; IsHit = false; deathAnimationVelocity
-			= { 0.0f,0.0f,0.0f };
-	}
+	void Reset();
 private:
 	void SetParent(const WorldTransform* parent);
 	void SoulRotationGimmick();

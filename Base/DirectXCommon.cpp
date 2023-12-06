@@ -125,6 +125,7 @@ void DirectXCommon::PostView()
 	}
 	//FPS固定
 	//TODO : 固定が30fになってしまうのでとりあえずなし
+	//FIXME
 	//UpdateFixFPS();
 
 	hr = commandAllocator->Reset();
