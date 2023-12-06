@@ -34,11 +34,14 @@ void Enemy::Update()
 			IsAlive = false;
 			IsHit = false;
 		}
+		Scale_.x = t;
+		Scale_.y = t;
+		Scale_.z = t;
 		models_[kModelIndexBody]->SetColor({1.0f,1.0f,1.0f,t});
 		models_[kModelIndexHead]->SetColor({1.0f,1.0f,1.0f,t});
 		worldTransform_.translation_ = Add(worldTransform_.translation_, deathAnimationVelocity);
 	}
-	
+	worldTransform_.scale_ = Scale_;
 	// 自機のY軸周り角度(θy)
 	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 1.0f,0.0f,0.0f }));
 	

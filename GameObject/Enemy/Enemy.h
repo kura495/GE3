@@ -40,6 +40,8 @@ private:
 
 	Vector3 setPos_;
 
+	Vector3 Scale_ = { 1.0f,1.0f,1.0f };
+
 	Vector3 deathAnimationVelocity;
 	//回転の媒介変数
 	float rotate_t = 0.0f;
