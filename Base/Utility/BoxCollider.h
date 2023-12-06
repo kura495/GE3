@@ -24,6 +24,7 @@ public:
 	
 	void SetSize(Vector3 range) { range_ = range; }
 	AABB GetSize() { return aabb_; }
+	void SetCenter(Vector3 Center) { Center = Center; }
 
 private:
 	/// <summary>

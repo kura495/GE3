@@ -5,7 +5,7 @@ void Weapon::Initialize(const std::vector<Model*>& models)
 	BaseCharacter::Initialize(models);
 	BoxCollider::Initialize();
 	BoxCollider::SetcollisionMask(~kCollitionAttributeWeapon&&~kCollitionAttributeEnemy);
-	BoxCollider::SetSize({10.0f,2.0f,2.0f});
+	BoxCollider::SetSize({10.0f,5.0f,5.0f});
 
 }
 
@@ -27,9 +27,10 @@ void Weapon::RootInit()
 		BoxCollider::SetcollitionAttribute(0);
 }
 
-void Weapon::AttackInit()
+void Weapon::AttackInit(Vector3 Pos)
 {
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeWeapon);
+	BoxCollider::SetCenter(Pos);
 }
 
 void Weapon::SetParent(const WorldTransform& parent)

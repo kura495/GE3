@@ -9,7 +9,7 @@ public:
 	void Draw(const ViewProjection& viewProjection) override;
 
 	void RootInit();
-	void AttackInit();
+	void AttackInit(Vector3 Pos);
 	void SetParent(const WorldTransform& parent);
 
 	void OnCollision(const Collider* collider)override;

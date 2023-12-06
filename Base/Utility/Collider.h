@@ -42,6 +42,7 @@ public:
 		return world_;
 	}
 
+
 protected:
 	/// <summary>
 	/// 原点

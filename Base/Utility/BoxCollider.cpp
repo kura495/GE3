@@ -9,6 +9,7 @@ void BoxCollider::Initialize()
 
 void BoxCollider::Update(const WorldTransform* world)
 {
+	world_.UpdateMatrix();
 	//小さいポイントの設定
 	aabb_.min.x = center.x - range_.x / 2 + world->GetTranslateFromMatWorld().x;
 	aabb_.min.y = center.y - range_.y / 2 + world->GetTranslateFromMatWorld().y;

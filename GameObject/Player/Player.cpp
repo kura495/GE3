@@ -500,7 +500,7 @@ void Player::Attack3()
 
 		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
 		//武器に判定を追加
-		weapon_->AttackInit();
+		weapon_->AttackInit(move);
 	}
 	else if (attackAnimationFrame > 0) {
 		// 腕の挙動
