@@ -124,9 +124,7 @@ void DirectXCommon::PostView()
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 	//FPS固定
-	//TODO : 固定が30fになってしまうのでとりあえずなし
-	//FIXME
-	//UpdateFixFPS();
+	UpdateFixFPS();
 
 	hr = commandAllocator->Reset();
 	assert(SUCCEEDED(hr));
@@ -366,6 +364,8 @@ void DirectXCommon::InitalizeFixFPS()
 {
 	//現在時間で初期化
 	reference_ = std::chrono::steady_clock::now();
+	//sleepの精度をあげる
+	timeBeginPeriod(1);
 }
 
 void DirectXCommon::UpdateFixFPS()
@@ -382,7 +382,7 @@ void DirectXCommon::UpdateFixFPS()
 	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
 
 	//1/60秒(よりわずかに短い時間)たっていない場合
-	if (elapsed < kMinTime) {
+	if (elapsed < kMinCheckTime) {
 		//1/60秒経過するまで微小なスリープを繰り返す
 		while (std::chrono::steady_clock::now() - reference_ < kMinTime) {
 			//1マイクロ秒スリープ

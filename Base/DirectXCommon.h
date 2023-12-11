@@ -16,6 +16,8 @@
 #include <chrono>
 #include <thread>
 
+#pragma comment(lib,"winmm.lib")
+
 #include "PipeLineState/PipeLineTags.h"
 
 struct PipelineStateObject {
