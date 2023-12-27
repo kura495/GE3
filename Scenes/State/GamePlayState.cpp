@@ -64,6 +64,12 @@ void GamePlayState::Initialize()
 		model_wall_.get() };
 	wall_ = std::make_unique<Wall>();
 	wall_->Initalize(wall_Models,{10.0f,5.0f,25.0f});
+	
+	model_Sango_.reset(Model::CreateModelFromObj("resources/sango", "sango.obj"));
+	std::vector<Model*> Sango_Models = {
+		model_Sango_.get() };
+	sango_ = std::make_unique<Sango>();
+	sango_->Initalize(Sango_Models,{10.0f,2.0f,25.0f});
 
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
@@ -102,6 +108,7 @@ else {
 	viewProjection_.UpdateMatrix();
 	
 	wall_->Update();
+	sango_->Update();
 	
 	collisionManager_->AddBoxCollider(player.get());
 	
@@ -110,6 +117,7 @@ else {
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->AddBoxCollider(wall_.get());
+	collisionManager_->AddBoxCollider(sango_.get());
 	collisionManager_->AddBoxCollider(player->GetWeapon());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
@@ -126,6 +134,7 @@ void GamePlayState::Draw()
 	}
 	plane_Move_->Draw(viewProjection_);
 	wall_->Draw(viewProjection_);
+	sango_->Draw(viewProjection_);
 
 	//3Dモデル描画ここまで	
 

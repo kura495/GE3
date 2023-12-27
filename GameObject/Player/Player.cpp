@@ -38,7 +38,6 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 	const char* groupName = "Player";
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
-	GlobalVariables::GetInstance()->AddItem(groupName,"DashSpeed",workDash_.dashSpeed_);
 
 	moveQuaternion_ = IdentityQuaternion();
 }
@@ -60,16 +59,11 @@ void Player::Update()
 		default:
 			BehaviorRootInit();
 			break;
-		case Behavior::kAttack:
-			BehaviorAttackInit();
+		case Behavior::kGrap:
+			GrapInit();
 			break;
-		case Behavior::kDash:
-			BehaviorDashInit();
-			break;
-		case Behavior::kJump:
-			BehaviorJumpInit();
-			break;
-		}
+		}		
+		
 		
 		behaviorRequest_ = std::nullopt;
 	}
@@ -79,18 +73,10 @@ void Player::Update()
 	default:
 		BehaviorRootUpdate();
 		break;
-	case Behavior::kAttack:
-		BehaviorAttackUpdate();
-		break;
-	case Behavior::kDash:
-		BehaviorDashUpdate();
-		break;
-	case Behavior::kJump:
-		BehaviorJumpUpdate();
+	case Behavior::kGrap:
+		GrapUpdate();
 		break;
 	}
-
-
 
 	if (worldTransform_.translation_.y <= -20.0f) {
 		//地面から落ちたらリスタートする
@@ -109,6 +95,9 @@ void Player::Update()
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 	weapon_->Update();
+
+	//つかめない
+	CanGrap = false;
 
 	BoxCollider::Update(&worldTransform_);
 	//前フレームのゲームパッドの状態を保存
@@ -143,12 +132,8 @@ void Player::OnCollision(const Collider* collider)
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeMoveFloor) {
 		IsOnGraund = true;
 	}
-	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
-		//ゴールしたらリスタートする
-		IsAlive = false;
-		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
-		worldTransform_.UpdateMatrix();
-		behaviorRequest_ = Behavior::kRoot;
+	else if (collider->GetcollitionAttribute() == kCollitionAttributeSango) {
+		CanGrap = true;
 	}
 	else {
 		return;
@@ -233,8 +218,7 @@ void Player::Move()
 
 void Player::ApplyGlobalVariables()
 {
-	const char* groupName = "Player";
-	workDash_.dashSpeed_ = GlobalVariables::GetInstance()->GetfloatValue(groupName, "DashSpeed");
+
 }
 
 void Player::BehaviorRootInit()
@@ -259,326 +243,10 @@ void Player::BehaviorRootUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		//前のフレームでは押していない
 		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-			behaviorRequest_ = Behavior::kAttack;
-		}
-		
-	}
-	//Aでダッシュ
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-		behaviorRequest_ = Behavior::kDash;
-	}
-	//Bでジャンプ
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
-		behaviorRequest_ = Behavior::kJump;
-	}
-	
-}
-
-void Player::BehaviorAttackInit()
-{
-	//腕の位置
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, {0.0f,1.0f,0.0f}));
-	float dot = Dot({ 0.0f,0.0f,1.0f }, {0.0f,0.0f,-1.0f});
-	Quaternion quaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	worldTransformL_arm_.quaternion = quaternion_;
-	worldTransformR_arm_.quaternion = quaternion_;
-	//武器の位置
-	quaternion_ = MakeRotateAxisAngleQuaternion(cross, 0);
-	worldTransform_Weapon_.quaternion = quaternion_;
-	worldTransform_Weapon_.UpdateMatrix();
-
-	workAttack_.comboIndex = 0;
-
-	attackAnimationFrame = kConstAttacks_[workAttack_.comboIndex].swingTime;
-	
-	workAttack_.anticipationTime = kConstAttacks_[workAttack_.comboIndex].anticipationTime;
-
-	workAttack_.attackAnimeTimer_ = 0;
-}
-
-void Player::BehaviorAttackUpdate()
-{
-
-	if (workAttack_.anticipationTime > 0.0f) {
-		workAttack_.anticipationTime--;
-			return;
-	}
-
-	switch (workAttack_.comboIndex) {
-	case 0:
-		Attack1();
-		//上から振り下ろし
-		break;
-	case 1:
-		Attack2();
-		//突き
-		break;
-	case 2:
-		Attack3();
-		//横向きに切る
-		break;
-	}
-
-	if (workAttack_.comboIndex + 1 < ComboNum) {
-		//今のフレームでは押している
-		if (joyState.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-			//前のフレームでは押していない
-			if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-				workAttack_.comboNext = true;
+			if (CanGrap) {
+				behaviorRequest_ = Behavior::kGrap;
 			}
 		}
-	}
-
-	//攻撃の継続時間
-	if (workAttack_.attackAnimeTimer_ > kConstAttacks_[workAttack_.comboIndex].swingTime) {
-		if (workAttack_.comboNext) {
-			workAttack_.comboNext = false;
-
-			workAttack_.comboIndex += 1;
-			workAttack_.attackAnimeTimer_ = 0;
-			workAttack_.anticipationTime = kConstAttacks_[workAttack_.comboIndex].anticipationTime;
-			attackAnimationFrame = kConstAttacks_[workAttack_.comboIndex].swingTime;
-
-			Move();
-
-			if (workAttack_.comboIndex == 1) {
-				Attack2Init();
-			}
-			else if (workAttack_.comboIndex == 2) {
-				Attack3Init();
-			}
-		}
-		else {
-			behaviorRequest_ = Behavior::kRoot;
-		}
-	}
-	//ロックオン中の敵の方向を向く
-	if (lockOn_ && lockOn_->ExistTarget()) {
-		//ロックオン座標
-		Vector3 lockOnPosition = lockOn_->GetTargetPosition();
-		//追従対象からロックオン対象へのベクトル
-		Vector3 sub = lockOnPosition - worldTransform_.GetTranslateFromMatWorld();
-
-		//距離
-		float distance = Length(sub);
-		//距離のしきい値
-		const float threshold = 0.02f;
-
-		//プレイヤーの現在の向き
-		sub = Normalize(sub);
-
-		Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, sub));
-		float dot = Dot({ 0.0f,0.0f,1.0f }, sub);
-	
-		if (distance > threshold) {
-			//行きたい方向のQuaternionの作成
-			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-
-			//しきい値を超える速さなら補正する
-			if (speed > distance - threshold) {
-				//ロックオン対象へのめりこみ防止
-				speed = distance - threshold;
-			}
-		}
-
-	}
-
-	workAttack_.attackAnimeTimer_++;
-	worldTransform_Weapon_.UpdateMatrix();
-	weapon_->Update();
-}
-
-void Player::Attack1()
-{
-	//腕の回転クォータニオンを求める
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
-	Quaternion ArmMovequaternion = worldTransformL_arm_.quaternion;
-	float dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
-	ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	ArmMovequaternion = Normalize(ArmMovequaternion);
-	//武器の回転クォータニオンを求める
-	cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,-1.0f,0.0f }));
-	Quaternion WeaponMovequaternion = worldTransform_Weapon_.quaternion;
-	dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
-	WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	WeaponMovequaternion = Normalize(WeaponMovequaternion);
-
-	if (attackAnimationFrame > 15) {
-		float t = 0.2f;
-		// 腕の挙動
-		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
-		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
-		// 武器の挙動
-		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
-	}
-	else if (attackAnimationFrame > 0) {
-		// 腕の挙動
-		float t = 0.1f;
-
-		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
-		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
-		// 武器の挙動
-		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
-
-	}
-	else if (attackAnimationFrame == 0) {
-		worldTransformL_arm_.quaternion = ArmMovequaternion;
-		worldTransformR_arm_.quaternion = ArmMovequaternion;
-		worldTransform_Weapon_.quaternion = WeaponMovequaternion;
-	}
-
-	worldTransform_Weapon_.UpdateMatrix();
-	weapon_->Update();
-	attackAnimationFrame--;
-}
-void Player::Attack2Init()
-{
-	worldTransformL_arm_.quaternion = IdentityQuaternion();
-	worldTransformL_arm_.UpdateMatrix();
-
-	//武器の回転クォータニオンを求める
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,-1.0f,0.0f }));
-	Quaternion WeaponMovequaternion = worldTransform_Weapon_.quaternion;
-	float dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
-	WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	WeaponMovequaternion = Normalize(WeaponMovequaternion);
-	// 武器の挙動
-	worldTransform_Weapon_.quaternion = WeaponMovequaternion;
-	worldTransform_Weapon_.translation_.y = 1.0f;
-	worldTransform_Weapon_.UpdateMatrix();
-}
-void Player::Attack2()
-{
-	if (attackAnimationFrame > 10) {
-		// 腕の挙動
-		worldTransformR_arm_.translation_.z -= 0.2f;
-		// 武器の挙動
-		worldTransform_Weapon_.translation_.z -= 0.2f;
-	}
-	else if (attackAnimationFrame > 0) {
-		// 腕の挙動
-		worldTransformR_arm_.translation_.z += 0.4f;
-		// 武器の挙動
-		worldTransform_Weapon_.translation_.z += 0.4f;
-	}
-	worldTransform_Weapon_.UpdateMatrix();
-	weapon_->Update();
-	attackAnimationFrame--;
-}
-void Player::Attack3Init()
-{
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
-	Quaternion ArmMovequaternion = worldTransformL_arm_.quaternion;
-	float dot = Dot({ 0.0f,1.0f,0.0f }, { 0.0f,0.0f,0.0f });
-	ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	ArmMovequaternion = Normalize(ArmMovequaternion);
-	//腕と武器の位置を戻す
-	worldTransformR_arm_.quaternion = ArmMovequaternion;
-	worldTransformL_arm_.quaternion = ArmMovequaternion;
-	worldTransformR_arm_.translation_.z = 0;
-	worldTransform_Weapon_.translation_.z = 0;
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
-	worldTransform_Weapon_.UpdateMatrix();
-
-}
-void Player::Attack3()
-{
-	//腕の位置
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, { 0.0f,1.0f,0.0f }));
-	float dot = Dot({ 0.0f,0.0f,1.0f }, { 0.0f,0.0f,-1.0f });
-	// 腕の挙動
-	Quaternion ArmMovequaternion = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	// 武器の挙動
-	Quaternion WeaponMovequaternion = MakeRotateAxisAngleQuaternion(cross, 0);
-
-
-	if (attackAnimationFrame > 10) {
-		float t = 0.3f;
-
-		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
-		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
-
-		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
-		//武器に判定を追加
-		weapon_->AttackInit(move);
-	}
-	else if (attackAnimationFrame > 0) {
-		// 腕の挙動
-		float t = 0.1f;
-
-		worldTransformL_arm_.quaternion = Slerp(worldTransformL_arm_.quaternion, ArmMovequaternion, t);
-		worldTransformR_arm_.quaternion = Slerp(worldTransformR_arm_.quaternion, ArmMovequaternion, t);
-
-		worldTransform_Weapon_.quaternion = Slerp(worldTransform_Weapon_.quaternion, WeaponMovequaternion, t);
-
-	}
-	else if (attackAnimationFrame == 0) {
-		worldTransformL_arm_.quaternion = ArmMovequaternion;
-		worldTransformR_arm_.quaternion = ArmMovequaternion;
-		worldTransform_Weapon_.quaternion = WeaponMovequaternion;
-	}
-	worldTransform_Weapon_.UpdateMatrix();
-	weapon_->Update();
-	attackAnimationFrame--;
-}
-
-void Player::BehaviorDashInit()
-{
-	workDash_.dashParameter_ = 0;
-	//プレイヤーの旋回の補間を切って一瞬で目標角度をに付くようにしている	
-	worldTransform_.rotation_.y = targetAngle;
-}
-
-void Player::BehaviorDashUpdate()
-{
-	Vector3 DashVector = { 0.0f,0.0f,1.0f };
-	//正規化をして斜めの移動量を正しくする
-	DashVector.z = Normalize(DashVector).z * workDash_.dashSpeed_;
-	//プレイヤーの正面方向に移動するようにする
-	//回転行列を作る
-	move = Normalize(move);
-	Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
-	float dot = Dot({ 0.0f,0.0f,1.0f }, move);
-	moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
-	Matrix4x4 rotateMatrix = MakeRotateMatrix(moveQuaternion_);
-	//移動ベクトルをキャラの角度だけ回転
-	DashVector = TransformNormal(DashVector, rotateMatrix);
-	//移動
-	worldTransform_.translation_ = Add(worldTransform_.translation_, DashVector);
-	if (++workDash_.dashParameter_ >= behaviorDashTime) {
-		behaviorRequest_ = Behavior::kRoot;
-	}
-}
-
-void Player::BehaviorJumpInit()
-{
-	worldTransformBody_.translation_.y = 0;
-	worldTransformL_arm_.quaternion.x = 0;
-	worldTransformR_arm_.quaternion.x = 0;
-
-	//ジャンプ初速
-	const float kJumpFirstSpeed = 0.5f;
-
-	move.y = kJumpFirstSpeed;
-
-}
-
-void Player::BehaviorJumpUpdate()
-{
-	//移動
-	worldTransform_.translation_ += move;
-	//重力加速度
-	const float kGravity = 0.05f;
-	//加速度ベクトル
-	Vector3 accelerationVector = {0.0f,-kGravity,0.0f};
-	//加速する
-	move += accelerationVector;
-
-	if (worldTransform_.translation_.y <= 0.0f) {
-		worldTransform_.translation_.y = 0.0f;
-		//ジャンプ終了
-		behaviorRequest_ = Behavior::kRoot;
 	}
 }
 
@@ -618,5 +286,20 @@ void Player::PullDown()
 		worldTransform_.translation_.y += DownForce;
 
 		DownForce += accelerationVector.y;
+	}
+}
+
+void Player::GrapInit()
+{
+
+}
+
+void Player::GrapUpdate()
+{
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+		//前のフレームでは押していない
+		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+				behaviorRequest_ = Behavior::kRoot;
+		}
 	}
 }

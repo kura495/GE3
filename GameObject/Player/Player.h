@@ -12,6 +12,7 @@ enum class Behavior {
 	kAttack,//攻撃中
 	kDash,//ダッシュ中
 	kJump,//ジャンプ中
+	kGrap,//つかみ
 };
 //ダッシュ用ワーク
 struct WorkDash {
@@ -99,28 +100,10 @@ private:
 	Vector3 move;
 	//プレイヤーの移動
 	float speed = 0.5f;
-	//攻撃
-	void BehaviorAttackInit();
-	void BehaviorAttackUpdate();
-	void Attack1();
-	void Attack2Init();
-	void Attack2();
-	void Attack3Init();
-	void Attack3();
-	int attackAnimationFrame;
-	WorkAttack workAttack_;
+
 	//武器や腕の回転クォータニオン
 	Quaternion moveQuaternion_;
-	//ダッシュ
-	void BehaviorDashInit();
-	void BehaviorDashUpdate();
-	WorkDash workDash_;
-	//ダッシュの時間
-	const uint32_t behaviorDashTime = 20;
-	//ジャンプ
-	void BehaviorJumpInit();
-	void BehaviorJumpUpdate();
-	Vector3 jumpForce;
+
 
 	//ふるまい
 	Behavior behavior_ = Behavior::kRoot;
@@ -160,7 +143,9 @@ private:
 	bool IsOnGraund = true;
 	float DownForce = 0.05f;
 
-	
-	
+	//つかむ
+	bool CanGrap = false;
+	void GrapInit();
+	void GrapUpdate();
 };
 

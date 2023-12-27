@@ -27,12 +27,7 @@ void Wall::Draw(const ViewProjection& viewProjection)
 
 void Wall::OnCollision(const Collider* collider)
 {
-	if (collider->GetcollitionAttribute()) {
-#ifdef _DEBUG
-		ImGui::Begin("Wall");
-		ImGui::Text("Hit");
-		ImGui::End();
-#endif
+	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer) {
 		return;
 	}
 
