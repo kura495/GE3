@@ -542,7 +542,7 @@ void Player::BehaviorDashUpdate()
 	float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 	moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(moveQuaternion_);
-	//移動ベクトルをカメラの角度だけ回転
+	//移動ベクトルをキャラの角度だけ回転
 	DashVector = TransformNormal(DashVector, rotateMatrix);
 	//移動
 	worldTransform_.translation_ = Add(worldTransform_.translation_, DashVector);
