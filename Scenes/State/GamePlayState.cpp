@@ -59,7 +59,11 @@ void GamePlayState::Initialize()
 
 #pragma endregion
 
-
+	model_wall_	.reset(Model::CreateModelFromObj("resources/Wall", "Wall.obj"));
+	std::vector<Model*> wall_Models = {
+		model_wall_.get() };
+	wall_ = std::make_unique<Wall>();
+	wall_->Initalize(wall_Models,{10.0f,0.0f,20.0f});
 
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();

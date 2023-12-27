@@ -287,6 +287,7 @@
     <ClCompile Include="Base\Manager\PSOManager.cpp">
       <Filter>Engine\Base\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Wall\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -493,6 +494,7 @@
     <ClInclude Include="Scenes\State\IgameState.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject\Wall\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
