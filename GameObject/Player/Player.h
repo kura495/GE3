@@ -145,6 +145,7 @@ private:
 
 	//つかむ
 	bool CanGrap = false;
+	Vector3 GrapPoint;
 	void GrapInit();
 	void GrapUpdate();
 };

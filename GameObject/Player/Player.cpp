@@ -134,6 +134,7 @@ void Player::OnCollision(const Collider* collider)
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeSango) {
 		CanGrap = true;
+		GrapPoint = collider->GetColliderWorld().GetTranslateFromMatWorld();
 	}
 	else {
 		return;
@@ -232,6 +233,8 @@ void Player::BehaviorRootInit()
 	worldTransform_Weapon_.UpdateMatrix();
 	weapon_->RootInit();
 	DownForce = 0.05f;
+	worldTransform_.translation_.y = 0.0f;
+	worldTransform_.UpdateMatrix();
 }
 
 void Player::BehaviorRootUpdate()
@@ -291,6 +294,9 @@ void Player::PullDown()
 
 void Player::GrapInit()
 {
+	worldTransform_.translation_ = GrapPoint;
+	worldTransform_.UpdateMatrix();
+
 
 }
 
@@ -301,5 +307,8 @@ void Player::GrapUpdate()
 		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 				behaviorRequest_ = Behavior::kRoot;
 		}
+	}
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		
 	}
 }
