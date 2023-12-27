@@ -288,6 +288,7 @@
       <Filter>Engine\Base\Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Wall\Wall.cpp" />
+    <ClCompile Include="GameObject\Sango\Sango.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externals\imgui\imconfig.h">
@@ -495,6 +496,7 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Wall\Wall.h" />
+    <ClInclude Include="GameObject\Sango\Sango.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">

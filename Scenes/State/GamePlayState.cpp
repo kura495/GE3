@@ -63,7 +63,7 @@ void GamePlayState::Initialize()
 	std::vector<Model*> wall_Models = {
 		model_wall_.get() };
 	wall_ = std::make_unique<Wall>();
-	wall_->Initalize(wall_Models,{10.0f,0.0f,20.0f});
+	wall_->Initalize(wall_Models,{10.0f,5.0f,25.0f});
 
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
@@ -101,7 +101,7 @@ else {
 
 	viewProjection_.UpdateMatrix();
 	
-	
+	wall_->Update();
 	
 	collisionManager_->AddBoxCollider(player.get());
 	
@@ -109,6 +109,7 @@ else {
 		collisionManager_->AddBoxCollider(plane_[Volume_i].get());		
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
+	collisionManager_->AddBoxCollider(wall_.get());
 	collisionManager_->AddBoxCollider(player->GetWeapon());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
@@ -124,6 +125,8 @@ void GamePlayState::Draw()
 		plane_[Volume_i]->Draw(viewProjection_);
 	}
 	plane_Move_->Draw(viewProjection_);
+	wall_->Draw(viewProjection_);
+
 	//3Dモデル描画ここまで	
 
 	//Sprite描画ここから

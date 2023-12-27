@@ -11,7 +11,7 @@ void Wall::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BoxCollider::SetcollisionMask(~kCollitionAttributeFloor);
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeFloor);
 	BoxCollider::SetParent(worldTransform_);
-	BoxCollider::SetSize({ 10.0f,0.0f,10.0f });
+	BoxCollider::SetSize({ 10.0f,10.0f,0.0f });
 }
 
 void Wall::Update()
@@ -28,6 +28,11 @@ void Wall::Draw(const ViewProjection& viewProjection)
 void Wall::OnCollision(const Collider* collider)
 {
 	if (collider->GetcollitionAttribute()) {
+#ifdef _DEBUG
+		ImGui::Begin("Wall");
+		ImGui::Text("Hit");
+		ImGui::End();
+#endif
 		return;
 	}
 
