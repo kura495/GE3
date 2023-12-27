@@ -25,26 +25,7 @@ void FollowCamera::Update() {
 		//オフセット分と追従座標の補間分ずらす
 		viewProjection_.translation_ = workInter.interTarget_ + offset;
 	}
-	//ロックオン中
-	if (lockOn_->ExistTarget()) {
-		//ロックオン座標
-		Vector3 lockOnPos = lockOn_->GetTargetPosition();
 
-		Vector3 sub = lockOnPos - workInter.interTarget_;
-
-		if (sub.z != 0.0) {
-			rotate_ = std::asin(sub.x / std::sqrt(sub.x * sub.x + sub.z * sub.z));
-
-			if (sub.z < 0.0) {
-				rotate_ = (sub.x >= 0.0) ? std::numbers::pi_v<float> -rotate_ : -std::numbers::pi_v<float> -rotate_;
-			}
-		}
-		else {
-			rotate_ = (sub.x >= 0.0) ? std::numbers::pi_v<float> / 2.0f : -std::numbers::pi_v<float> / 2.0f;
-		}
-
-		parameter_t = 0.1f;
-	}
 	//スティックでのカメラ回転
 	else if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 

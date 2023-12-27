@@ -59,7 +59,6 @@ private:
 
 	//3Dオブジェクトたち
 	std::unique_ptr<Player> player;
-	std::unique_ptr<LockOn> lockOn_;
 	//プレイヤーモデル
 	std::unique_ptr<Model> modelFighterBody_ = nullptr;
 	std::unique_ptr<Model> modelFighterHead_ = nullptr;
@@ -70,23 +69,13 @@ private:
 	std::unique_ptr<Model> modelEnemyBody_ = nullptr;
 	std::unique_ptr<Model> modelEnemy_Soul_ = nullptr;
 
-	void AddEnemy(Vector3 Pos);
-	std::list<Enemy*> enemies_;
-
 	std::unique_ptr<Skydome> Skydome_;
 
 	std::unique_ptr<Model> model_plane_ = nullptr;
 	
 	std::unique_ptr<Plane> plane_[8];
 
-	std::unique_ptr<Model> model_goal_ = nullptr;
-	std::unique_ptr<Goal> goal;
-
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
 
-	std::unique_ptr<Particle> particle = nullptr;
-	int Texture_;
-
-	bool IsSetParticle = false;
 };

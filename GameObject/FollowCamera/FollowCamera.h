@@ -27,8 +27,6 @@ public:
 	void SetTarget(const WorldTransform* target);
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
-	void SetLockOn(LockOn* lockOn) { this->lockOn_ = lockOn; }
-
 private:
 	//jsonファイルの値を適応
 	void ApplyGlobalVariables();
@@ -36,8 +34,6 @@ private:
 	ViewProjection viewProjection_;
 	//追従対象
 	const WorldTransform* target_ = nullptr;
-	//ロックオン
-	const LockOn* lockOn_ = nullptr;
 	// ゲームパッド
 	XINPUT_STATE joyState;
 

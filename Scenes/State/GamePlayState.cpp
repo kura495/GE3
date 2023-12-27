@@ -27,19 +27,6 @@ void GamePlayState::Initialize()
 		modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get(),modelFighterWeapon.get()
 	};
 	player->Initialize(playerModels);
-	//ロックオン機能
-	lockOn_ = std::make_unique<LockOn>();
-	lockOn_->Initalize();
-#pragma endregion
-
-#pragma region enemy
-	modelEnemyBody_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Body.obj"));
-	modelEnemy_Soul_.reset(Model::CreateModelFromObj("resources/Enemy", "Enemy_Soul.obj"));
-	AddEnemy({ 10.0f, 0.0f, 20.0f});
-	AddEnemy({ 15.0f, 0.0f, 20.0f});
-	AddEnemy({ 20.0f, 0.0f, 15.0f});
-	AddEnemy({ 20.0f, 0.0f, 10.0f});
-	AddEnemy({ 10.0f, 0.0f, 15.0f});
 #pragma endregion
 
 	Skydome_ = std::make_unique<Skydome>();
@@ -72,11 +59,6 @@ void GamePlayState::Initialize()
 
 #pragma endregion
 
-	model_goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
-	std::vector<Model*> model_goal_Models = {
-		model_goal_.get() };
-	goal = std::make_unique<Goal>();
-	goal->Initalize(model_goal_Models);
 
 
 	viewProjection_.Initialize();
@@ -84,15 +66,9 @@ void GamePlayState::Initialize()
 	followCamera = std::make_unique<FollowCamera>();
 	followCamera->Initalize();
 	followCamera->SetTarget(&player->GetWorldTransform());
-	followCamera->SetLockOn(lockOn_.get());
 	
 	player->SetViewProjection(&followCamera->GetViewProjection());
-	player->SetLockOn(lockOn_.get());
-	
-	particle = std::make_unique<Particle>();
-	particle->Initalize(10,"resources/circle.png");
 
-	Texture_ = TextureManager::GetInstance()->LoadTexture("resources/reticle.png");
 }
 
 void GamePlayState::Update()
@@ -106,30 +82,7 @@ else {
 }
 #endif // _DEBUG
 
-
-	
-	if (!player->GetIsAlive()) {
-		for (Enemy* enemy_ : enemies_) {
-			enemy_->Reset();
-		}
-		player->Reset();
-	}
-
 	player->Update();
-	
-	for (Enemy* enemy_ : enemies_) {
-		enemy_->Update();
-		if (enemy_->GetIsHit()) {
-			if (IsSetParticle == false) {
-				particle->Reset(enemy_->GetPos());
-				IsSetParticle = true;
-			}
-			break;
-		}
-	}
-	if (!particle->GetIsAlive()) {
-		IsSetParticle = false;
-	}
 	
 	
 	Skydome_->Update();
@@ -137,31 +90,24 @@ else {
 		plane_[Volume_i]->Update();
 	}
 	plane_Move_->Update();
-	goal->Update();
 
-	GlobalVariables::GetInstance()->Update();
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
-	lockOn_->Update(enemies_,viewProjection_);
+
 
 	viewProjection_.UpdateMatrix();
 	
 	
 	
 	collisionManager_->AddBoxCollider(player.get());
-	for (Enemy* enemy_ : enemies_) {
-		collisionManager_->AddBoxCollider(enemy_);
-	}
+	
 	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
 		collisionManager_->AddBoxCollider(plane_[Volume_i].get());		
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
-	collisionManager_->AddBoxCollider(goal.get());
 	collisionManager_->AddBoxCollider(player->GetWeapon());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
-
-	particle->Update();
 
 }
 
@@ -169,20 +115,12 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	player->Draw(viewProjection_);
-	lockOn_->Draw();
-	for (Enemy* enemy_ : enemies_) {
-		enemy_->Draw(viewProjection_);
-	}
 	Skydome_->Draw(viewProjection_);
 	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
 		plane_[Volume_i]->Draw(viewProjection_);
 	}
 	plane_Move_->Draw(viewProjection_);
-	goal->Draw(viewProjection_);
 	//3Dモデル描画ここまで	
-
-	particle->PreDraw();
-	particle->Draw(viewProjection_);
 
 	//Sprite描画ここから
 
@@ -190,15 +128,4 @@ void GamePlayState::Draw()
 	//Sprite描画ここまで
 	
 	//描画ここまで
-}
-
-void GamePlayState::AddEnemy(Vector3 Pos)
-{
-	Enemy* enemy_ = new Enemy();
-	std::vector<Model*> EnemyModels = {
-		modelEnemyBody_.get(),modelEnemy_Soul_.get() };
-	enemy_->Initialize(EnemyModels);
-	enemy_->SetPos(Pos);
-	enemy_->setPlayer(player.get());
-	enemies_.push_back(enemy_);
 }
