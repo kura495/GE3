@@ -21,6 +21,7 @@
 #include "GameObject/Skydome/Skydome.h"
 #include "GameObject/Plane/Plane.h"
 #include "GameObject/Plane/MovePlane.h"
+#include "GameObject/Wall/Wall.h"
 #include "GameObject/Goal/Goal.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
@@ -72,8 +73,10 @@ private:
 	std::unique_ptr<Skydome> Skydome_;
 
 	std::unique_ptr<Model> model_plane_ = nullptr;
+	std::unique_ptr<Model> model_wall_ = nullptr;
 	
 	std::unique_ptr<Plane> plane_[8];
+	std::unique_ptr<Wall> wall_;
 
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
