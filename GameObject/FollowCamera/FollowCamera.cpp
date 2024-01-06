@@ -27,7 +27,7 @@ void FollowCamera::Update() {
 	}
 
 	//スティックでのカメラ回転
-	else if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 
 		const float kRadian = 0.02f;
 

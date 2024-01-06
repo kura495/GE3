@@ -14,7 +14,7 @@ const uint32_t kCollitionAttributeGoal = 0b1 <<4;
 const uint32_t kCollitionAttributeWeapon = 0b1 << 5;
 //
 const uint32_t kCollitionAttributeSango = 0b1 << 6;
-
+const uint32_t kCollitionAttributeWall = 0b1 << 7;
 
 enum ColliderType {
 	Circle,

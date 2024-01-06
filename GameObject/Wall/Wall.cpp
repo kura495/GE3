@@ -8,8 +8,8 @@ void Wall::Initalize(const std::vector<Model*>& models, Vector3 position)
 	BaseCharacter::Initialize(models);
 	worldTransform_.translation_ = position;
 	worldTransform_.UpdateMatrix();
-	BoxCollider::SetcollisionMask(~kCollitionAttributeFloor);
-	BoxCollider::SetcollitionAttribute(kCollitionAttributeFloor);
+	BoxCollider::SetcollisionMask(~kCollitionAttributeWall);
+	BoxCollider::SetcollitionAttribute(kCollitionAttributeWall);
 	BoxCollider::SetParent(worldTransform_);
 	BoxCollider::SetSize({ 10.0f,10.0f,0.0f });
 }

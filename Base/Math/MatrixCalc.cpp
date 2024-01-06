@@ -202,7 +202,8 @@ Quaternion Conjugate(const Quaternion& quaternion)
 }
 float Norm(const Quaternion& quaternion)
 {
-	return sqrt(quaternion.x * quaternion.x + quaternion.y * quaternion.y + quaternion.z * quaternion.z + quaternion.w * quaternion.w);
+	float result = sqrt(quaternion.x * quaternion.x + quaternion.y * quaternion.y + quaternion.z * quaternion.z + quaternion.w * quaternion.w);
+	return result;
 }
 Quaternion Inverse(const Quaternion& quaternion)
 {

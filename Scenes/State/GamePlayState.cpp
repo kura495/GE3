@@ -127,14 +127,15 @@ else {
 void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
+	wall_->Draw(viewProjection_);
+	sango_->Draw(viewProjection_);
 	player->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
 	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
 		plane_[Volume_i]->Draw(viewProjection_);
 	}
 	plane_Move_->Draw(viewProjection_);
-	wall_->Draw(viewProjection_);
-	sango_->Draw(viewProjection_);
+
 
 	//3Dモデル描画ここまで	
 

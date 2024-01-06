@@ -84,8 +84,8 @@ void Player::Update()
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
 	}
+
 	
-	worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 
@@ -97,13 +97,12 @@ void Player::Update()
 	weapon_->Update();
 
 	//つかめない
-	CanGrap = false;
+	canGrap = false;
 
 	BoxCollider::Update(&worldTransform_);
 	//前フレームのゲームパッドの状態を保存
 	joyStatePre = joyState;
 }
-
 void Player::Draw(const ViewProjection& viewProjection)
 {
 	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
@@ -133,8 +132,8 @@ void Player::OnCollision(const Collider* collider)
 		IsOnGraund = true;
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeSango) {
-		CanGrap = true;
-		GrapPoint = collider->GetColliderWorld().GetTranslateFromMatWorld();
+		canGrap = true;
+		grapPoint = collider->GetColliderWorld().GetTranslateFromMatWorld();
 	}
 	else {
 		return;
@@ -195,6 +194,7 @@ void Player::Move()
 			Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
 			float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
+
 		}
 		else if (lockOn_ && lockOn_->ExistTarget()) {
 			//ロックオン座標
@@ -212,16 +212,15 @@ void Player::Move()
 			//行きたい方向のQuaternionの作成
 			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
 		}
-		worldTransform_.UpdateMatrix();
-		
-		
-}
 
+		worldTransform_.quaternion = Slerp(worldTransform_.quaternion, moveQuaternion_, 0.3f);
+
+		worldTransform_.UpdateMatrix();
+}
 void Player::ApplyGlobalVariables()
 {
 
 }
-
 void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
@@ -233,12 +232,11 @@ void Player::BehaviorRootInit()
 	worldTransform_Weapon_.UpdateMatrix();
 	weapon_->RootInit();
 	DownForce = 0.05f;
-	worldTransform_.translation_.y = 0.0f;
-	worldTransform_.UpdateMatrix();
-}
 
+}
 void Player::BehaviorRootUpdate()
 {
+
 	UpdateFloatingGimmick();
 	Move();
 	PullDown();
@@ -246,17 +244,16 @@ void Player::BehaviorRootUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		//前のフレームでは押していない
 		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-			if (CanGrap) {
+			if (canGrap) {
 				behaviorRequest_ = Behavior::kGrap;
 			}
 		}
 	}
-}
 
+}
 void Player::InitializeFloatingGimmick() {
 	floatingParameter_ = 0.0f;
 }
-
 void Player::UpdateFloatingGimmick() {
 	// 浮遊移動のサイクル<frame>
 	const uint16_t T = (uint16_t)floatcycle_;
@@ -272,36 +269,56 @@ void Player::UpdateFloatingGimmick() {
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
 
 }
-
 void Player::PullDown()
 {
 	if (IsOnGraund) {
+		worldTransform_.translation_.y = 0.0f;
 		IsOnGraund = false;
 		return;
 	}
 	else {
 		
 		//重力加速度
-		const float kGravity = 0.05f;
+		const float kGravity = 0.98f;
 		//加速度ベクトル
 		Vector3 accelerationVector = { 0.0f,-kGravity,0.0f };
 		//移動
-		worldTransform_.translation_.y += DownForce;
+		worldTransform_.translation_.y += accelerationVector.y;
 
-		DownForce += accelerationVector.y;
 	}
 }
-
 void Player::GrapInit()
 {
-	worldTransform_.translation_ = GrapPoint;
-	worldTransform_.UpdateMatrix();
 
+	worldTransform_.translation_ = grapPoint;
+	worldTransform_.UpdateMatrix();
+	rotateQua = IdentityQuaternion();
+	moveQuaternion_ = IdentityQuaternion();
+	worldTransform_.quaternion = IdentityQuaternion();
+	Vector3 cross = Normalize(Cross({ 1.0f,0.0f,0.0f }, { 0.0f,1.0f,0.0f }));
+	beginVecQua = IdentityQuaternion();
+	beginVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(1.0f));
+	beginVecQua = Normalize(beginVecQua);
+
+	endVecQua = IdentityQuaternion();
+	 endVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.0f));
+	 endVecQua = Normalize(endVecQua);
+	 lerpQua = IdentityQuaternion();
+	 IsOnGraund = false;
+	angleParam = 0.0f;
+	grapJumpAnime = 0;
 
 }
-
 void Player::GrapUpdate()
 {
+	grapJumpVec = { 1.0f,0.0f,0.0f };
+	//////回転行列を作る
+	lerpQua = Normalize(lerpQua);
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(lerpQua);
+	//移動ベクトルをカメラの角度だけ回転
+	grapJumpVec = TransformNormal(grapJumpVec, rotateMatrix);
+	grapJumpVec = Normalize(grapJumpVec);
+	Vector3 cross = Normalize(Cross({ 1.0f,0.0f,0.0f }, {0.0f,1.0f,0.0f}));
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		//前のフレームでは押していない
 		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
@@ -309,6 +326,35 @@ void Player::GrapUpdate()
 		}
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-		
+		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.9f));
+		rotateQua = Normalize(rotateQua);
+		worldTransform_.quaternion = Multiply(worldTransform_.quaternion, rotateQua);
+		if (angleParam < 1.0f) {
+			angleParam += 0.02f;
+		}
+		else if (angleParam > 1.0f) {
+			angleParam = 1.0f;
+		}
+		lerpQua = Slerp(beginVecQua,endVecQua, angleParam);
+
+
 	}
+	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			grapJump = true;
+			moveVector = grapJumpVec*2;
+		}
+
+	}
+	if (grapJump == true && grapJumpAnime <= 10) {
+		worldTransform_.translation_.x += moveVector.x;
+		worldTransform_.translation_.y += moveVector.y;
+		worldTransform_.translation_.z += moveVector.z;
+		grapJumpAnime++;
+	}
+	else if (grapJumpAnime >= 10) {
+		grapJump = false;
+		behaviorRequest_ = Behavior::kRoot;
+	}
+
 }

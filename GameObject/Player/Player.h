@@ -143,10 +143,21 @@ private:
 	bool IsOnGraund = true;
 	float DownForce = 0.05f;
 
+
 	//つかむ
-	bool CanGrap = false;
-	Vector3 GrapPoint;
 	void GrapInit();
 	void GrapUpdate();
+	bool canGrap = false;
+	Vector3 grapPoint;
+	Quaternion rotateQua;
+	bool grapJump = false;
+	uint32_t grapJumpAnime = 0;
+	Vector3 grapJumpVec;
+	Quaternion endVecQua;
+	Quaternion beginVecQua;
+	Quaternion lerpQua;
+	float angleParam = 0.0f;
+	Vector3 moveVector;
+
 };
 
