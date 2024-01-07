@@ -51,6 +51,9 @@ void Player::Update()
 		case Behavior::kGrap:
 			GrapInit();
 			break;
+		case Behavior::kJump:
+			BehaviorJumpInit();
+			break;
 		}		
 		behaviorRequest_ = std::nullopt;
 	}
@@ -62,6 +65,9 @@ void Player::Update()
 		break;
 	case Behavior::kGrap:
 		GrapUpdate();
+		break;
+	case Behavior::kJump:
+		BehaviorJumpUpdate();
 		break;
 	}
 
@@ -204,8 +210,9 @@ void Player::BehaviorRootUpdate()
 			}
 		}
 	}
-	if () {
-
+	//Bでジャンプ
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		behaviorRequest_ = Behavior::kJump;
 	}
 
 }
@@ -366,7 +373,7 @@ void Player::GrapJumpLeftUpdate()
 			behaviorRequest_ = Behavior::kRoot;
 		}
 	}
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
 
 		if (angle > 0.9f) {
 			angle -= 0.001f;
@@ -442,7 +449,7 @@ void Player::GrapJumpRightUpdate()
 			behaviorRequest_ = Behavior::kRoot;
 		}
 	}
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
 
 		if (angle > 0.9f) {
 			angle -= 0.001f;
