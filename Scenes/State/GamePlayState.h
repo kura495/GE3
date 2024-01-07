@@ -81,4 +81,11 @@ private:
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
 
+	//
+	std::unique_ptr<Sprite>inst1;
+	uint32_t inst1_texture;
+	WorldTransform inst1_world_;
+	std::unique_ptr<Sprite>inst2;
+	uint32_t inst2_texture;
+	WorldTransform inst2_world_;
 };
