@@ -91,6 +91,10 @@ public:
 	Behavior GetBehavior() const {
 		return behavior_;
 	};
+	bool GetCanGrap()const {
+		return canGrap;
+	}
+
 private:
 	bool IsAlive = true;
 

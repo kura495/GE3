@@ -85,7 +85,13 @@ private:
 	std::unique_ptr<Sprite>inst1;
 	uint32_t inst1_texture;
 	WorldTransform inst1_world_;
+
 	std::unique_ptr<Sprite>inst2;
 	uint32_t inst2_texture;
 	WorldTransform inst2_world_;
+	
+	std::unique_ptr<Sprite>inst3;
+	uint32_t inst3_texture;
+	WorldTransform inst3_world_;
+
 };
