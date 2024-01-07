@@ -285,10 +285,10 @@ void Player::GrapInit()
 void Player::GrapUpdate()
 {
 	if (joyState.Gamepad.sThumbLX != 0) {
-		if (joyState.Gamepad.sThumbLX > 0) {
+		if (joyState.Gamepad.sThumbLX > 0 && GrapBehavior_!= GrapBehavior::kRight) {
 			GrapBehaviorRequest_ = GrapBehavior::kRight;
 		}
-		else if (joyState.Gamepad.sThumbLX < 0) {
+		else if (joyState.Gamepad.sThumbLX < 0 && GrapBehavior_ != GrapBehavior::kLeft) {
 			GrapBehaviorRequest_ = GrapBehavior::kLeft;
 		}
 	}
@@ -331,6 +331,7 @@ void Player::GrapJumpLeftInitalize()
 	lerpQua = IdentityQuaternion();
 	angleParam = 0.0f;
 	grapJumpAnime = 0;
+	angle = 1.0f;
 
 	Vector3 cross = Normalize(Cross({ 1.0f,0.0f,0.0f }, { 0.0f,1.0f,0.0f }));
 	beginVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(-1.0f));
@@ -379,11 +380,12 @@ void Player::GrapJumpLeftUpdate()
 	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
 		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			grapJump = true;
-			moveVector = grapJumpVec * 2;
+			moveVector = grapJumpVec;
 		}
 
 	}
-	if (grapJump == true && grapJumpAnime <= 10) {
+	if (grapJump == true && grapJumpAnime <= 50) {
+		moveVector.y -= 0.03f;
 		worldTransform_.translation_.x += moveVector.x;
 		worldTransform_.translation_.y += moveVector.y;
 		worldTransform_.translation_.z += moveVector.z;
@@ -454,11 +456,13 @@ void Player::GrapJumpRightUpdate()
 	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
 		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			grapJump = true;
-			moveVector = grapJumpVec * 2;
+
+			moveVector = grapJumpVec;
 		}
 
 	}
-	if (grapJump == true && grapJumpAnime <= 10) {
+	if (grapJump == true && grapJumpAnime <= 50) {
+		moveVector.y -= 0.03f;
 		worldTransform_.translation_.x += moveVector.x;
 		worldTransform_.translation_.y += moveVector.y;
 		worldTransform_.translation_.z += moveVector.z;
