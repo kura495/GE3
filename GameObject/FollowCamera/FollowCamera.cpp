@@ -31,11 +31,20 @@ void FollowCamera::Update() {
 
 		const float kRadian = 0.02f;
 
-		rotate_ += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
+		rotate_.y += (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRadian;
+		rotate_.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
+		if (rotate_.y > 1.0f) {
+			rotate_.y = 1.0f;
+		}
+		else if (rotate_.y < -1.0f) {
+			rotate_.y = -1.0f;
+		}
+
 
 		parameter_t = 1.0f;
 	}
-	viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, rotate_, parameter_t);
+	viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, rotate_.x, parameter_t);
+	viewProjection_.rotation_.x = LerpShortAngle(viewProjection_.rotation_.x, rotate_.y, parameter_t);
 	viewProjection_.UpdateMatrix();
 }
 

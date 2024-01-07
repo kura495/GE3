@@ -15,10 +15,6 @@ void Player::Initialize(const std::vector<Model*>& models)
 	std::vector<Model*> PlayerModel = { models[kModelIndexBody],models[kModelIndexHead],models[kModelIndexL_arm],models[kModelIndexR_arm]
 	};
 	BaseCharacter::Initialize(PlayerModel);
-	std::vector<Model*> WeaponModel = { models[kModelIndexWeapon]
-	};
-	weapon_ = std::make_unique<Weapon>();
-	weapon_->Initialize(WeaponModel);
 
 
 	BoxCollider::Initialize();
@@ -94,7 +90,6 @@ void Player::Update()
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
-	weapon_->Update();
 
 	//つかめない
 	canGrap = false;
@@ -109,10 +104,6 @@ void Player::Draw(const ViewProjection& viewProjection)
 	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
 	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
 	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
-
-	if(behavior_ == Behavior::kAttack){
-		weapon_->Draw(viewProjection);
-	}
 }
 void Player::OnCollision(const Collider* collider)
 {
@@ -156,7 +147,6 @@ void Player::WorldTransformInitalize()
 	worldTransformHead_.Initialize();
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
-	worldTransform_Weapon_.Initialize();
 	//腕の位置調整
 	worldTransformL_arm_.translation_.y = 1.4f;
 	worldTransformR_arm_.translation_.y = 1.4f;
@@ -165,10 +155,7 @@ void Player::WorldTransformInitalize()
 	worldTransformHead_.parent_ = &worldTransformBody_;
 	worldTransformL_arm_.parent_ = &worldTransformBody_;
 	worldTransformR_arm_.parent_ = &worldTransformBody_;
-	worldTransform_Weapon_.parent_ = &worldTransformBody_;
 	worldTransformBody_.parent_ = &worldTransform_;
-
-	weapon_->SetParent(worldTransform_Weapon_);
 }
 void Player::Move()
 {
@@ -191,6 +178,7 @@ void Player::Move()
 			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 			//プレイヤーの向きを移動方向に合わせる
 			move = Normalize(move);
+			move.y = 0.0f;
 			Vector3 cross = Normalize(Cross({ 0.0f,0.0f,1.0f }, move));
 			float dot = Dot({ 0.0f,0.0f,1.0f }, move);
 			moveQuaternion_ = MakeRotateAxisAngleQuaternion(cross, std::acos(dot));
@@ -217,20 +205,13 @@ void Player::Move()
 
 		worldTransform_.UpdateMatrix();
 }
-void Player::ApplyGlobalVariables()
-{
-
-}
 void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
 	worldTransformL_arm_.quaternion = IdentityQuaternion();
 	worldTransformR_arm_.quaternion = IdentityQuaternion();
 	worldTransformR_arm_.translation_.z = 0;
-	worldTransform_Weapon_.translation_.z = 0;
 	worldTransformR_arm_.UpdateMatrix();
-	worldTransform_Weapon_.UpdateMatrix();
-	weapon_->RootInit();
 	DownForce = 0.05f;
 
 }

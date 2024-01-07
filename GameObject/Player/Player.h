@@ -72,10 +72,8 @@ public:
 			return;
 		}
 		worldTransform_.translation_ = Add(worldTransform_.GetTranslateFromMatWorld(),{0.0f,0.0f,0.0f});
-		worldTransform_.parent_ = nullptr; 
+		worldTransform_.parent_ = nullptr;
 	}
-
-	Weapon* GetWeapon() { return weapon_.get(); }
 	//コンボの数
 	static const int ComboNum = 3;
 	//コンボ定数表
@@ -93,7 +91,6 @@ private:
 	void Move();
 	float targetAngle;
 	
-	void ApplyGlobalVariables();
 	//通常
 	void BehaviorRootInit();
 	void BehaviorRootUpdate();
@@ -113,9 +110,6 @@ private:
 	Input* input = nullptr;
 	XINPUT_STATE joyState;
 	XINPUT_STATE joyStatePre;
-	//Weapon
-	std::unique_ptr<Weapon>weapon_;
-	WorldTransform worldTransform_Weapon_;
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformHead_;

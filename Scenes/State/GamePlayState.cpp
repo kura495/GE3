@@ -118,7 +118,6 @@ else {
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->AddBoxCollider(wall_.get());
 	collisionManager_->AddBoxCollider(sango_.get());
-	collisionManager_->AddBoxCollider(player->GetWeapon());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
