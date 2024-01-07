@@ -11,10 +11,7 @@
 
 enum modelNumber {
 	kModelIndexBody,
-	kModelIndexHead,
-	kModelIndexL_arm,
-	kModelIndexR_arm,
-	kModelIndexWeapon
+	kModelArrow,
 };
 
 class BaseCharacter

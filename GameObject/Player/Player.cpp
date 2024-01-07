@@ -12,9 +12,7 @@ const std::array<ConstAttack, Player::ComboNum>Player::kConstAttacks_ = {
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
-	std::vector<Model*> PlayerModel = { models[kModelIndexBody],models[kModelIndexHead],models[kModelIndexL_arm],models[kModelIndexR_arm]
-	};
-	BaseCharacter::Initialize(PlayerModel);
+	BaseCharacter::Initialize(models);
 
 
 	BoxCollider::Initialize();
@@ -28,9 +26,6 @@ void Player::Initialize(const std::vector<Model*>& models)
 	BoxCollider::SetSize({3.0f,3.0f,1.0f});
 
 	models_[kModelIndexBody]->SetLightMode(Lighting::harfLambert);
-	models_[kModelIndexHead]->SetLightMode(Lighting::harfLambert);
-	models_[kModelIndexL_arm]->SetLightMode(Lighting::harfLambert);
-	models_[kModelIndexR_arm]->SetLightMode(Lighting::harfLambert);
 
 	const char* groupName = "Player";
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
@@ -75,17 +70,14 @@ void Player::Update()
 		IsAlive = false;
 		worldTransform_.translation_ = { 0.0f,0.0f,0.0f };
 		worldTransform_.UpdateMatrix();
+		behaviorRequest_ = Behavior::kRoot;
 	}
-
-	
 
 	worldTransform_.quaternion = Normalize(worldTransform_.quaternion);
 
 	BaseCharacter::Update();
 	worldTransformBody_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
+	worldTransformArrow_.UpdateMatrix();
 
 	//つかめない
 	canGrap = false;
@@ -97,9 +89,9 @@ void Player::Update()
 void Player::Draw(const ViewProjection& viewProjection)
 {
 	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
-	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
-	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
-	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
+	if (behavior_ == Behavior::kGrap) {
+		models_[kModelArrow]->Draw(worldTransformArrow_, viewProjection);
+	}
 }
 void Player::OnCollision(const Collider* collider)
 {
@@ -140,17 +132,7 @@ void Player::SetParent(const WorldTransform* parent)
 void Player::WorldTransformInitalize()
 {
 	worldTransformBody_.Initialize();
-	worldTransformHead_.Initialize();
-	worldTransformL_arm_.Initialize();
-	worldTransformR_arm_.Initialize();
-	//腕の位置調整
-	worldTransformL_arm_.translation_.y = 1.4f;
-	worldTransformR_arm_.translation_.y = 1.4f;
-	//武器の位置調整
-
-	worldTransformHead_.parent_ = &worldTransformBody_;
-	worldTransformL_arm_.parent_ = &worldTransformBody_;
-	worldTransformR_arm_.parent_ = &worldTransformBody_;
+	worldTransformArrow_.Initialize();
 	worldTransformBody_.parent_ = &worldTransform_;
 }
 void Player::Move()
@@ -204,10 +186,6 @@ void Player::Move()
 void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
-	worldTransformL_arm_.quaternion = IdentityQuaternion();
-	worldTransformR_arm_.quaternion = IdentityQuaternion();
-	worldTransformR_arm_.translation_.z = 0;
-	worldTransformR_arm_.UpdateMatrix();
 	DownForce = 0.05f;
 
 }
@@ -268,15 +246,19 @@ void Player::GrapInit()
 {
 
 	worldTransform_.translation_ = grapPoint;
+	worldTransform_.translation_.z -= 2.0f;
 	worldTransform_.UpdateMatrix();
 	rotateQua = IdentityQuaternion();
 	moveQuaternion_ = IdentityQuaternion();
 	worldTransform_.quaternion = IdentityQuaternion();
+	worldTransformArrow_.translation_ = grapPoint;
 	beginVecQua = IdentityQuaternion();
 	endVecQua = IdentityQuaternion();
 	lerpQua = IdentityQuaternion();
 	 IsOnGraund = false;
 	angleParam = 0.0f;
+	moveVector = {0.0f};
+	grapJump = false;
 	grapJumpAnime = 0;
 	angle = 1.0f;
 	GrapBehaviorRequest_ = GrapBehavior::kRight;
@@ -320,7 +302,6 @@ void Player::GrapUpdate()
 		break;
 	}
 }
-
 void Player::GrapJumpLeftInitalize()
 {
 	rotateQua = IdentityQuaternion();
@@ -332,14 +313,13 @@ void Player::GrapJumpLeftInitalize()
 	angleParam = 0.0f;
 	grapJumpAnime = 0;
 	angle = 1.0f;
-
 	Vector3 cross = Normalize(Cross({ 1.0f,0.0f,0.0f }, { 0.0f,1.0f,0.0f }));
 	beginVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(-1.0f));
+	worldTransformArrow_.quaternion = beginVecQua;
 	beginVecQua = Normalize(beginVecQua);
 	endVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.0f));
 	endVecQua = Normalize(endVecQua);
 }
-
 void Player::GrapJumpLeftUpdate()
 {
 	grapJumpVec = { 1.0f,0.0f,0.0f };
@@ -366,7 +346,7 @@ void Player::GrapJumpLeftUpdate()
 		}
 		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(angle));
 		rotateQua = Normalize(rotateQua);
-		worldTransform_.quaternion = Multiply(worldTransform_.quaternion, rotateQua);
+		worldTransform_.quaternion = Multiply(worldTransform_.quaternion,rotateQua);
 		if (angleParam < 1.0f) {
 			angleParam += 0.005f;
 		}
@@ -374,7 +354,8 @@ void Player::GrapJumpLeftUpdate()
 			angleParam = 1.0f;
 		}
 		lerpQua = Slerp(beginVecQua, endVecQua, angleParam);
-
+	
+		worldTransformArrow_.quaternion = lerpQua;
 
 	}
 	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
@@ -396,7 +377,6 @@ void Player::GrapJumpLeftUpdate()
 		behaviorRequest_ = Behavior::kRoot;
 	}
 }
-
 void Player::GrapJumpRightInitalize()
 {
 	rotateQua = IdentityQuaternion();
@@ -405,6 +385,7 @@ void Player::GrapJumpRightInitalize()
 	beginVecQua = IdentityQuaternion();
 	endVecQua = IdentityQuaternion();
 	lerpQua = IdentityQuaternion();
+	worldTransformArrow_.quaternion = IdentityQuaternion();
 	angleParam = 0.0f;
 	grapJumpAnime = 0;
 	angle = 1.0f;
@@ -415,7 +396,6 @@ void Player::GrapJumpRightInitalize()
 	endVecQua = Normalize(endVecQua);
 
 }
-
 void Player::GrapJumpRightUpdate()
 {
 	grapJumpVec = { 1.0f,0.0f,0.0f };
@@ -443,6 +423,7 @@ void Player::GrapJumpRightUpdate()
 		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(angle));
 		rotateQua = Normalize(rotateQua);
 		worldTransform_.quaternion = Multiply(worldTransform_.quaternion, rotateQua);
+
 		if (angleParam < 1.0f) {
 			angleParam += 0.005f;
 		}
@@ -451,6 +432,7 @@ void Player::GrapJumpRightUpdate()
 		}
 		lerpQua = Slerp(beginVecQua, endVecQua, angleParam);
 
+		worldTransformArrow_.quaternion = lerpQua;
 
 	}
 	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {

@@ -120,9 +120,7 @@ private:
 	XINPUT_STATE joyStatePre;
 	//各パーツのローカル座標
 	WorldTransform worldTransformBody_;
-	WorldTransform worldTransformHead_;
-	WorldTransform worldTransformL_arm_;
-	WorldTransform worldTransformR_arm_;
+	WorldTransform worldTransformArrow_;
 
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
@@ -157,6 +155,7 @@ private:
 	void GrapJumpLeftUpdate();
 	void GrapJumpRightInitalize();
 	void GrapJumpRightUpdate();
+	Quaternion playerLock;
 	bool canGrap = false;
 	Vector3 grapPoint;
 	Quaternion rotateQua;

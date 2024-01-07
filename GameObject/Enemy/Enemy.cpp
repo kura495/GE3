@@ -17,7 +17,7 @@ void Enemy::Initialize(const std::vector<Model*>& models)
 
 	BoxCollider::SetSize({ 1.0f,1.0f,1.0f });
 	models_[kModelIndexBody]->SetLightMode(Lighting::harfLambert);
-	models_[kModelIndexHead]->SetLightMode(Lighting::harfLambert);
+	models_[kModelArrow]->SetLightMode(Lighting::harfLambert);
 }
 
 void Enemy::Update()
@@ -43,7 +43,7 @@ void Enemy::Update()
 		Scale_.y = t;
 		Scale_.z = t;
 		models_[kModelIndexBody]->SetColor({1.0f,1.0f,1.0f,t});
-		models_[kModelIndexHead]->SetColor({1.0f,1.0f,1.0f,t});
+		models_[kModelArrow]->SetColor({1.0f,1.0f,1.0f,t});
 		worldTransform_.translation_ = Add(worldTransform_.translation_, deathAnimationVelocity);
 	}
 	worldTransform_.scale_ = Scale_;
@@ -73,7 +73,7 @@ void Enemy::Draw(const ViewProjection& viewProjection)
 {
 	if (IsAlive) {
 		models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
-		models_[kModelIndexHead]->Draw(worldTransformSoul_, viewProjection);
+		models_[kModelArrow]->Draw(worldTransformSoul_, viewProjection);
 	}
 }
 
