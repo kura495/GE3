@@ -88,7 +88,7 @@ public:
 	bool GetIsAlive()const { return IsAlive; }
 	void Reset() { IsAlive = true; }
 
-	Behavior GetBehavior() {
+	Behavior GetBehavior() const {
 		return behavior_;
 	};
 private:

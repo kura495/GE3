@@ -68,6 +68,22 @@ void GamePlayState::Initialize()
 	sango_ = std::make_unique<Sango>();
 	sango_->Initalize(Sango_Models,{10.0f,2.0f,25.0f});
 
+#pragma region Sprite
+	inst1_texture = textureManager_->LoadTexture("resources/inst.png");
+	inst1_world_.Initialize();
+	inst1_world_.translation_.y = 600.0f;
+	inst1_world_.UpdateMatrix();
+	inst1 = std::make_unique<Sprite>();
+	inst1->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,104.0f,0.0f,1.0f }, { 1280.0f,0.0f,0.0f,1.0f }, { 1280.0f,104.0f,0.0f,1.0f });
+
+	inst2_texture = textureManager_->LoadTexture("resources/inst2.png");
+	inst2_world_.Initialize();
+	inst2_world_.translation_.y = 540.0f;
+	inst2_world_.UpdateMatrix();
+	inst2 = std::make_unique<Sprite>();
+	inst2->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,160.0f,0.0f,1.0f }, { 470.0f,0.0f,0.0f,1.0f }, { 470.0f,160.0f,0.0f,1.0f });
+#pragma endregion スプライト
+
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 	followCamera = std::make_unique<FollowCamera>();
@@ -120,6 +136,12 @@ else {
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 
+#ifdef _DEBUG
+	ImGui::Begin("Tex");
+	ImGui::SliderFloat3("Trans",&inst2_world_.translation_.x,0.0f,600.0f);
+	inst2_world_.UpdateMatrix();
+	ImGui::End();
+#endif
 }
 
 void GamePlayState::Draw()
@@ -135,9 +157,16 @@ void GamePlayState::Draw()
 	plane_Move_->Draw(viewProjection_);
 
 
+
 	//3Dモデル描画ここまで	
 
 	//Sprite描画ここから
+	if (player->GetBehavior() != Behavior::kGrap) {
+		inst1->Draw(inst1_world_, inst1_texture);
+	}
+	else {
+		inst2->Draw(inst2_world_, inst2_texture);
+	}
 
 
 	//Sprite描画ここまで
