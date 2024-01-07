@@ -198,11 +198,10 @@ void Player::BehaviorRootInit()
 }
 void Player::BehaviorRootUpdate()
 {
-
-	UpdateFloatingGimmick();
-	Move();
-	PullDown();
-	//RTで攻撃
+	//Bでジャンプ
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && IsOnGraund == true) {
+		behaviorRequest_ = Behavior::kJump;
+	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		//前のフレームでは押していない
 		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
@@ -211,10 +210,12 @@ void Player::BehaviorRootUpdate()
 			}
 		}
 	}
-	//Bでジャンプ
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && IsOnGraund == true) {
-		behaviorRequest_ = Behavior::kJump;
-	}
+	UpdateFloatingGimmick();
+	Move();
+	PullDown();
+	//RTで攻撃
+
+
 
 }
 void Player::BehaviorJumpInit()
@@ -370,6 +371,9 @@ void Player::GrapJumpLeftInitalize()
 	endVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.0f));
 	endVecQua = Normalize(endVecQua);
 	jumpPower = 0.0f;
+	soundSpeed = 1.0f;
+	Audio::GetInstance()->Stop(audioHundle::Rotation, true);
+	Audio::GetInstance()->Stop(audioHundle::GrapJump, true);
 }
 void Player::GrapJumpLeftUpdate()
 {
@@ -402,7 +406,9 @@ void Player::GrapJumpLeftUpdate()
 		else if (jumpPower > 2.0f) {
 			jumpPower = 2.0f;
 		}
+		soundSpeed += 0.02f;
 		Audio::GetInstance()->Play(audioHundle::Rotation, 1.0f, 0);
+		Audio::GetInstance()->SetPlaySpeed(audioHundle::Rotation, soundSpeed);
 
 	}
 
@@ -459,6 +465,9 @@ void Player::GrapJumpRightInitalize()
 	endVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.0f));
 	endVecQua = Normalize(endVecQua);
 	jumpPower = 0.0f;
+	soundSpeed = 1.0f;
+	Audio::GetInstance()->Stop(audioHundle::Rotation, true);
+	Audio::GetInstance()->Stop(audioHundle::GrapJump, true);
 }
 void Player::GrapJumpRightUpdate()
 {
@@ -491,7 +500,9 @@ void Player::GrapJumpRightUpdate()
 		else if (jumpPower > 2.0f) {
 			jumpPower = 2.0f;
 		}
+		soundSpeed += 0.02f;
 		Audio::GetInstance()->Play(audioHundle::Rotation, 1.0f, 0);
+		Audio::GetInstance()->SetPlaySpeed(audioHundle::Rotation, soundSpeed);
 	}
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {

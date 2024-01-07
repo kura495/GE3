@@ -72,7 +72,7 @@ uint32_t Audio::LoadAudio(const char* filename) {
 	    }
 #pragma endregion 位置決め
 		soundData_[AudioIndex] = SoundLoadWave(filename);
-		if (FAILED(XAudioInterface->CreateSourceVoice(&pSourceVoice[AudioIndex], &soundData_[AudioIndex].wfex))) {
+		if (FAILED(XAudioInterface->CreateSourceVoice(&pSourceVoice[AudioIndex], &soundData_[AudioIndex].wfex,0U,4.0f))) {
 			SoundUnload(AudioIndex);
 			assert(false);
 		}
@@ -87,6 +87,11 @@ uint32_t Audio::LoadAudio(const char* filename) {
 	    pSourceVoice[AudioIndex]->SubmitSourceBuffer(&buffer);
 
 		return AudioIndex;
+}
+
+void Audio::SetPlaySpeed(uint32_t AudioIndex, float speed)
+{
+	pSourceVoice[AudioIndex]->SetFrequencyRatio(speed);
 }
 
 void Audio::Release() {
@@ -108,7 +113,7 @@ void Audio::Release() {
 	CoUninitialize();
 }
 
-void Audio::Play(int AudioIndex,float AudioVolume,int pan) {
+void Audio::Play(uint32_t AudioIndex,float AudioVolume,int pan) {
 	// pan of -1.0 indicates all left speaker, 
 // 1.0 is all right speaker, 0.0 is split between left and right
 	right = 0;

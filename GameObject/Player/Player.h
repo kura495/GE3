@@ -187,5 +187,6 @@ private:
 	float jumpPower = 0.0f;
 
 	std::vector<uint32_t>Sound;
+	float soundSpeed = 1.0f;
 };
 

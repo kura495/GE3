@@ -35,7 +35,8 @@ public:
 	
 	void Release();
 	uint32_t LoadAudio(const char* filename);
-	void Play(int AudioInDex, float AudioVolume, int pan);
+	void SetPlaySpeed(uint32_t AudioIndex, float speed);
+	void Play(uint32_t AudioInDex, float AudioVolume, int pan);
 	void Stop(uint32_t AudioIndex, bool PlayBegin);
 	void Reset(uint32_t AudioIndex);
 	void SoundUnload(uint32_t Index);
