@@ -111,9 +111,12 @@ void Player::OnCollision(const Collider* collider)
 		behaviorRequest_ = Behavior::kRoot;
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeFloor) {
+		floorPos = collider->GetPosition();
 		IsOnGraund = true;
+
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeMoveFloor) {
+		floorPos = collider->GetPosition();
 		IsOnGraund = true;
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeSango) {
@@ -266,7 +269,7 @@ void Player::UpdateFloatingGimmick() {
 void Player::PullDown()
 {
 	if (IsOnGraund) {
-		worldTransform_.translation_.y = 0.0f;
+		worldTransform_.translation_.y = floorPos.y;
 		IsOnGraund = false;
 		return;
 	}
@@ -346,7 +349,7 @@ void Player::GrapUpdate()
 	worldTransformArrow_.UpdateMatrix();
 
 	if (IsOnGraund) {
-		worldTransform_.translation_.y = 0.0f;
+		worldTransform_.translation_.y = floorPos.y;
 		IsOnGraund = false;
 		behaviorRequest_ = Behavior::kRoot;
 		return;

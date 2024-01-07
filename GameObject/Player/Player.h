@@ -159,6 +159,7 @@ private:
 	bool IsOnGraund = true;
 	float DownForce = 0.05f;
 
+	Vector3 floorPos;
 
 	//つかむ
 		//ふるまい

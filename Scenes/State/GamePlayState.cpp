@@ -34,7 +34,7 @@ void GamePlayState::Initialize()
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
 		model_plane_.get() };
-	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
 		plane_[Volume_i] = std::make_unique<Plane>();
 	}
 
@@ -46,6 +46,7 @@ void GamePlayState::Initialize()
 	plane_[5]->Initalize(PlaneModels, {20.0f, 0.0f, 20.0f});
 	plane_[6]->Initalize(PlaneModels, {20.0f, 0.0f, 10.0f});
 	plane_[7]->Initalize(PlaneModels, {20.0f, 0.0f, 0.0f});
+	plane_[8]->Initalize(PlaneModels, {20.0f, 5.0f, 20.0f});
 
 	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
 	std::vector<Model*> Plane_Move_Models = {
@@ -121,7 +122,7 @@ else {
 	player->Update();
 	
 	Skydome_->Update();
-	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
 		plane_[Volume_i]->Update();
 	}
 	plane_Move_->Update();
@@ -137,7 +138,7 @@ else {
 	
 	collisionManager_->AddBoxCollider(player.get());
 	
-	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
 		collisionManager_->AddBoxCollider(plane_[Volume_i].get());
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
@@ -154,7 +155,7 @@ void GamePlayState::Draw()
 	sango_->Draw(viewProjection_);
 	player->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
-	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
 		plane_[Volume_i]->Draw(viewProjection_);
 	}
 	plane_Move_->Draw(viewProjection_);
