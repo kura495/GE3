@@ -338,6 +338,7 @@ void Player::GrapUpdate()
 		GrapJumpRightUpdate();
 		break;
 	}
+	worldTransform_.quaternion = Multiply(worldTransform_.quaternion, rotateQua);
 }
 void Player::GrapJumpLeftInitalize()
 {
@@ -383,7 +384,7 @@ void Player::GrapJumpLeftUpdate()
 		}
 		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(angle));
 		rotateQua = Normalize(rotateQua);
-		worldTransform_.quaternion = Multiply(worldTransform_.quaternion,rotateQua);
+
 		if (angleParam < 1.0f) {
 			angleParam += 0.005f;
 		}
@@ -459,7 +460,7 @@ void Player::GrapJumpRightUpdate()
 		}
 		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(angle));
 		rotateQua = Normalize(rotateQua);
-		worldTransform_.quaternion = Multiply(worldTransform_.quaternion, rotateQua);
+
 
 		if (angleParam < 1.0f) {
 			angleParam += 0.005f;
