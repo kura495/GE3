@@ -28,11 +28,7 @@ void Sango::Draw(const ViewProjection& viewProjection)
 void Sango::OnCollision(const Collider* collider)
 {
 	if (collider->GetcollitionAttribute() == kCollitionAttributePlayer) {
-#ifdef _DEBUG
-		ImGui::Begin("Sango");
-		ImGui::Text("Hit");
-		ImGui::End();
-#endif
+
 		return;
 	}
 

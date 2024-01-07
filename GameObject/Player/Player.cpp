@@ -211,7 +211,7 @@ void Player::BehaviorRootUpdate()
 		}
 	}
 	//Bでジャンプ
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A && IsOnGraund == true) {
 		behaviorRequest_ = Behavior::kJump;
 	}
 
@@ -292,7 +292,7 @@ void Player::GrapInit()
 	beginVecQua = IdentityQuaternion();
 	endVecQua = IdentityQuaternion();
 	lerpQua = IdentityQuaternion();
-	 IsOnGraund = false;
+	IsOnGraund = false;
 	angleParam = 0.0f;
 	moveVector = {0.0f};
 	grapJump = false;
@@ -374,7 +374,7 @@ void Player::GrapJumpLeftUpdate()
 			behaviorRequest_ = Behavior::kRoot;
 		}
 	}
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 
 		if (angle > 0.9f) {
 			angle -= 0.001f;
@@ -396,7 +396,7 @@ void Player::GrapJumpLeftUpdate()
 		worldTransformArrow_.quaternion = lerpQua;
 
 	}
-	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && grapJump == false) {
 		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			grapJump = true;
 			moveVector = grapJumpVec;
@@ -450,7 +450,7 @@ void Player::GrapJumpRightUpdate()
 			behaviorRequest_ = Behavior::kRoot;
 		}
 	}
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 
 		if (angle > 0.9f) {
 			angle -= 0.001f;
@@ -473,7 +473,7 @@ void Player::GrapJumpRightUpdate()
 		worldTransformArrow_.quaternion = lerpQua;
 
 	}
-	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && grapJump == false) {
 		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			grapJump = true;
 

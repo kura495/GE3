@@ -82,6 +82,14 @@ void GamePlayState::Initialize()
 	inst2_world_.UpdateMatrix();
 	inst2 = std::make_unique<Sprite>();
 	inst2->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,160.0f,0.0f,1.0f }, { 470.0f,0.0f,0.0f,1.0f }, { 470.0f,160.0f,0.0f,1.0f });
+	
+	inst3_texture = textureManager_->LoadTexture("resources/inst3.png");
+	inst3_world_.Initialize();
+	inst3_world_.translation_.x = 650.0f;
+	inst3_world_.translation_.y = 250.0f;
+	inst3_world_.UpdateMatrix();
+	inst3 = std::make_unique<Sprite>();
+	inst3->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,80.0f,0.0f,1.0f }, { 250.0f,0.0f,0.0f,1.0f }, { 250.0f,80.0f,0.0f,1.0f });
 #pragma endregion スプライト
 
 	viewProjection_.Initialize();
@@ -106,9 +114,6 @@ else {
 #endif // _DEBUG
 
 	player->Update();
-	//if (player->GetBehavior() == Behavior::kGrap) {
-	//	followCamera->PlayerGrap();
-	//}
 	
 	Skydome_->Update();
 	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
@@ -128,20 +133,13 @@ else {
 	collisionManager_->AddBoxCollider(player.get());
 	
 	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {
-		collisionManager_->AddBoxCollider(plane_[Volume_i].get());		
+		collisionManager_->AddBoxCollider(plane_[Volume_i].get());
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->AddBoxCollider(wall_.get());
 	collisionManager_->AddBoxCollider(sango_.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
-
-#ifdef _DEBUG
-	ImGui::Begin("Tex");
-	ImGui::SliderFloat3("Trans",&inst2_world_.translation_.x,0.0f,600.0f);
-	inst2_world_.UpdateMatrix();
-	ImGui::End();
-#endif
 }
 
 void GamePlayState::Draw()
@@ -166,6 +164,9 @@ void GamePlayState::Draw()
 	}
 	else {
 		inst2->Draw(inst2_world_, inst2_texture);
+	}
+	if (player->GetCanGrap() == true) {
+		inst3->Draw(inst3_world_, inst3_texture);
 	}
 
 
