@@ -93,7 +93,9 @@ else {
 #endif // _DEBUG
 
 	player->Update();
-	
+	//if (player->GetBehavior() == Behavior::kGrap) {
+	//	followCamera->PlayerGrap();
+	//}
 	
 	Skydome_->Update();
 	for (uint32_t Volume_i = 0; Volume_i < 8; Volume_i++) {

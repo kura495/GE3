@@ -31,7 +31,7 @@ void FollowCamera::Update() {
 
 		const float kRadian = 0.02f;
 
-		rotate_.y += (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRadian;
+		rotate_.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * kRadian;
 		rotate_.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * kRadian;
 		if (rotate_.y > 1.0f) {
 			rotate_.y = 1.0f;
@@ -52,6 +52,39 @@ void FollowCamera::SetTarget(const WorldTransform* target)
 {
 	target_ = target;
 	Reset();
+}
+
+void FollowCamera::PlayerGrap()
+{
+
+	if (joyState.Gamepad.sThumbRX != 0 && joyState.Gamepad.sThumbRY != 0) {
+		GrapParameter_t = 0.0f;
+		return;
+	}
+	if (target_) {
+		Vector3 pos = target_->translation_;
+		//もしペアレントを結んでいるなら
+		if (target_->parent_) {
+			pos = Add(target_->translation_, target_->parent_->translation_);
+		}
+		//追従座標の補間
+		workInter.interTarget_ = VectorLerp(workInter.interTarget_, pos, workInter.interParameter_);
+
+		Vector3 offset = OffsetCalc();
+		//オフセット分と追従座標の補間分ずらす
+		viewProjection_.translation_ = workInter.interTarget_ + offset;
+	}
+
+	if (GrapParameter_t < 1.0f) {
+		GrapParameter_t += 0.1f;
+	}
+	else if (GrapParameter_t > 1.0f) {
+		GrapParameter_t = 1.0f;
+	}
+
+	viewProjection_.rotation_.y = LerpShortAngle(viewProjection_.rotation_.y, 0.0f, GrapParameter_t);
+	viewProjection_.rotation_.x = LerpShortAngle(viewProjection_.rotation_.x, 0.0f, GrapParameter_t);
+	viewProjection_.UpdateMatrix();
 }
 
 void FollowCamera::ApplyGlobalVariables()

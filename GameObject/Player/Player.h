@@ -14,6 +14,10 @@ enum class Behavior {
 	kJump,//ジャンプ中
 	kGrap,//つかみ
 };
+enum class GrapBehavior {
+	kLeft,//左
+	kRight//右
+};
 //ダッシュ用ワーク
 struct WorkDash {
 	//ダッシュ用の媒介変数
@@ -83,6 +87,10 @@ public:
 
 	bool GetIsAlive()const { return IsAlive; }
 	void Reset() { IsAlive = true; }
+
+	Behavior GetBehavior() {
+		return behavior_;
+	};
 private:
 	bool IsAlive = true;
 
@@ -139,8 +147,16 @@ private:
 
 
 	//つかむ
+		//ふるまい
+	GrapBehavior GrapBehavior_ = GrapBehavior::kRight;
+	//次のふるまいリクエスト
+	std::optional<GrapBehavior> GrapBehaviorRequest_ = std::nullopt;
 	void GrapInit();
 	void GrapUpdate();
+	void GrapJumpLeftInitalize();
+	void GrapJumpLeftUpdate();
+	void GrapJumpRightInitalize();
+	void GrapJumpRightUpdate();
 	bool canGrap = false;
 	Vector3 grapPoint;
 	Quaternion rotateQua;
@@ -150,6 +166,7 @@ private:
 	Quaternion endVecQua;
 	Quaternion beginVecQua;
 	Quaternion lerpQua;
+	float angle = 1.0f;
 	float angleParam = 0.0f;
 	Vector3 moveVector;
 

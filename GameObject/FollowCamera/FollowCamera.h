@@ -27,6 +27,8 @@ public:
 	void SetTarget(const WorldTransform* target);
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
+	void PlayerGrap();
+
 private:
 	//jsonファイルの値を適応
 	void ApplyGlobalVariables();
@@ -40,6 +42,7 @@ private:
 	Vector2 rotate_ = { 0.0f,0.0f };
 
 	float parameter_t = 0.0f;
+	float GrapParameter_t = 0.0f;
 	
 	//追従対象の座標・角度を再設定
 	void Reset();
