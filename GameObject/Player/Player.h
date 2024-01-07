@@ -105,7 +105,10 @@ private:
 	Vector3 move;
 	//プレイヤーの移動
 	float speed = 0.5f;
-
+	//ジャンプ
+	void BehaviorJumpInit();
+	void BehaviorJumpUpdate();
+	Vector3 jumpForce;
 	//武器や腕の回転クォータニオン
 	Quaternion moveQuaternion_;
 

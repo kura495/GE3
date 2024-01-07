@@ -204,7 +204,37 @@ void Player::BehaviorRootUpdate()
 			}
 		}
 	}
+	if () {
 
+	}
+
+}
+void Player::BehaviorJumpInit()
+{
+	worldTransformBody_.translation_.y = 0;
+
+	//ジャンプ初速
+	const float kJumpFirstSpeed = 0.5f;
+
+	move.y = kJumpFirstSpeed;
+
+}
+void Player::BehaviorJumpUpdate()
+{
+	//移動
+	worldTransform_.translation_ += move;
+	//重力加速度
+	const float kGravity = 0.05f;
+	//加速度ベクトル
+	Vector3 accelerationVector = { 0.0f,-kGravity,0.0f };
+	//加速する
+	move += accelerationVector;
+
+	if (worldTransform_.translation_.y <= 0.0f) {
+		worldTransform_.translation_.y = 0.0f;
+		//ジャンプ終了
+		behaviorRequest_ = Behavior::kRoot;
+	}
 }
 void Player::InitializeFloatingGimmick() {
 	floatingParameter_ = 0.0f;
