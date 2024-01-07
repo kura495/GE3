@@ -193,7 +193,8 @@ void Player::BehaviorRootInit()
 {
 	InitializeFloatingGimmick();
 	DownForce = 0.05f;
-
+	Audio::GetInstance()->Stop(audioHundle::GrapJump, true);
+	Audio::GetInstance()->Stop(audioHundle::Rotation, true);
 }
 void Player::BehaviorRootUpdate()
 {
@@ -299,7 +300,7 @@ void Player::GrapInit()
 	grapJumpAnime = 0;
 	angle = 1.0f;
 	GrapBehaviorRequest_ = GrapBehavior::kRight;
-
+	jumpPower = 0.0f;
 }
 void Player::GrapUpdate()
 {
@@ -339,6 +340,17 @@ void Player::GrapUpdate()
 		break;
 	}
 	worldTransform_.quaternion = Multiply(worldTransform_.quaternion, rotateQua);
+
+	worldTransformArrow_.scale_.x = jumpPower;
+	worldTransformArrow_.UpdateMatrix();
+
+	if (IsOnGraund) {
+		worldTransform_.translation_.y = 0.0f;
+		IsOnGraund = false;
+		behaviorRequest_ = Behavior::kRoot;
+		return;
+	}
+
 }
 void Player::GrapJumpLeftInitalize()
 {
@@ -357,6 +369,7 @@ void Player::GrapJumpLeftInitalize()
 	beginVecQua = Normalize(beginVecQua);
 	endVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.0f));
 	endVecQua = Normalize(endVecQua);
+	jumpPower = 0.0f;
 }
 void Player::GrapJumpLeftUpdate()
 {
@@ -375,7 +388,6 @@ void Player::GrapJumpLeftUpdate()
 		}
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
-
 		if (angle > 0.9f) {
 			angle -= 0.001f;
 		}
@@ -384,7 +396,17 @@ void Player::GrapJumpLeftUpdate()
 		}
 		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(angle));
 		rotateQua = Normalize(rotateQua);
+		if (jumpPower < 2.0f) {
+			jumpPower += 0.01f;
+		}
+		else if (jumpPower > 2.0f) {
+			jumpPower = 2.0f;
+		}
+		Audio::GetInstance()->Play(audioHundle::Rotation, 1.0f, 0);
 
+	}
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		if (angleParam < 1.0f) {
 			angleParam += 0.005f;
 		}
@@ -399,18 +421,22 @@ void Player::GrapJumpLeftUpdate()
 	else if (!(joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) && grapJump == false) {
 		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			grapJump = true;
-			moveVector = grapJumpVec;
+			moveVector = grapJumpVec * jumpPower;
 		}
 
 	}
 	if (grapJump == true && grapJumpAnime <= 50) {
+		Audio::GetInstance()->Stop(audioHundle::Rotation, true);
+		Audio::GetInstance()->Play(audioHundle::GrapJump, 1.0f, 0);
 		moveVector.y -= 0.03f;
 		worldTransform_.translation_.x += moveVector.x;
 		worldTransform_.translation_.y += moveVector.y;
 		worldTransform_.translation_.z += moveVector.z;
 		grapJumpAnime++;
 	}
-	else if (grapJumpAnime >= 10) {
+	else if (grapJumpAnime >= 50) {
+		Audio::GetInstance()->Stop(audioHundle::GrapJump, true);
+		grapJumpAnime = 0;
 		grapJump = false;
 		behaviorRequest_ = Behavior::kRoot;
 	}
@@ -432,7 +458,7 @@ void Player::GrapJumpRightInitalize()
 	beginVecQua = Normalize(beginVecQua);
 	endVecQua = MakeRotateAxisAngleQuaternion(cross, std::acos(0.0f));
 	endVecQua = Normalize(endVecQua);
-
+	jumpPower = 0.0f;
 }
 void Player::GrapJumpRightUpdate()
 {
@@ -451,7 +477,6 @@ void Player::GrapJumpRightUpdate()
 		}
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
-
 		if (angle > 0.9f) {
 			angle -= 0.001f;
 		}
@@ -460,7 +485,16 @@ void Player::GrapJumpRightUpdate()
 		}
 		rotateQua = MakeRotateAxisAngleQuaternion(cross, std::acos(angle));
 		rotateQua = Normalize(rotateQua);
+		if (jumpPower < 2.0f) {
+			jumpPower += 0.01f;
+		}
+		else if (jumpPower > 2.0f) {
+			jumpPower = 2.0f;
+		}
+		Audio::GetInstance()->Play(audioHundle::Rotation, 1.0f, 0);
+	}
 
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 
 		if (angleParam < 1.0f) {
 			angleParam += 0.005f;
@@ -477,18 +511,21 @@ void Player::GrapJumpRightUpdate()
 		if (joyStatePre.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 			grapJump = true;
 
-			moveVector = grapJumpVec;
+			moveVector = grapJumpVec * jumpPower;
 		}
-
 	}
 	if (grapJump == true && grapJumpAnime <= 50) {
+		Audio::GetInstance()->Stop(audioHundle::Rotation, true);
+		Audio::GetInstance()->Play(audioHundle::GrapJump, 1.0f, 0);
 		moveVector.y -= 0.03f;
 		worldTransform_.translation_.x += moveVector.x;
 		worldTransform_.translation_.y += moveVector.y;
 		worldTransform_.translation_.z += moveVector.z;
 		grapJumpAnime++;
 	}
-	else if (grapJumpAnime >= 10) {
+	else if (grapJumpAnime >= 50) {
+		Audio::GetInstance()->Stop(audioHundle::GrapJump,true);
+		grapJumpAnime = 0;
 		grapJump = false;
 		behaviorRequest_ = Behavior::kRoot;
 	}

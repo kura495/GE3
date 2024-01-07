@@ -92,6 +92,11 @@ void GamePlayState::Initialize()
 	inst3->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,80.0f,0.0f,1.0f }, { 250.0f,0.0f,0.0f,1.0f }, { 250.0f,80.0f,0.0f,1.0f });
 #pragma endregion スプライト
 
+	RotationSoundHundle = audio->LoadAudio("resources/Rotation.wav");
+	GrapJumpSoundHundle = audio->LoadAudio("resources/GrapJump.wav");
+	std::vector<uint32_t>sound{ RotationSoundHundle,GrapJumpSoundHundle };
+	player->SetSound(sound);
+
 	viewProjection_.Initialize();
 	worldTransform_.Initialize();
 	followCamera = std::make_unique<FollowCamera>();
@@ -165,7 +170,7 @@ void GamePlayState::Draw()
 	else {
 		inst2->Draw(inst2_world_, inst2_texture);
 	}
-	if (player->GetCanGrap() == true) {
+	if (player->GetCanGrap() == true && player->GetBehavior() != Behavior::kGrap) {
 		inst3->Draw(inst3_world_, inst3_texture);
 	}
 

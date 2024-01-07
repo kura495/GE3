@@ -4,6 +4,7 @@
 #include "GameObject/BaseCharacter/BaseCharacter.h"
 #include "GameObject/Weapon/Weapon.h"
 #include "Base/Math/Calc.h"
+#include "Audio.h"
 
 //前方宣言
 class LockOn;
@@ -51,6 +52,10 @@ struct WorkAttack {
 	uint32_t anticipationTime = 0;
 	bool comboNext = false;
 };
+enum audioHundle {
+	Rotation,
+	GrapJump,
+};
 
 class Player : public BaseCharacter , public BoxCollider
 {
@@ -93,6 +98,10 @@ public:
 	};
 	bool GetCanGrap()const {
 		return canGrap;
+	}
+
+	void SetSound(std::vector<uint32_t>sound){
+		Sound = sound;
 	}
 
 private:
@@ -175,6 +184,8 @@ private:
 	float angle = 1.0f;
 	float angleParam = 0.0f;
 	Vector3 moveVector;
+	float jumpPower = 0.0f;
 
+	std::vector<uint32_t>Sound;
 };
 

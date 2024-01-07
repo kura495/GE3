@@ -132,6 +132,26 @@ void Audio::Play(int AudioIndex,float AudioVolume,int pan) {
 	pSourceVoice[AudioIndex]->Start(0);
 }
 
+
+void Audio::Stop(uint32_t AudioIndex, bool PlayBegin) {
+
+	pSourceVoice[AudioIndex]->Stop(0);
+	if (PlayBegin) {
+		Reset(AudioIndex);
+	}
+}
+void Audio::Reset(uint32_t AudioIndex) {
+	XAUDIO2_BUFFER buffer{};
+	buffer.pAudioData = soundData_[AudioIndex].pBuffer;
+	buffer.Flags = XAUDIO2_END_OF_STREAM;
+	buffer.AudioBytes = soundData_[AudioIndex].bufferSize;
+	buffer.LoopBegin = 0;
+	buffer.LoopLength = 0;
+	buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
+	pSourceVoice[AudioIndex]->FlushSourceBuffers();
+	pSourceVoice[AudioIndex]->SubmitSourceBuffer(&buffer);
+}
+
 SoundData Audio::SoundLoadWave(const char* filename)
 {
 	//ファイル入力ストリームのインスタンス
@@ -173,6 +193,24 @@ SoundData Audio::SoundLoadWave(const char* filename)
 	}
 	//JUNKチャンクの場合
 	if (strncmp(data.id, "junk", 4) == 0) {
+		//JUNKチャンクの終わりまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+	if (strncmp(data.id, "JUNK", 4) == 0) {
+		//JUNKチャンクの終わりまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+	if (strncmp(data.id, "LIST", 4) == 0) {
+		//JUNKチャンクの終わりまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+	if (strncmp(data.id, "INFO", 4) == 0) {
 		//JUNKチャンクの終わりまで進める
 		file.seekg(data.size, std::ios_base::cur);
 		//再読み込み

@@ -36,6 +36,8 @@ public:
 	void Release();
 	uint32_t LoadAudio(const char* filename);
 	void Play(int AudioInDex, float AudioVolume, int pan);
+	void Stop(uint32_t AudioIndex, bool PlayBegin);
+	void Reset(uint32_t AudioIndex);
 	void SoundUnload(uint32_t Index);
 private:
 	Audio() = default;

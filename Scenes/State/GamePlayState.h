@@ -94,4 +94,6 @@ private:
 	uint32_t inst3_texture;
 	WorldTransform inst3_world_;
 
+	uint32_t RotationSoundHundle;
+	uint32_t GrapJumpSoundHundle;
 };
