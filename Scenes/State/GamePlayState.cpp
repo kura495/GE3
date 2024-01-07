@@ -34,7 +34,7 @@ void GamePlayState::Initialize()
 	model_plane_.reset(Model::CreateModelFromObj("resources/Plane", "Plane.obj"));
 	std::vector<Model*> PlaneModels = {
 		model_plane_.get() };
-	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 10; Volume_i++) {
 		plane_[Volume_i] = std::make_unique<Plane>();
 	}
 
@@ -47,6 +47,7 @@ void GamePlayState::Initialize()
 	plane_[6]->Initalize(PlaneModels, {20.0f, 0.0f, 10.0f});
 	plane_[7]->Initalize(PlaneModels, {20.0f, 0.0f, 0.0f});
 	plane_[8]->Initalize(PlaneModels, {20.0f, 5.0f, 20.0f});
+	plane_[9]->Initalize(PlaneModels, {20.0f, 5.0f, 10.0f});
 
 	model_plane_Move_.reset(Model::CreateModelFromObj("resources/Plane", "MovePlane.obj"));
 	std::vector<Model*> Plane_Move_Models = {
@@ -93,6 +94,12 @@ void GamePlayState::Initialize()
 	inst3->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,80.0f,0.0f,1.0f }, { 250.0f,0.0f,0.0f,1.0f }, { 250.0f,80.0f,0.0f,1.0f });
 #pragma endregion スプライト
 
+	model_Goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
+	std::vector<Model*> Goal_Models = {
+		model_Goal_.get() };
+	goal_ = std::make_unique<Goal>();
+	goal_->Initalize(Goal_Models);
+
 	RotationSoundHundle = audio->LoadAudio("resources/Rotation.wav");
 	GrapJumpSoundHundle = audio->LoadAudio("resources/GrapJump.wav");
 	std::vector<uint32_t>sound{ RotationSoundHundle,GrapJumpSoundHundle };
@@ -122,7 +129,7 @@ else {
 	player->Update();
 	
 	Skydome_->Update();
-	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 10; Volume_i++) {
 		plane_[Volume_i]->Update();
 	}
 	plane_Move_->Update();
@@ -130,6 +137,7 @@ else {
 	followCamera->Update();
 	viewProjection_ = followCamera->GetViewProjection();
 
+	goal_->Update();
 
 	viewProjection_.UpdateMatrix();
 	
@@ -138,12 +146,13 @@ else {
 	
 	collisionManager_->AddBoxCollider(player.get());
 	
-	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 10; Volume_i++) {
 		collisionManager_->AddBoxCollider(plane_[Volume_i].get());
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->AddBoxCollider(wall_.get());
 	collisionManager_->AddBoxCollider(sango_.get());
+	collisionManager_->AddBoxCollider(goal_.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
 }
@@ -155,10 +164,12 @@ void GamePlayState::Draw()
 	sango_->Draw(viewProjection_);
 	player->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
-	for (uint32_t Volume_i = 0; Volume_i < 9; Volume_i++) {
+	for (uint32_t Volume_i = 0; Volume_i < 10; Volume_i++) {
 		plane_[Volume_i]->Draw(viewProjection_);
 	}
 	plane_Move_->Draw(viewProjection_);
+	
+	goal_->Draw(viewProjection_);
 
 
 

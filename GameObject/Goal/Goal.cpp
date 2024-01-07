@@ -5,7 +5,7 @@ Goal::~Goal(){}
 void Goal::Initalize(const std::vector<Model*>& models)
 {
 	BaseCharacter::Initialize(models);
-	worldTransform_.translation_ = { 0.0f,0.0f,30.0f };
+	worldTransform_.translation_ = { 20.0f,5.0f,10.0f };
 	BoxCollider::Initialize();
 	BoxCollider::SetSize({1.0f,1.0f,1.0f});
 	BoxCollider::SetcollitionAttribute(kCollitionAttributeGoal);

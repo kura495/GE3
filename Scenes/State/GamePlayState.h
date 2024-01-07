@@ -74,9 +74,12 @@ private:
 	std::unique_ptr<Model> model_wall_ = nullptr;
 	std::unique_ptr<Model> model_Sango_ = nullptr;
 	
-	std::unique_ptr<Plane> plane_[9];
+	std::unique_ptr<Plane> plane_[10];
 	std::unique_ptr<Wall> wall_;
 	std::unique_ptr<Sango> sango_;
+
+	std::unique_ptr<Model> model_Goal_ = nullptr;
+	std::unique_ptr<Goal> goal_;
 
 	std::unique_ptr<Model> model_plane_Move_ = nullptr;
 	std::unique_ptr<MovePlane> plane_Move_;
