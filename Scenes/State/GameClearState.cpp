@@ -16,7 +16,7 @@ void GameClearState::Update()
 {
 	input->GetJoystickState(0, joyState);
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-		StateNo = 1;
+		StateNo = 0;
 	}
 }
 

@@ -9,7 +9,9 @@ void GameTitleState::Initialize()
 	texture_world_.translation_.y = 600.0f;
 	texture_world_.UpdateMatrix();
 	texture = std::make_unique<Sprite>();
-	texture->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,104.0f,0.0f,1.0f }, { 1280.0f,0.0f,0.0f,1.0f }, { 1280.0f,104.0f,0.0f,1.0f });
+	texture->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,420.0f,0.0f,1.0f }, { 1280.0f,0.0f,0.0f,1.0f }, { 820.0f,420.0f,0.0f,1.0f });
+	time = 0;
+	IsCanPush = false;
 }
 
 void GameTitleState::Update()
