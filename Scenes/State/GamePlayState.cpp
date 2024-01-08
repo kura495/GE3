@@ -145,6 +145,10 @@ else {
 	sango_->Update();
 	
 	collisionManager_->AddBoxCollider(player.get());
+
+	if (player->GetIsGoal()) {
+		StateNo = 2;
+	}
 	
 	for (uint32_t Volume_i = 0; Volume_i < 10; Volume_i++) {
 		collisionManager_->AddBoxCollider(plane_[Volume_i].get());

@@ -1,5 +1,6 @@
 #pragma once
 //StatePatternの基底クラス(インターフェイス型)
+
 class GameState
 {
 public:
@@ -12,4 +13,5 @@ public:
 	virtual  ~GameState() {};
 protected:
 	static int StateNo;
+
 };

@@ -104,7 +104,12 @@ public:
 		Sound = sound;
 	}
 
+	bool GetIsGoal() {
+		return IsGoal;
+	}
+
 private:
+	bool IsGoal = false;
 	bool IsAlive = true;
 
 	void WorldTransformInitalize();
