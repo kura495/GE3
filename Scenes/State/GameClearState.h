@@ -18,6 +18,10 @@ private:
 	uint32_t textureHundle;
 	WorldTransform texture_world_;
 
+	std::unique_ptr<Sprite>texture2;
+	uint32_t textureHundle2;
+	WorldTransform texture2_world_;
+
 	Input* input;
 	XINPUT_STATE joyState;
 };
