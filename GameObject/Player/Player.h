@@ -166,6 +166,9 @@ private:
 
 	Vector3 floorPos;
 
+	//前フレームのプレイヤー位置
+	Vector3 PrePos;
+
 	//つかむ
 		//ふるまい
 	GrapBehavior GrapBehavior_ = GrapBehavior::kRight;

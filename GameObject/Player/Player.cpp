@@ -38,6 +38,8 @@ void Player::Update()
 	//パッドの状態をゲット
 	input->GetJoystickState(0,joyState);
 
+	PrePos = world_.translation_;
+
 	if (behaviorRequest_) {
 		//ふるまいの変更
 		behavior_ = behaviorRequest_.value();
@@ -111,8 +113,15 @@ void Player::OnCollision(const Collider* collider)
 		behaviorRequest_ = Behavior::kRoot;
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeFloor) {
-		floorPos = collider->GetPosition();
-		IsOnGraund = true;
+		if (PrePos.y - >= collider->GetPosition().y) {
+			floorPos = collider->GetPosition();
+			IsOnGraund = true;
+		}
+		else if (PrePos.y < collider->GetPosition().y) {
+			return;
+		}
+
+
 
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeMoveFloor) {
@@ -271,6 +280,7 @@ void Player::UpdateFloatingGimmick() {
 }
 void Player::PullDown()
 {
+	worldTransform_.translation_.y -= DownForce;
 	if (IsOnGraund) {
 		worldTransform_.translation_.y = floorPos.y;
 		IsOnGraund = false;
@@ -352,7 +362,7 @@ void Player::GrapUpdate()
 	worldTransformArrow_.UpdateMatrix();
 
 	if (IsOnGraund) {
-		worldTransform_.translation_.y = floorPos.y;
+		worldTransform_.translation_.y = DownForce;
 		IsOnGraund = false;
 		behaviorRequest_ = Behavior::kRoot;
 		return;
