@@ -124,7 +124,6 @@ void Player::OnCollision(const Collider* collider)
 		grapPoint = collider->GetColliderWorld().GetTranslateFromMatWorld();
 	}
 	else if (collider->GetcollitionAttribute() == kCollitionAttributeGoal) {
-		worldTransform_.translation_ = { 0.0f };
 		IsGoal = true;
 	}
 	else {

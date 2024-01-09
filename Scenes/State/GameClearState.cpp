@@ -4,7 +4,7 @@ void GameClearState::Initialize()
 {
 	input = Input::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
-	textureHundle = textureManager_->LoadTexture("resources/title.png");
+	textureHundle = textureManager_->LoadTexture("resources/Clear.png");
 	texture_world_.Initialize();
 	texture_world_.translation_.y = 150.0f;
 	texture_world_.translation_.x = 230.0f;
