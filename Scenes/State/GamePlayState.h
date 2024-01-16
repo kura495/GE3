@@ -76,7 +76,9 @@ private:
 	
 	std::unique_ptr<Plane> plane_[10];
 	std::unique_ptr<Wall> wall_;
+	std::unique_ptr<Wall> wall2_;
 	std::unique_ptr<Sango> sango_;
+	std::unique_ptr<Sango> sango2_;
 
 	std::unique_ptr<Model> model_Goal_ = nullptr;
 	std::unique_ptr<Goal> goal_;

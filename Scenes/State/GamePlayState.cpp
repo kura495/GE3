@@ -58,17 +58,26 @@ void GamePlayState::Initialize()
 
 #pragma endregion
 
+#pragma region
 	model_wall_	.reset(Model::CreateModelFromObj("resources/Wall", "Wall.obj"));
 	std::vector<Model*> wall_Models = {
 		model_wall_.get() };
 	wall_ = std::make_unique<Wall>();
 	wall_->Initalize(wall_Models,{10.0f,5.0f,25.0f});
-	
+	wall2_ = std::make_unique<Wall>();
+	wall2_->Initalize(wall_Models,{5.0f,12.0f,25.0f});
+#pragma endregion 壁
+
+#pragma region
+
+#pragma endregion サンゴ
 	model_Sango_.reset(Model::CreateModelFromObj("resources/sango", "sango.obj"));
 	std::vector<Model*> Sango_Models = {
 		model_Sango_.get() };
 	sango_ = std::make_unique<Sango>();
 	sango_->Initalize(Sango_Models,{10.0f,2.0f,25.0f});
+	sango2_ = std::make_unique<Sango>();
+	sango2_->Initalize(Sango_Models,{5.0f,9.0f,25.0f});
 
 #pragma region Sprite
 	inst1_texture = textureManager_->LoadTexture("resources/inst.png");
@@ -93,6 +102,10 @@ void GamePlayState::Initialize()
 	inst3 = std::make_unique<Sprite>();
 	inst3->Initialize({ 0.0f,0.0f,0.0f,1.0f }, { 0.0f,80.0f,0.0f,1.0f }, { 250.0f,0.0f,0.0f,1.0f }, { 250.0f,80.0f,0.0f,1.0f });
 #pragma endregion スプライト
+
+#pragma region
+
+#pragma endregion ゴール
 
 	model_Goal_.reset(Model::CreateModelFromObj("resources/Cube", "Cube.obj"));
 	std::vector<Model*> Goal_Models = {
@@ -142,7 +155,9 @@ else {
 	viewProjection_.UpdateMatrix();
 	
 	wall_->Update();
+	wall2_->Update();
 	sango_->Update();
+	sango2_->Update();
 	
 	collisionManager_->AddBoxCollider(player.get());
 
@@ -155,7 +170,9 @@ else {
 	}
 	collisionManager_->AddBoxCollider(plane_Move_.get());
 	collisionManager_->AddBoxCollider(wall_.get());
+	collisionManager_->AddBoxCollider(wall2_.get());
 	collisionManager_->AddBoxCollider(sango_.get());
+	collisionManager_->AddBoxCollider(sango2_.get());
 	collisionManager_->AddBoxCollider(goal_.get());
 	collisionManager_->CheckAllCollisions();
 	collisionManager_->ClearCollider();
@@ -165,7 +182,9 @@ void GamePlayState::Draw()
 {
 	//3Dモデル描画ここから
 	wall_->Draw(viewProjection_);
+	wall2_->Draw(viewProjection_);
 	sango_->Draw(viewProjection_);
+	sango2_->Draw(viewProjection_);
 	player->Draw(viewProjection_);
 	Skydome_->Draw(viewProjection_);
 	for (uint32_t Volume_i = 0; Volume_i < 10; Volume_i++) {

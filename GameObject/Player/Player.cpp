@@ -308,6 +308,7 @@ void Player::GrapInit()
 	angle = 1.0f;
 	GrapBehaviorRequest_ = GrapBehavior::kRight;
 	jumpPower = 0.0f;
+	canGrap = false;
 }
 void Player::GrapUpdate()
 {
@@ -317,6 +318,15 @@ void Player::GrapUpdate()
 		}
 		else if (joyState.Gamepad.sThumbLX < 0 && GrapBehavior_ != GrapBehavior::kLeft) {
 			GrapBehaviorRequest_ = GrapBehavior::kLeft;
+		}
+	}
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+		//前のフレームでは押していない
+		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+			if (canGrap == true && grapJump == true) {
+				behaviorRequest_ = Behavior::kGrap;
+			}
 		}
 	}
 
@@ -394,7 +404,10 @@ void Player::GrapJumpLeftUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		//前のフレームでは押していない
 		if (!joyStatePre.Gamepad.wButtons && XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-			behaviorRequest_ = Behavior::kRoot;
+			if (grapJump == false) {
+				behaviorRequest_ = Behavior::kRoot;
+			}
+
 		}
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
