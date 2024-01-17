@@ -165,6 +165,7 @@ void Player::Move()
 			//移動ベクトルをカメラの角度だけ回転
 			move = TransformNormal(move, rotateMatrix);
 			//移動
+			move.y = 0.0f;
 			worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 			//プレイヤーの向きを移動方向に合わせる
 			move = Normalize(move);
